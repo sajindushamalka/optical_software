@@ -43,9 +43,9 @@ const assistance_routes = [
         path: '*',
         element: lazy(() => import('./views/dashboard'))
       },
-     
+
     ]
-  }, 
+  },
   {
     path: '/assistance/order',
     layout: AssistanceLayout,
@@ -55,10 +55,10 @@ const assistance_routes = [
         path: '*',
         element: lazy(() => import('./views/assistance/order/Index'))
       },
-     
+
     ]
   },
-    {
+  {
     path: '/assistance/invoice',
     layout: AssistanceLayout,
     routes: [
@@ -67,10 +67,10 @@ const assistance_routes = [
         path: '*',
         element: lazy(() => import('./views/assistance/invoice/Index'))
       },
-     
+
     ]
   },
-   {
+  {
     path: '/assistance/order/all',
     layout: AssistanceLayout,
     routes: [
@@ -79,9 +79,25 @@ const assistance_routes = [
         path: '*',
         element: lazy(() => import('./views/assistance/order/Allorders'))
       },
-     
+
     ]
   },
+  {
+    path: '/logout',
+    layout: Fragment, // no layout needed
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: () => {
+          localStorage.clear();
+          window.location.href = "/aas";
+          return null; // nothing to render
+        }
+      }
+    ]
+  }
+
 ];
 
 export default assistance_routes;

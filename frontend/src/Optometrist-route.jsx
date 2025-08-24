@@ -57,6 +57,33 @@ const optometrist_routes = [
       },
      
     ]
+  },
+    {
+    path: '/optometrist/logout',
+    layout: OptometristLayout,
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: lazy(() => import('./logout'))
+      },
+     
+    ]
+  },
+  {
+    path: '/logoutO',
+    layout: Fragment, // no layout needed
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: () => {
+          localStorage.clear();
+          window.location.href = "/aas";
+          return null; // nothing to render
+        }
+      }
+    ]
   }
 ];
 

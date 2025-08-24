@@ -20,6 +20,13 @@ const OptometristMenuItem = {
             icon: 'fas fa-shopping-cart',
             url: '/optometrist/orders'
           },
+          {
+            id: 'logout',
+            title: 'Log Out',
+            type: 'item',
+            icon: 'fas fa-sign-out-alt',
+            url: '/logoutO'
+          },
         ]
       },
       {

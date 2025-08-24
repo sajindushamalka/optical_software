@@ -23,93 +23,117 @@ const timepreiod = [
 
 const OptometristOrders = () => {
   const [allOrders, setAllOrders] = useState([]);
-  const [allOrdersRx, setAllOrdersRx] = useState([]);
   const scrollRef = useRef(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedccmid, setSelectedccmid] = useState(null);
   const [selectedcid, setSelectedcid] = useState(null);
-  const [odsph, setodsph] = useState(0);
-  const [odcyl, setodcyl] = useState(0);
-  const [odaxis, setodaxis] = useState(0);
-  const [odprism, setodprism] = useState(0);
-  const [odbase, setodbase] = useState(0);
-  const [odsva, setodsva] = useState(0);
-  const [odnearfull, setodnearfull] = useState(0);
-  const [odnearva, setodnearva] = useState(0);
-  const [ossph, setossph] = useState(0);
-  const [oscyl, setoscyl] = useState(0);
-  const [osaxis, setosaxis] = useState(0);
-  const [osprism, setosprism] = useState(0);
-  const [osbase, setosbase] = useState(0);
-  const [ossva, setossva] = useState(0);
-  const [osnearfull, setosnearfull] = useState(0);
-  const [osnearva, setosnearva] = useState(0);
-  const [selectTypeofLense, setSelectTypeofLense] = useState('NULL');
-  const [selectTimeP, setSelectTimeP] = useState('NULL');
   const [selectedOption, setSelectedOption] = useState('');
-  const [remarkText, setRemarkText] = useState('');
   const today = new Date().toLocaleDateString();
-  const [redtotsph, setredtotsph] = useState(0);
-  const [redtotcyl, setredtotcyl] = useState(0);
-  const [redtotaxis, setredtotaxis] = useState(0);
-  const [redtotprism, setredtotprism] = useState(0);
-  const [redtotbase, setredtotbase] = useState(0);
-  const [redtotva, setredtotva] = useState(0);
-  const [redtotossph, setredtotossph] = useState(0);
-  const [redtotoscyl, setredtotoscyl] = useState(0);
-  const [redtotosaxis, setredtotosaxis] = useState(0);
-  const [redtotosprism, setredtotosprism] = useState(0);
-  const [redtotosbase, setredtotosbase] = useState(0);
-  const [redtotosva, setredtotosva] = useState(0);
-  const [redtotundis, setredtotundis] = useState(0);
-  const [redtotunnear, setredtotunnear] = useState(0);
-  const [redtotosundis, setredtotosundis] = useState(0);
-  const [redtotosunnear, setredtotosunnear] = useState(0);
-  const [redtotpin, setredtotpin] = useState(0);
-  const [redtotospin, setredtotospin] = useState(0);
-  const [redtotiop, setredtotiop] = useState(0);
-  const [redtotosiop, setredtotosiop] = useState(0);
-  const [redtotredcol, setredtotredcol] = useState(0);
-  const [redtotredcol2, setredtotredcol2] = useState(0);
-  const [redtotredcolos, setredtotredcolos] = useState(0);
-  const [redtotredcolos2, setredtotredcolos2] = useState(0);
-  const [objodsph, setobjodsph] = useState(0);
-  const [objodcyl, setobjodcyl] = useState(0);
-  const [objodaxis, setobjodaxis] = useState(0);
-  const [objodprism, setobjodprism] = useState(0);
-  const [objodbase, setobjodbase] = useState(0);
-  const [objodsva, setobjodsva] = useState(0);
-  const [objodnearfull, setobjodnearfull] = useState(0);
-  const [objodnearva, setobjodnearva] = useState(0);
-  const [objossph, setobjossph] = useState(0);
-  const [objoscyl, setobjoscyl] = useState(0);
-  const [objosaxis, setobjosaxis] = useState(0);
-  const [objosprism, setobjosprism] = useState(0);
-  const [objosbase, setobjosbase] = useState(0);
-  const [objossva, setobjossva] = useState(0);
-  const [objosnearfull, setobjosnearfull] = useState(0);
-  const [objosnearva, setobjosnearva] = useState(0);
-  const [objRemark, setObjRemark] = useState('');
-  const [odconsph, setodconsph] = useState(0);
-  const [odconcyl, setodconcyl] = useState(0);
-  const [odconaxis, setodconaxis] = useState(0);
-  const [odconbcurve, setodconbcurve] = useState(0);
-  const [odcondiam, setodcondiam] = useState(0);
-  const [odconsva, setodconsva] = useState(0);
-  const [odcondesign, setodcondesign] = useState(0);
-  const [osconsph, setosconsph] = useState(0);
-  const [osconcyl, setosconcyl] = useState(0);
-  const [osconaxis, setosconaxis] = useState(0);
-  const [osconbcurve, setosconbcurve] = useState(0);
-  const [oscondiam, setoscondiam] = useState(0);
-  const [osconsva, setosconsva] = useState(0);
-  const [oscondesign, setoscondesign] = useState(0);
-  const [conLenRemark, setConLenRemark] = useState('');
   const navigate = useNavigate();
+  const [HABI_OD_SPH, set_HABI_OD_SPH] = useState('');
+  const [HABI_OD_CYL, set_HABI_OD_CYL] = useState('');
+  const [HABI_OD_AXIS, set_HABI_OD_AXIS] = useState('');
+  const [HABI_OD_Prim, set_HABI_OD_Prim] = useState('');
+  const [HABI_OD_Base, set_HABI_OD_Base] = useState('');
+  const [HABI_OD_VA, set_HABI_OD_VA] = useState('');
+  const [HABI_OD_type_near_full, set_HABI_OD_type_near_full] = useState('');
+  const [HABI_OD_type_near_va, set_HABI_OD_type_near_va] = useState('');
+  const [HABI_OS_SPH, set_HABI_OS_SPH] = useState('');
+  const [HABI_OS_CYL, set_HABI_OS_CYL] = useState('');
+  const [HABI_OS_AXIS, set_HABI_OS_AXIS] = useState('');
+  const [HABI_OS_Prim, set_HABI_OS_Prim] = useState('');
+  const [HABI_OS_Base, set_HABI_OS_Base] = useState('');
+  const [HABI_OS_VA, set_HABI_OS_VA] = useState('');
+  const [HABI_OS_type_near_full, set_HABI_OS_type_near_full] = useState('');
+  const [HABI_OS_type_near_va, set_HABI_OS_type_near_va] = useState('');
+  const [SPEC_OD_SPH, set_SPEC_OD_SPH] = useState('');
+  const [SPEC_OD_CYL, set_SPEC_OD_CYL] = useState('');
+  const [SPEC_OD_AXIS, set_SPEC_OD_AXIS] = useState('');
+  const [SPEC_OD_Prism, set_SPEC_OD_Prim] = useState('');
+  const [SPEC_OD_Base, set_SPEC_OD_Base] = useState('');
+  const [SPEC_OD_VA, set_SPEC_OD_VA] = useState('');
+  const [SPEC_OD_near_full, set_SPEC_OD_type_near_full] = useState('');
+  const [SPEC_OD_near_va, set_SPEC_OD_type_near_va] = useState('');
+  const [SPEC_OS_SPH, set_SPEC_OS_SPH] = useState('');
+  const [SPEC_OS_CYL, set_SPEC_OS_CYL] = useState('');
+  const [SPEC_OS_AXIS, set_SPEC_OS_AXIS] = useState('');
+  const [SPEC_OS_Prism, set_SPEC_OS_Prim] = useState('');
+  const [SPEC_OS_Base, set_SPEC_OS_Base] = useState('');
+  const [SPEC_OS_VA, set_SPEC_OS_VA] = useState('');
+  const [SPEC_OS_near_full, set_SPEC_OS_type_near_full] = useState('');
+  const [SPEC_OS_near_va, set_SPEC_OS_type_near_va] = useState('');
+  const [SPEC_Pro_Add, set_SPEC_Pro_Add] = useState('');
+  const [SPEC_RE_OD_SPH, set_SPEC_RE_OD_SPH] = useState('');
+  const [SPEC_RE_OD_CYL, set_SPEC_RE_OD_CYL] = useState('');
+  const [SPEC_RE_OD_AXIS, set_SPEC_RE_OD_AXIS] = useState('');
+  const [SPEC_RE_OD_Prism, set_SPEC_RE_OD_Prism] = useState('');
+  const [SPEC_RE_OD_Base, set_SPEC_RE_OD_Base] = useState('');
+  const [SPEC_RE_OD_VA, set_SPEC_RE_OD_VA] = useState('');
+  const [SPEC_RE_OS_SPH, set_SPEC_RE_OS_SPH] = useState('');
+  const [SPEC_RE_OS_CYL, set_SPEC_RE_OS_CYL] = useState('');
+  const [SPEC_RE_OS_AXIS, set_SPEC_RE_OS_AXIS] = useState('');
+  const [SPEC_RE_OS_Prism, set_SPEC_RE_OS_Prism] = useState('');
+  const [SPEC_RE_OS_Base, set_SPEC_RE_OS_Base] = useState('');
+  const [SPEC_RE_OS_VA, set_SPEC_RE_OS_VA] = useState('');
+  const [SPEC_UNA_DIS_OD, set_SPEC_UNA_DIS_OD] = useState('');
+  const [SPEC_UNA_NEAR_OD, set_SPEC_UNA_NEAR_OD] = useState('');
+  const [SPEC_UNA_DIS_OS, set_SPEC_UNA_DIS_OS] = useState('');
+  const [SPEC_UNA_NEAR_OS, set_SPEC_UNA_NEAR_OS] = useState('');
+  const [SPEC_Pin_OD, set_SPEC_Pin_OD] = useState('');
+  const [SPEC_Pin_OS, set_SPEC_Pin_OS] = useState('');
+  const [SPEC_IOP_OD, set_SPEC_IOP_OD] = useState('');
+  const [SPEC_IOP_OS, set_SPEC_IOP_OS] = useState('');
+  const [SPEC_RED_OD_O, set_SPEC_RED_OD_O] = useState('');
+  const [SPEC_RED_OD_T, set_SPEC_RED_OD_T] = useState('');
+  const [SPEC_RED_OS_O, set_SPEC_RED_OS_O] = useState('');
+  const [SPEC_RED_OS_T, set_SPEC_RED_OS_T] = useState('');
+  const [SPEC_Type_Of_lenses_Used, set_SPEC_Type_Of_lenses_Used] = useState('');
+  const [SPEC_Time_Period, set_SPEC_Time_Period] = useState('');
+  const [SPEC_Time_More, set_SPEC_Time_More] = useState('');
+  const [SPEC_remark, set_SPEC_remark] = useState('');
+  const [SPECOB_OD_SPH, set_SPECOB_OD_SPH] = useState('');
+  const [SPECOB_OD_CYL, set_SPECOB_OD_CYL] = useState('');
+  const [SPECOB_OD_AXIS, set_SPECOB_OD_AXIS] = useState('');
+  const [SPECOB_OD_Prism, set_SPECOB_OD_Prim] = useState('');
+  const [SPECOB_OD_Base, set_SPECOB_OD_Base] = useState('');
+  const [SPECOB_OD_VA, set_SPECOB_OD_VA] = useState('');
+  const [SPECOB_OD_near_full, set_SPECOB_OD_type_near_full] = useState('');
+  const [SPECOB_OD_near_va, set_SPECOB_OD_type_near_va] = useState('');
+  const [SPECOB_OS_SPH, set_SPECOB_OS_SPH] = useState('');
+  const [SPECOB_OS_CYL, set_SPECOB_OS_CYL] = useState('');
+  const [SPECOB_OS_AXIS, set_SPECOB_OS_AXIS] = useState('');
+  const [SPECOB_OS_Prism, set_SPECOB_OS_Prim] = useState('');
+  const [SPECOB_OS_Base, set_SPECOB_OS_Base] = useState('');
+  const [SPECOB_OS_VA, set_SPECOB_OS_VA] = useState('');
+  const [SPECOB_OS_near_full, set_SPECOB_OS_type_near_full] = useState('');
+  const [SPECOB_OS_near_va, set_SPECOB_OS_type_near_va] = useState('');
+  const [SPECOB_remark, set_SPECOB_remark] = useState('');
+  const [SPECCON_OD_SPH, set_SPECCON_OD_SPH] = useState('');
+  const [SPECCON_OD_CYL, set_SPECCON_OD_CYL] = useState('');
+  const [SPECCON_OD_AXIS, set_SPECCON_OD_AXIS] = useState('');
+  const [SPECCON_OD_VA, set_SPECCON_OD_VA] = useState('');
+  const [SPECCON_OD_B_Curve, set_SPECCON_OD_B_Curve] = useState('');
+  const [SPECCON_OD_Diam, set_SPECCON_OD_Diam] = useState('');
+  const [SPECCON_OD_Design, set_SPECCON_OD_Design] = useState('');
+  const [SPECCON_OS_SPH, set_SPECCON_OS_SPH] = useState('');
+  const [SPECCON_OS_CYL, set_SPECCON_OS_CYL] = useState('');
+  const [SPECCON_OS_AXIS, set_SPECCON_OS_AXIS] = useState('');
+  const [SPECCON_OS_VA, set_SPECCON_OS_VA] = useState('');
+  const [SPECCON_OS_B_Curve, set_SPECCON_OS_B_Curve] = useState('');
+  const [SPECCON_OS_Diam, set_SPECCON_OS_Diam] = useState('');
+  const [SPECCON_OS_Design, set_SPECCON_OS_Design] = useState('');
+  const [SPECCON_remark, set_SPECCON_Remark] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+
+  // When user selects files
+  const handleFileChange = (e) => {
+    setSelectedFiles(e.target.files);
+  };
 
   useEffect(() => {
     axios
-      .get('http://localhost:2776/api/customer/med/optometrist/order')
+      .get('http://localhost:2776/api/order')
       .then((res) => {
         setAllOrders(res.data);
         console.log(res.data);
@@ -138,46 +162,145 @@ const OptometristOrders = () => {
   };
 
   const handleOptionChange = (e) => {
-    setSelectedOption(e.target.value);
-    if (e.target.value !== 'Remark') {
-      setRemarkText(''); // Clear remark if another option is selected
-    }
+    set_SPEC_Time_More(e.target.value);
   };
 
   const handleCardClick = (order) => {
     setSelectedOrder(order);
+    set_HABI_OD_SPH(order.HABI_OD_SPH)
+    set_HABI_OD_CYL(order.HABI_OD_CYL)
+    set_HABI_OD_AXIS(order.HABI_OD_AXIS)
+    set_HABI_OD_Prim(order.HABI_OD_Prim)
+    set_HABI_OD_Base(order.HABI_OD_Base)
+    set_HABI_OD_VA(order.HABI_OD_VA)
+    set_HABI_OD_type_near_full(order.HABI_OD_type_near_full)
+    set_HABI_OD_type_near_va(order.HABI_OD_type_near_va)
+    set_HABI_OS_SPH(order.HABI_OS_SPH)
+    set_HABI_OS_CYL(order.HABI_OS_CYL)
+    set_HABI_OS_AXIS(order.HABI_OS_AXIS)
+    set_HABI_OS_Prim(order.HABI_OS_Prim)
+    set_HABI_OS_Base(order.HABI_OS_Base)
+    set_HABI_OS_VA(order.HABI_OS_VA)
+    set_HABI_OS_type_near_full(order.HABI_OS_type_near_full)
+    set_HABI_OS_type_near_va(order.HABI_OS_type_near_va)
     setSelectedccmid(order.cmd_id);
     setSelectedcid(order.c_id);
     console.log(order);
-    const ob = {
-      date: formatDate(order.date),
-      ccmd_id: order.cmd_id,
-      cid: order.cid
-    };
-    axios
-      .post('http://localhost:2776/api/customer/med/rx/selected', ob)
+
+    axios.get(`http://localhost:2776/api/order/submit/${order.cmd_id}`).then((res) => {
+      console.log(res.data)
+      set_SPEC_OD_SPH(res.data.SPEC_OD_SPH)
+      set_SPEC_OD_CYL(res.data.SPEC_OD_CYL)
+      set_SPEC_OD_AXIS(res.data.SPEC_OD_AXIS)
+      set_SPEC_OD_Prim(res.data.SPEC_OD_Prism)
+      set_SPEC_OD_Base(res.data.SPEC_OD_Base)
+      set_SPEC_OD_VA(res.data.SPEC_OD_VA)
+      set_SPEC_OD_type_near_full(res.data.SPEC_OD_near_full)
+      set_SPEC_OD_type_near_va(res.data.SPEC_OD_near_va)
+      set_SPEC_OS_SPH(res.data.SPEC_OS_SPH)
+      set_SPEC_OS_CYL(res.data.SPEC_OS_CYL)
+      set_SPEC_OS_AXIS(res.data.SPEC_OS_AXIS)
+      set_SPEC_OS_Prim(res.data.SPEC_OS_Prism)
+      set_SPEC_OS_Base(res.data.SPEC_OS_Base)
+      set_SPEC_OS_VA(res.data.SPEC_OS_VA)
+      set_SPEC_OS_type_near_full(res.data.SPEC_OS_near_full)
+      set_SPEC_OS_type_near_va(res.data.SPEC_OS_near_va)
+      set_SPEC_Pro_Add(res.data.SPEC_Pro_Add)
+      set_SPEC_RE_OD_SPH(res.data.SPEC_RE_OD_SPH)
+      set_SPEC_RE_OD_CYL(res.data.SPEC_RE_OD_CYL)
+      set_SPEC_RE_OD_AXIS(res.data.SPEC_RE_OD_AXIS)
+      set_SPEC_RE_OD_Prism(res.data.SPEC_RE_OD_Prism)
+      set_SPEC_RE_OD_Base(res.data.SPEC_RE_OD_Base)
+      set_SPEC_RE_OD_VA(res.data.SPEC_RE_OD_VA)
+      set_SPEC_RE_OS_SPH(res.data.SPEC_RE_OS_SPH)
+      set_SPEC_RE_OS_CYL(res.data.SPEC_RE_OS_CYL)
+      set_SPEC_RE_OS_AXIS(res.data.SPEC_RE_OS_AXIS)
+      set_SPEC_RE_OS_Prism(res.data.SPEC_RE_OS_Prism)
+      set_SPEC_RE_OS_Base(res.data.SPEC_RE_OS_Base)
+      set_SPEC_RE_OS_VA(res.data.SPEC_RE_OS_VA)
+      set_SPEC_UNA_DIS_OD(res.data.SPEC_UNA_DIS_OD)
+      set_SPEC_UNA_NEAR_OD(res.data.SPEC_UNA_NEAR_OD)
+      set_SPEC_UNA_DIS_OS(res.data.SPEC_UNA_DIS_OS)
+      set_SPEC_UNA_NEAR_OS(res.data.SPEC_UNA_NEAR_OS)
+      set_SPEC_Pin_OD(res.data.SPEC_Pin_OD)
+      set_SPEC_Pin_OS(res.data.SPEC_Pin_OS)
+      set_SPEC_IOP_OD(res.data.SPEC_IOP_OD)
+      set_SPEC_IOP_OS(res.data.SPEC_IOP_OS)
+      set_SPEC_RED_OD_O(res.data.SPEC_RED_OD_O)
+      set_SPEC_RED_OD_T(res.data.SPEC_RED_OD_T)
+      set_SPEC_RED_OS_O(res.data.SPEC_RED_OS_O)
+      set_SPEC_RED_OS_T(res.data.SPEC_RED_OS_T)
+      set_SPEC_Type_Of_lenses_Used(res.data.SPEC_Type_Of_lenses_Used)
+      set_SPEC_Time_Period(res.data.SPEC_Time_Period)
+      set_SPEC_Time_More(res.data.SPEC_Time_More)
+      set_SPEC_remark(res.data.SPEC_remark)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    axios.get(`http://localhost:2776/api/order/objective/${order.cmd_id}`).then((res) => {
+      console.log(res.data)
+      set_SPECOB_OD_SPH(res.data.SPECOB_OD_SPH)
+      set_SPECOB_OD_CYL(res.data.SPECOB_OD_CYL)
+      set_SPECOB_OD_AXIS(res.data.SPECOB_OD_AXIS)
+      set_SPECOB_OD_Prim(res.data.SPECOB_OD_Prism)
+      set_SPECOB_OD_Base(res.data.SPECOB_OD_Base)
+      set_SPECOB_OD_VA(res.data.SPECOB_OD_VA)
+      set_SPECOB_OD_type_near_full(res.data.SPECOB_OD_near_full)
+      set_SPECOB_OD_type_near_va(res.data.SPECOB_OD_near_va)
+      set_SPECOB_OS_SPH(res.data.SPECOB_OS_SPH)
+      set_SPECOB_OS_CYL(res.data.SPECOB_OS_CYL)
+      set_SPECOB_OD_SPH(res.data.SPECOB_OD_SPH)
+      set_SPECOB_OS_AXIS(res.data.SPECOB_OS_AXIS)
+      set_SPECOB_OS_Prim(res.data.SPECOB_OS_Prism)
+      set_SPECOB_OS_Base(res.data.SPECOB_OS_Base)
+      set_SPECOB_OS_VA(res.data.SPECOB_OS_VA)
+      set_SPECOB_OS_type_near_full(res.data.SPECOB_OS_near_full)
+      set_SPECOB_OS_type_near_va(res.data.SPECOB_OS_near_va)
+      set_SPECOB_remark(res.data.SPECOB_remark)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    axios.get(`http://localhost:2776/api/order/conatct/${order.cmd_id}`).then((res) => {
+      console.log(res.data)
+      set_SPECCON_OD_SPH(res.data.SPECCON_OD_SPH)
+      set_SPECCON_OD_CYL(res.data.SPECCON_OD_CYL)
+      set_SPECCON_OD_AXIS(res.data.SPECCON_OD_AXIS)
+      set_SPECCON_OD_VA(res.data.SPECCON_OD_VA)
+      set_SPECCON_OD_B_Curve(res.data.SPECCON_OD_B_Curve)
+      set_SPECCON_OD_Diam(res.data.SPECCON_OD_Diam)
+      set_SPECCON_OD_Design(res.data.SPECCON_OD_Design)
+      set_SPECCON_OS_SPH(res.data.SPECCON_OS_SPH)
+      set_SPECCON_OS_CYL(res.data.SPECCON_OS_CYL)
+      set_SPECCON_OD_SPH(res.data.SPECCON_OD_SPH)
+      set_SPECCON_OS_AXIS(res.data.SPECCON_OS_AXIS)
+      set_SPECCON_OS_VA(res.data.SPECCON_OS_VA)
+      set_SPECCON_OS_B_Curve(res.data.SPECCON_OS_B_Curve)
+      set_SPECCON_OS_Diam(res.data.SPECCON_OS_Diam)
+      set_SPECCON_OS_Design(res.data.SPECCON_OS_Design)
+      set_SPECCON_Remark(res.data.SPECCON_remark)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    axios.get(`http://localhost:2776/api/order/user/${order.cid}`)
       .then((res) => {
-        console.log(res.data);
-        setAllOrdersRx(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
+        console.log(res.data)
+        setSelectedFiles(res.data)
+      }).catch((err) => {
+        console.log(err)
       });
   };
 
   const completeOrder = async () => {
     try {
-      const ob = {
-        cmd_id: selectedccmid
-      };
-      console.log(ob)
-      await axios.put(`http://localhost:2776/api/customer/med/status/${selectedccmid}`);
-      console.log('All submissions completed successfully.');
-
-      const obemail = {
-        to: selectedOrder.email,
-        subject: "A.A. Samarasinhage Optical Shop - Optometrist is Confirmed",
-        message: `
+      axios.put(`http://localhost:2776/api/order/${selectedccmid}`).then((res) => {
+        console.log(res.data)
+        const obemail = {
+          to: selectedOrder.email,
+          subject: "A.A. Samarasinhage Optical Shop - Optometrist is Confirmed",
+          message: `
                             Dear Customer,
 
                             Thank you for shopping with us!
@@ -188,16 +311,20 @@ const OptometristOrders = () => {
                             Best regards,
                             A.A. Samarasinhage Optical Shop
                           `
-      };
+        };
 
-      axios.post('http://localhost:2776/api/email/notify', obemail).then((res) => {
-        console.log('Email Sent')
+        axios.post('http://localhost:2776/api/email/notify', obemail).then((res) => {
+          console.log('Email Sent')
+        }).catch((err) => {
+          console.log('Email sent error')
+        })
+
+        toast('Order Completed!');
+        navigate('/optometrist/orders/');
       }).catch((err) => {
-        console.log('Email sent error')
+        console.log(err)
       })
 
-      toast('Order Completed!');
-      navigate('/optometrist/orders/');
     } catch (error) {
       console.error('Error submitting med details:', error);
       toast.error('Failed to Complete the Order!');
@@ -207,54 +334,32 @@ const OptometristOrders = () => {
   const submitContactLen = async () => {
     try {
       const date = formatDate(today);
-      const createMedRxContactLen = (type, values) => ({
-        date,
-        cid: selectedcid,
-        SPH: values.SPH,
-        CYL: values.CYL,
-        AXIS: values.AXIS,
-        bcurve: values.bcurve,
-        diam: values.diam,
-        VA: values.VA,
-        type_od_os: type,
-        desgin: values.design,
-        ccmd_id: selectedccmid
-      });
-
-      const od = createMedRxContactLen('OD', {
-        SPH: odconsph,
-        CYL: odconcyl,
-        AXIS: odconaxis,
-        bcurve: odconbcurve,
-        diam: odcondiam,
-        VA: odconsva,
-        desgin: odcondesign
-      });
-
-      const os = createMedRxContactLen('OS', {
-        SPH: osconsph,
-        CYL: osconcyl,
-        AXIS: osconaxis,
-        bcurve: osconbcurve,
-        diam: oscondiam,
-        VA: osconsva,
-        design: oscondesign
-      });
-
-      await axios.post('http://localhost:2776/api/opt/med/contact', od);
-      await axios.post('http://localhost:2776/api/opt/med/contact', os);
-
-      if (conLenRemark) {
-        const ob = {
-          date: date,
-          remark: conLenRemark,
-          cateogry: 'Contact Lenses',
-          cid: selectedcid,
-          ccmd_id: selectedccmid
-        };
-        await axios.post('http://localhost:2776/api/opt/med/remark', ob);
+      const ob = {
+        date: date,
+        cmd_id: selectedccmid,
+        SPECCON_OD_SPH,
+        SPECCON_OD_CYL,
+        SPECCON_OD_AXIS,
+        SPECCON_OD_VA,
+        SPECCON_OD_B_Curve,
+        SPECCON_OD_Diam,
+        SPECCON_OD_Design,
+        SPECCON_OS_SPH,
+        SPECCON_OS_CYL,
+        SPECCON_OS_AXIS,
+        SPECCON_OS_VA,
+        SPECCON_OS_B_Curve,
+        SPECCON_OS_Diam,
+        SPECCON_OS_Design,
+        SPECCON_remark
       }
-      toast('Submitted!');
+
+      axios.post('http://localhost:2776/api/order/new/contact', ob).then((res) => {
+        console.log(res.data)
+        toast('Submitted!');
+      }).catch((err) => {
+        console.log(err)
+      })
     } catch (error) {
       console.error('Error submitting med details:', error);
       toast.error('Failed to Submit!');
@@ -264,57 +369,36 @@ const OptometristOrders = () => {
   const submitMedObjective = async () => {
     try {
       const date = formatDate(today);
-
-      const createMedRxObjective = (type, values) => ({
-        date,
-        cid: selectedcid,
-        SPH: values.SPH,
-        CYL: values.CYL,
-        AXIS: values.AXIS,
-        Prim: values.Prim,
-        Base: values.Base,
-        VA: values.VA,
-        type_od_os: type,
-        type_near_full: values.type_near_full,
-        type_near_va: values.type_near_va,
-        ccmd_id: selectedccmid
-      });
-
-      const od = createMedRxObjective('OD', {
-        SPH: objodsph,
-        CYL: objodcyl,
-        AXIS: objodaxis,
-        Prim: objodprism,
-        Base: objodbase,
-        VA: objodsva,
-        type_near_full: objodnearfull,
-        type_near_va: objodnearva
-      });
-
-      const os = createMedRxObjective('OS', {
-        SPH: objossph,
-        CYL: objoscyl,
-        AXIS: objosaxis,
-        Prim: objosprism,
-        Base: objosbase,
-        VA: objossva,
-        type_near_full: objosnearfull,
-        type_near_va: objosnearva
-      });
-      await axios.post('http://localhost:2776/api/opt/med/objective', od);
-      await axios.post('http://localhost:2776/api/opt/med/objective', os);
-
-      if (objRemark) {
-        const ob = {
-          date: date,
-          remark: objRemark,
-          cateogry: 'Objective',
-          cid: selectedcid,
-          ccmd_id: selectedccmid
-        };
-        await axios.post('http://localhost:2776/api/opt/med/remark', ob);
+      const ob = {
+        date: date,
+        cmd_id: selectedccmid,
+        SPECOB_OD_SPH,
+        SPECOB_OD_CYL,
+        SPECOB_OD_AXIS,
+        SPECOB_OD_Prism,
+        SPECOB_OD_Base,
+        SPECOB_OD_VA,
+        SPECOB_OD_near_full,
+        SPECOB_OD_near_va,
+        SPECOB_OS_SPH,
+        SPECOB_OS_CYL,
+        SPECOB_OS_AXIS,
+        SPECOB_OS_Prism,
+        SPECOB_OS_Base,
+        SPECOB_OS_VA,
+        SPECOB_OS_near_full,
+        SPECOB_OS_near_va,
+        SPECOB_remark
       }
-      toast('Submitted!');
+
+      axios.post('http://localhost:2776/api/order/new/objective', ob).then((res) => {
+        console.log(res.data)
+        toast('Submitted!');
+      }).catch((err) => {
+        console.log(err)
+      })
+
+
       console.log('All submissions completed successfully.');
     } catch (error) {
       console.error('Error submitting med details:', error);
@@ -326,126 +410,95 @@ const OptometristOrders = () => {
     try {
       const date = formatDate(today);
 
-      const createMedRx = (type, values) => ({
-        date,
-        cid: selectedcid,
-        SPH: values.SPH,
-        CYL: values.CYL,
-        AXIS: values.AXIS,
-        Prim: values.Prim,
-        Base: values.Base,
-        VA: values.VA,
-        type_od_os: type,
-        type_near_full: values.type_near_full,
-        type_near_va: values.type_near_va,
-        ccmd_id: selectedccmid
-      });
+      const ob = {
+        date: date,
+        cmd_id: selectedccmid,
+        SPEC_OD_SPH,
+        SPEC_OD_CYL,
+        SPEC_OD_AXIS,
+        SPEC_OD_Prism,
+        SPEC_OD_Base,
+        SPEC_OD_VA,
+        SPEC_OD_near_full,
+        SPEC_OD_near_va,
+        SPEC_OS_SPH,
+        SPEC_OS_CYL,
+        SPEC_OS_AXIS,
+        SPEC_OS_Prism,
+        SPEC_OS_Base,
+        SPEC_OS_VA,
+        SPEC_OS_near_full,
+        SPEC_OS_near_va,
+        SPEC_Pro_Add,
+        SPEC_RE_OD_SPH,
+        SPEC_RE_OD_CYL,
+        SPEC_RE_OD_AXIS,
+        SPEC_RE_OD_Prism,
+        SPEC_RE_OD_Base,
+        SPEC_RE_OD_VA,
+        SPEC_RE_OS_SPH,
+        SPEC_RE_OS_CYL,
+        SPEC_RE_OS_AXIS,
+        SPEC_RE_OS_Prism,
+        SPEC_RE_OS_Base,
+        SPEC_RE_OS_VA,
+        SPEC_UNA_DIS_OD,
+        SPEC_UNA_NEAR_OD,
+        SPEC_UNA_DIS_OS,
+        SPEC_UNA_NEAR_OS,
+        SPEC_Pin_OD,
+        SPEC_Pin_OS,
+        SPEC_IOP_OD,
+        SPEC_IOP_OS,
+        SPEC_RED_OD_O,
+        SPEC_RED_OD_T,
+        SPEC_RED_OS_O,
+        SPEC_RED_OS_T,
+        SPEC_Type_Of_lenses_Used,
+        SPEC_Time_Period,
+        SPEC_Time_More,
+        SPEC_remark,
+      }
 
-      const od = createMedRx('OD', {
-        SPH: odsph,
-        CYL: odcyl,
-        AXIS: odaxis,
-        Prim: odprism,
-        Base: odbase,
-        VA: odsva,
-        type_near_full: odnearfull,
-        type_near_va: odnearva
-      });
+      axios.post('http://localhost:2776/api/order/new', ob).then((res) => {
+        console.log(res.data)
+      }).catch((err) => {
+        console.log(err)
+      })
 
-      const os = createMedRx('OS', {
-        SPH: ossph,
-        CYL: oscyl,
-        AXIS: osaxis,
-        Prim: osprism,
-        Base: osbase,
-        VA: ossva,
-        type_near_full: osnearfull,
-        type_near_va: osnearva
-      });
-
-      // Step 1: Primary Rx
-      await axios.post('http://localhost:2776/api/opt/med', od);
-      await axios.post('http://localhost:2776/api/opt/med', os);
-
-      // Step 2: Second Rx
-      const secondRxOD = {
-        date,
-        SPH: redtotsph,
-        CYL: redtotcyl,
-        AXIS: redtotaxis,
-        Prim: redtotprism,
-        Base: redtotbase,
-        VA: redtotva,
-        cid: selectedcid,
-        type_od_os: 'OD',
-        ccmd_id: selectedccmid
-      };
-
-      const secondRxOS = {
-        date,
-        cid: selectedcid,
-        SPH: redtotossph,
-        CYL: redtotoscyl,
-        AXIS: redtotosaxis,
-        Prim: redtotosprism,
-        Base: redtotosbase,
-        VA: redtotosva,
-        type_od_os: 'OS',
-        ccmd_id: selectedccmid
-      };
-
-      await axios.post('http://localhost:2776/api/opt/med/second', secondRxOD);
-      await axios.post('http://localhost:2776/api/opt/med/second', secondRxOS);
-
-      // Step 3: Unpiiore
-      const unpiioreOD = {
-        date,
-        un_distance: redtotundis,
-        un_near: redtotunnear,
-        pin: redtotpin,
-        iop: redtotiop,
-        re_col1: redtotredcol,
-        re_col2: redtotredcolos,
-        cid: selectedcid,
-        type_od_os: 'OD',
-        ccmd_id: selectedccmid
-      };
-
-      const unpiioreOS = {
-        date,
-        un_distance: redtotosundis,
-        un_near: redtotosunnear,
-        pin: redtotospin,
-        iop: redtotosiop,
-        re_col1: redtotredcol2,
-        re_col2: redtotredcolos2,
-        cid: selectedcid,
-        type_od_os: 'OS',
-        ccmd_id: selectedccmid
-      };
-
-      await axios.post('http://localhost:2776/api/opt/med/unpiiore', unpiioreOD);
-      await axios.post('http://localhost:2776/api/opt/med/unpiiore', unpiioreOS);
-
-      // Step 4: More Info
-      const moreInfo = {
-        date,
-        more: selectedOption,
-        time_period: selectTimeP,
-        cid: selectedcid,
-        type_od_lense: selectTypeofLense,
-        ccmd_id: selectedccmid
-      };
-
-      await axios.post('http://localhost:2776/api/opt/med/more', moreInfo);
-
-      console.log('All submissions completed successfully.');
       toast('Submitted!');
     } catch (error) {
       console.error('Error submitting med details:', error);
       toast.error('Failed to Submit!');
     }
   };
+
+  // When user clicks upload
+  const handleUpload = async () => {
+    if (!selectedFiles || selectedFiles.length === 0) {
+      alert("Please select files first!");
+      return;
+    }
+
+    const formData = new FormData();
+    for (let i = 0; i < selectedFiles.length; i++) {
+      formData.append("files", selectedFiles[i]);
+    }
+    formData.append("userId", selectedcid);
+    formData.append("type", "fundus"); // or "reports"
+
+    try {
+      await axios.post("http://localhost:2776/api/order/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      alert("Files uploaded successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Upload failed");
+    }
+  };
+
+
 
   return (
     <>
@@ -594,311 +647,308 @@ const OptometristOrders = () => {
                 Habitual Rx
               </h6>
               <Row>
-                {allOrdersRx.map((r) => (
-                  <Col md={6}>
-                    {r.type_od_os == 'OD' ? (
-                      <Table bordered hover responsive className="table-sm align-middle shadow-sm">
-                        <thead className="bg-primary text-white text-center">
-                          <tr>
-                            <th></th>
-                            <th colSpan="6">OD</th>
-                          </tr>
-                          <tr className="bg-light text-dark">
-                            <th></th>
-                            <th>SPH</th>
-                            <th>CYL</th>
-                            <th>AXIS</th>
-                            <th>Prism</th>
-                            <th>Base</th>
-                            <th>VA</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr className="text-center">
-                            <td className="fw-bold">Distance</td>
-                            <td>
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="number"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.SPH}
-                                />
-                              </Form.Group>
-                            </td>
-                            <td>
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="number"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.CYL}
-                                />
-                              </Form.Group>
-                            </td>
-                            <td>
-                              {' '}
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="number"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.AXIS}
-                                />
-                              </Form.Group>
-                            </td>
-                            <td>
-                              {' '}
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="number"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.Prim}
-                                />
-                              </Form.Group>
-                            </td>
-                            <td>
-                              {' '}
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="number"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.Base}
-                                />
-                              </Form.Group>
-                            </td>
-                            <td>
-                              {' '}
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="number"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.VA}
-                                />
-                              </Form.Group>
-                            </td>
-                          </tr>
-                          <tr className="text-center">
-                            <td className="fw-bold">Near</td>
-                            <td colSpan="5" className="bg-light">
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="text"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.type_near_full}
-                                />
-                              </Form.Group>
-                            </td>
-                            <td>
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="text"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.type_near_va}
-                                />
-                              </Form.Group>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    ) : r.type_od_os == 'OS' ? (
-                      <Table bordered hover responsive className="table-sm align-middle shadow-sm">
-                        <thead className="bg-primary text-white text-center">
-                          <tr>
-                            <th></th>
-                            <th colSpan="6">OS</th>
-                          </tr>
-                          <tr className="bg-light text-dark">
-                            <th></th>
-                            <th>SPH</th>
-                            <th>CYL</th>
-                            <th>AXIS</th>
-                            <th>Prism</th>
-                            <th>Base</th>
-                            <th>VA</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr className="text-center">
-                            <td className="fw-bold">Distance</td>
-                            <td>
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="number"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.SPH}
-                                />
-                              </Form.Group>
-                            </td>
-                            <td>
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="number"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.CYL}
-                                />
-                              </Form.Group>
-                            </td>
-                            <td>
-                              {' '}
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="number"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.AXIS}
-                                />
-                              </Form.Group>
-                            </td>
-                            <td>
-                              {' '}
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="number"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.Prim}
-                                />
-                              </Form.Group>
-                            </td>
-                            <td>
-                              {' '}
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="number"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.Base}
-                                />
-                              </Form.Group>
-                            </td>
-                            <td>
-                              {' '}
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="number"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.VA}
-                                />
-                              </Form.Group>
-                            </td>
-                          </tr>
-                          <tr className="text-center">
-                            <td className="fw-bold">Near</td>
-                            <td colSpan="5" className="bg-light">
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="text"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.type_near_full}
-                                />
-                              </Form.Group>
-                            </td>
-                            <td>
-                              <Form.Group className="mb-0" controlId="formBasicFloat">
-                                <Form.Control
-                                  type="text"
-                                  step="any"
-                                  style={{
-                                    border: 'none',
-                                    width: '',
-                                    padding: '4px 6px',
-                                    textAlign: 'center'
-                                  }}
-                                  value={r.type_near_va}
-                                />
-                              </Form.Group>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    ) : null}
-                  </Col>
-                ))}
+                <Col md={6}>
+                  <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                    <thead className="bg-primary text-white text-center">
+                      <tr>
+                        <th></th>
+                        <th colSpan="6">OD</th>
+                      </tr>
+                      <tr className="bg-light text-dark">
+                        <th></th>
+                        <th>SPH</th>
+                        <th>CYL</th>
+                        <th>AXIS</th>
+                        <th>Prism</th>
+                        <th>Base</th>
+                        <th>VA</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="text-center">
+                        <td className="fw-bold">Distance</td>
+                        <td>
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="number"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OD_SPH}
+                            />
+                          </Form.Group>
+                        </td>
+                        <td>
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="number"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OD_CYL}
+                            />
+                          </Form.Group>
+                        </td>
+                        <td>
+                          {' '}
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="number"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OD_AXIS}
+                            />
+                          </Form.Group>
+                        </td>
+                        <td>
+                          {' '}
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="number"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OD_Prim}
+                            />
+                          </Form.Group>
+                        </td>
+                        <td>
+                          {' '}
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="number"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OD_Base}
+                            />
+                          </Form.Group>
+                        </td>
+                        <td>
+                          {' '}
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="number"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OD_VA}
+                            />
+                          </Form.Group>
+                        </td>
+                      </tr>
+                      <tr className="text-center">
+                        <td className="fw-bold">Near</td>
+                        <td colSpan="5" className="bg-light">
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="text"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OD_type_near_full}
+                            />
+                          </Form.Group>
+                        </td>
+                        <td>
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="text"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OD_type_near_va}
+                            />
+                          </Form.Group>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </Col>
+                <Col md={6}>
+                  <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                    <thead className="bg-primary text-white text-center">
+                      <tr>
+                        <th></th>
+                        <th colSpan="6">OS</th>
+                      </tr>
+                      <tr className="bg-light text-dark">
+                        <th></th>
+                        <th>SPH</th>
+                        <th>CYL</th>
+                        <th>AXIS</th>
+                        <th>Prism</th>
+                        <th>Base</th>
+                        <th>VA</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="text-center">
+                        <td className="fw-bold">Distance</td>
+                        <td>
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="number"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OS_SPH}
+                            />
+                          </Form.Group>
+                        </td>
+                        <td>
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="number"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OS_CYL}
+                            />
+                          </Form.Group>
+                        </td>
+                        <td>
+                          {' '}
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="number"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OS_AXIS}
+                            />
+                          </Form.Group>
+                        </td>
+                        <td>
+                          {' '}
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="number"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OS_Prim}
+                            />
+                          </Form.Group>
+                        </td>
+                        <td>
+                          {' '}
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="number"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OS_Base}
+                            />
+                          </Form.Group>
+                        </td>
+                        <td>
+                          {' '}
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="number"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OS_VA}
+                            />
+                          </Form.Group>
+                        </td>
+                      </tr>
+                      <tr className="text-center">
+                        <td className="fw-bold">Near</td>
+                        <td colSpan="5" className="bg-light">
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="text"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OS_type_near_full}
+                            />
+                          </Form.Group>
+                        </td>
+                        <td>
+                          <Form.Group className="mb-0" controlId="formBasicFloat">
+                            <Form.Control
+                              type="text"
+                              step="any"
+                              style={{
+                                border: 'none',
+                                width: '',
+                                padding: '4px 6px',
+                                textAlign: 'center'
+                              }}
+                              value={HABI_OS_type_near_va}
+                            />
+                          </Form.Group>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </Col>
               </Row>
 
               <h6 className="mt-4 text-success" style={{ fontWeight: '600' }}>
@@ -949,7 +999,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setodsph(e.target.value)}
+                                    value={SPEC_OD_SPH}
+                                    onChange={(e) => set_SPEC_OD_SPH(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -964,23 +1015,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setodcyl(e.target.value)}
-                                  />
-                                </Form.Group>
-                              </td>
-                              <td>
-                                {' '}
-                                <Form.Group className="mb-0" controlId="formBasicFloat">
-                                  <Form.Control
-                                    type="number"
-                                    step="any"
-                                    style={{
-                                      border: 'none',
-                                      width: '',
-                                      padding: '4px 6px',
-                                      textAlign: 'center'
-                                    }}
-                                    onChange={(e) => setodaxis(e.target.value)}
+                                    value={SPEC_OD_CYL}
+                                    onChange={(e) => set_SPEC_OD_CYL(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -996,7 +1032,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setodprism(e.target.value)}
+                                    value={SPEC_OD_AXIS}
+                                    onChange={(e) => set_SPEC_OD_AXIS(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1012,7 +1049,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setodbase(e.target.value)}
+                                    value={SPEC_OD_Prism}
+                                    onChange={(e) => set_SPEC_OD_Prim(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1028,7 +1066,25 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setodsva(e.target.value)}
+                                    value={SPEC_OD_Base}
+                                    onChange={(e) => set_SPEC_OD_Base(e.target.value)}
+                                  />
+                                </Form.Group>
+                              </td>
+                              <td>
+                                {' '}
+                                <Form.Group className="mb-0" controlId="formBasicFloat">
+                                  <Form.Control
+                                    type="number"
+                                    step="any"
+                                    style={{
+                                      border: 'none',
+                                      width: '',
+                                      padding: '4px 6px',
+                                      textAlign: 'center'
+                                    }}
+                                    value={SPEC_OD_VA}
+                                    onChange={(e) => set_SPEC_OD_VA(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1046,7 +1102,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setodnearfull(e.target.value)}
+                                    value={SPEC_OD_near_full}
+                                    onChange={(e) => set_SPEC_OD_type_near_full(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1061,7 +1118,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setodnearva(e.target.value)}
+                                    value={SPEC_OD_near_va}
+                                    onChange={(e) => set_SPEC_OD_type_near_va(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1100,7 +1158,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setossph(e.target.value)}
+                                    value={SPEC_OS_SPH}
+                                    onChange={(e) => set_SPEC_OS_SPH(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1115,23 +1174,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setoscyl(e.target.value)}
-                                  />
-                                </Form.Group>
-                              </td>
-                              <td>
-                                {' '}
-                                <Form.Group className="mb-0" controlId="formBasicFloat">
-                                  <Form.Control
-                                    type="number"
-                                    step="any"
-                                    style={{
-                                      border: 'none',
-                                      width: '',
-                                      padding: '4px 6px',
-                                      textAlign: 'center'
-                                    }}
-                                    onChange={(e) => setosaxis(e.target.value)}
+                                    value={SPEC_OS_CYL}
+                                    onChange={(e) => set_SPEC_OS_CYL(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1147,7 +1191,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setosprism(e.target.value)}
+                                    value={SPEC_OS_AXIS}
+                                    onChange={(e) => set_SPEC_OS_AXIS(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1163,7 +1208,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setosbase(e.target.value)}
+                                    value={SPEC_OS_Prism}
+                                    onChange={(e) => set_SPEC_OS_Prim(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1179,7 +1225,25 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setossva(e.target.value)}
+                                    value={SPEC_OS_Base}
+                                    onChange={(e) => set_SPEC_OS_Base(e.target.value)}
+                                  />
+                                </Form.Group>
+                              </td>
+                              <td>
+                                {' '}
+                                <Form.Group className="mb-0" controlId="formBasicFloat">
+                                  <Form.Control
+                                    type="number"
+                                    step="any"
+                                    style={{
+                                      border: 'none',
+                                      width: '',
+                                      padding: '4px 6px',
+                                      textAlign: 'center'
+                                    }}
+                                    value={SPEC_OS_VA}
+                                    onChange={(e) => set_SPEC_OS_VA(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1197,7 +1261,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setosnearfull(e.target.value)}
+                                    value={SPEC_OS_near_full}
+                                    onChange={(e) => set_SPEC_OS_type_near_full(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1212,7 +1277,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setosnearva(e.target.value)}
+                                    value={SPEC_OS_near_va}
+                                    onChange={(e) => set_SPEC_OS_type_near_va(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1221,8 +1287,25 @@ const OptometristOrders = () => {
                         </Table>
                       </Col>
                     </Row>
+                    <Row style={{ padding: 2 }}>
+                      <Col md={4}>
+                        <Form.Group className="mb-0" controlId="formBasicFloat">
+                          <Form.Label>Pro. ADD</Form.Label>
+                          <Form.Control
+                            type="number"
+                            step="any"
+                            style={{
+                              width: '',
+                              padding: '4px 6px',
+                              textAlign: 'center'
+                            }}
+                            value={SPEC_Pro_Add}
+                            onChange={(e) => set_SPEC_Pro_Add(e.target.value)}
+                          />
+                        </Form.Group></Col>
+                    </Row>
                     <Row>
-                      <h6 style={{ fontWeight: '600', marginTop: 10 }}>Reading Total</h6>
+                      <h6 style={{ fontWeight: '600', marginTop: 15 }}>Reading Total</h6>
                       <Col md={6}>
                         <Table bordered hover responsive className="table-sm align-middle shadow-sm">
                           <thead className="bg-primary text-white text-center">
@@ -1251,7 +1334,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotsph(e.target.value)}
+                                    value={Number(SPEC_OD_SPH)-Number(SPEC_Pro_Add)}
+                                    onChange={(e) => set_SPEC_RE_OD_SPH(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1266,7 +1350,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotcyl(e.target.value)}
+                                    value={SPEC_RE_OD_CYL}
+                                    onChange={(e) => set_SPEC_RE_OD_CYL(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1281,7 +1366,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotaxis(e.target.value)}
+                                    value={SPEC_RE_OD_AXIS}
+                                    onChange={(e) => set_SPEC_RE_OD_AXIS(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1296,7 +1382,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotprism(e.target.value)}
+                                    value={SPEC_RE_OD_Prism}
+                                    onChange={(e) => set_SPEC_RE_OD_Prism(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1311,7 +1398,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotbase(e.target.value)}
+                                    value={SPEC_RE_OD_Base}
+                                    onChange={(e) => set_SPEC_RE_OD_Base(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1326,7 +1414,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotva(e.target.value)}
+                                    value={SPEC_RE_OD_VA}
+                                    onChange={(e) => set_SPEC_RE_OD_VA(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1362,7 +1451,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotossph(e.target.value)}
+                                    value={Number(SPEC_OS_SPH)-Number(SPEC_Pro_Add)}
+                                    onChange={(e) => set_SPEC_RE_OS_SPH(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1378,7 +1468,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotoscyl(e.target.value)}
+                                    value={SPEC_RE_OS_CYL}
+                                    onChange={(e) => set_SPEC_RE_OS_CYL(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1393,7 +1484,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotosaxis(e.target.value)}
+                                    value={SPEC_RE_OS_AXIS}
+                                    onChange={(e) => set_SPEC_RE_OS_AXIS(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1408,7 +1500,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotosprism(e.target.value)}
+                                    value={SPEC_RE_OS_Prism}
+                                    onChange={(e) => set_SPEC_RE_OS_Prism(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1423,7 +1516,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotosbase(e.target.value)}
+                                    value={SPEC_RE_OS_Base}
+                                    onChange={(e) => set_SPEC_RE_OS_Base(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1438,7 +1532,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotosva(e.target.value)}
+                                    value={SPEC_RE_OS_VA}
+                                    onChange={(e) => set_SPEC_RE_OS_VA(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1474,7 +1569,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotundis(e.target.value)}
+                                    value={SPEC_UNA_DIS_OD}
+                                    onChange={(e) => set_SPEC_UNA_DIS_OD(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1489,7 +1585,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotunnear(e.target.value)}
+                                    value={SPEC_UNA_NEAR_OD}
+                                    onChange={(e) => set_SPEC_UNA_NEAR_OD(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1507,7 +1604,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotosundis(e.target.value)}
+                                    value={SPEC_UNA_DIS_OS}
+                                    onChange={(e) => set_SPEC_UNA_DIS_OS(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1522,7 +1620,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotosunnear(e.target.value)}
+                                    value={SPEC_UNA_NEAR_OS}
+                                    onChange={(e) => set_SPEC_UNA_NEAR_OS(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1552,7 +1651,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotpin(e.target.value)}
+                                    value={SPEC_Pin_OD}
+                                    onChange={(e) => set_SPEC_Pin_OD(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1570,7 +1670,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotospin(e.target.value)}
+                                    value={SPEC_Pin_OS}
+                                    onChange={(e) => set_SPEC_Pin_OS(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1599,7 +1700,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotiop(e.target.value)}
+                                    value={SPEC_IOP_OD}
+                                    onChange={(e) => set_SPEC_IOP_OD(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1617,7 +1719,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotosiop(e.target.value)}
+                                    value={SPEC_IOP_OS}
+                                    onChange={(e) => set_SPEC_IOP_OS(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1646,7 +1749,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotredcol(e.target.value)}
+                                    value={SPEC_RED_OD_O}
+                                    onChange={(e) => set_SPEC_RED_OD_O(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1661,7 +1765,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotredcol2(e.target.value)}
+                                    value={SPEC_RED_OD_T}
+                                    onChange={(e) => set_SPEC_RED_OD_T(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1679,7 +1784,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotredcolos(e.target.value)}
+                                    value={SPEC_RED_OS_O}
+                                    onChange={(e) => set_SPEC_RED_OS_O(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1694,7 +1800,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setredtotredcolos2(e.target.value)}
+                                    value={SPEC_RED_OS_T}
+                                    onChange={(e) => set_SPEC_RED_OS_T(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1713,9 +1820,9 @@ const OptometristOrders = () => {
                               type="radio"
                               label={t.text}
                               id={`radio-${t.text}`}
-                              value={t.text}
                               className="custom-radio"
-                              onChange={(e) => setSelectTypeofLense(e.target.value)}
+                              value={SPEC_Type_Of_lenses_Used}
+                              onChange={(e) => set_SPEC_Type_Of_lenses_Used(e.target.value)}
                             />
                           ))}
                         </Form.Group>
@@ -1729,9 +1836,9 @@ const OptometristOrders = () => {
                               type="radio"
                               label={t.text}
                               id={`radio-${t.text}`}
-                              value={t.text}
+                              value={SPEC_Time_Period}
                               className="custom-radio"
-                              onChange={(e) => setSelectTimeP(e.target.value)}
+                              onChange={(e) => set_SPEC_Time_Period(e.target.value)}
                             />
                           ))}
                         </Form.Group>
@@ -1755,26 +1862,21 @@ const OptometristOrders = () => {
                             checked={selectedOption === 'Retest'}
                             onChange={handleOptionChange}
                           />
-                          <Form.Check
-                            type="radio"
-                            label="Remark"
-                            id="3"
-                            value="Remark"
-                            checked={selectedOption === 'Remark'}
-                            onChange={handleOptionChange}
-                          />
-
-                          {/* Only show this if "Remark" is selected */}
-                          {selectedOption === 'Remark' && (
-                            <Form.Control
-                              className="mt-2"
-                              type="text"
-                              placeholder="Enter your remark"
-                              value={remarkText}
-                              onChange={(e) => setRemarkText(e.target.value)}
-                            />
-                          )}
                         </Form.Group>
+                        <Form.Group className="mt-4" controlId="formBasicFloat">
+                          <Form.Control
+                            type="text"
+                            step="any"
+                            style={{
+                              width: '',
+                              padding: '10px 6px',
+                            }}
+                            placeholder='Remark'
+                            value={SPEC_remark}
+                            onChange={(e) => set_SPEC_remark(e.target.value)}
+                          />
+                        </Form.Group>
+
                       </Col>
                     </Row>
                     <Row>
@@ -1818,7 +1920,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjodsph(e.target.value)}
+                                    value={SPECOB_OD_SPH}
+                                    onChange={(e) => set_SPECOB_OD_SPH(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1833,23 +1936,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjodcyl(e.target.value)}
-                                  />
-                                </Form.Group>
-                              </td>
-                              <td>
-                                {' '}
-                                <Form.Group className="mb-0" controlId="formBasicFloat">
-                                  <Form.Control
-                                    type="number"
-                                    step="any"
-                                    style={{
-                                      border: 'none',
-                                      width: '',
-                                      padding: '4px 6px',
-                                      textAlign: 'center'
-                                    }}
-                                    onChange={(e) => setobjodaxis(e.target.value)}
+                                    value={SPECOB_OD_CYL}
+                                    onChange={(e) => set_SPECOB_OD_CYL(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1865,7 +1953,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjodprism(e.target.value)}
+                                    value={SPECOB_OD_AXIS}
+                                    onChange={(e) => set_SPECOB_OD_AXIS(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1881,7 +1970,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjodbase(e.target.value)}
+                                    value={SPECOB_OD_Prism}
+                                    onChange={(e) => set_SPECOB_OD_Prim(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1897,7 +1987,25 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjodsva(e.target.value)}
+                                    value={SPECOB_OD_Base}
+                                    onChange={(e) => set_SPECOB_OD_Base(e.target.value)}
+                                  />
+                                </Form.Group>
+                              </td>
+                              <td>
+                                {' '}
+                                <Form.Group className="mb-0" controlId="formBasicFloat">
+                                  <Form.Control
+                                    type="number"
+                                    step="any"
+                                    style={{
+                                      border: 'none',
+                                      width: '',
+                                      padding: '4px 6px',
+                                      textAlign: 'center'
+                                    }}
+                                    value={SPECOB_OD_VA}
+                                    onChange={(e) => set_SPECOB_OD_VA(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1915,7 +2023,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjodnearfull(e.target.value)}
+                                    value={SPECOB_OD_near_full}
+                                    onChange={(e) => set_SPECOB_OD_type_near_full(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1930,7 +2039,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjodnearva(e.target.value)}
+                                    value={SPECOB_OD_near_va}
+                                    onChange={(e) => set_SPECOB_OD_type_near_va(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1969,7 +2079,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjossph(e.target.value)}
+                                    value={SPECOB_OS_SPH}
+                                    onChange={(e) => set_SPECOB_OS_SPH(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -1984,23 +2095,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjoscyl(e.target.value)}
-                                  />
-                                </Form.Group>
-                              </td>
-                              <td>
-                                {' '}
-                                <Form.Group className="mb-0" controlId="formBasicFloat">
-                                  <Form.Control
-                                    type="number"
-                                    step="any"
-                                    style={{
-                                      border: 'none',
-                                      width: '',
-                                      padding: '4px 6px',
-                                      textAlign: 'center'
-                                    }}
-                                    onChange={(e) => setobjosaxis(e.target.value)}
+                                    value={SPECOB_OS_CYL}
+                                    onChange={(e) => set_SPECOB_OS_CYL(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -2016,7 +2112,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjosprism(e.target.value)}
+                                    value={SPECOB_OS_AXIS}
+                                    onChange={(e) => set_SPECOB_OS_AXIS(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -2032,7 +2129,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjosbase(e.target.value)}
+                                    value={SPECOB_OS_Prism}
+                                    onChange={(e) => set_SPECOB_OS_Prim(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -2048,7 +2146,25 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjossva(e.target.value)}
+                                    value={SPECOB_OS_Base}
+                                    onChange={(e) => set_SPECOB_OS_Base(e.target.value)}
+                                  />
+                                </Form.Group>
+                              </td>
+                              <td>
+                                {' '}
+                                <Form.Group className="mb-0" controlId="formBasicFloat">
+                                  <Form.Control
+                                    type="number"
+                                    step="any"
+                                    style={{
+                                      border: 'none',
+                                      width: '',
+                                      padding: '4px 6px',
+                                      textAlign: 'center'
+                                    }}
+                                    value={SPECOB_OS_VA}
+                                    onChange={(e) => set_SPECOB_OS_VA(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -2066,7 +2182,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjosnearfull(e.target.value)}
+                                    value={SPECOB_OS_near_full}
+                                    onChange={(e) => set_SPECOB_OS_type_near_full(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -2081,7 +2198,8 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    onChange={(e) => setobjosnearva(e.target.value)}
+                                    value={SPECOB_OS_near_va}
+                                    onChange={(e) => set_SPECOB_OS_type_near_va(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
@@ -2091,7 +2209,7 @@ const OptometristOrders = () => {
                       </Col>
                       <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                         <Form.Label>Remarks</Form.Label>
-                        <Form.Control as="textarea" rows="3" onChange={(e) => setObjRemark(e.target.value)} />
+                        <Form.Control as="textarea" rows="3" value={SPECOB_remark} onChange={(e) => set_SPECOB_remark(e.target.value)} />
                       </Form.Group>
                     </Row>
 
@@ -2132,7 +2250,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setodconsph(e.target.value)}
+                                value={SPECCON_OD_SPH}
+                                onChange={(e) => set_SPECCON_OD_SPH(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2147,7 +2266,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setodconcyl(e.target.value)}
+                                value={SPECCON_OD_CYL}
+                                onChange={(e) => set_SPECCON_OD_CYL(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2162,7 +2282,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setodconaxis(e.target.value)}
+                                value={SPECCON_OD_AXIS}
+                                onChange={(e) => set_SPECCON_OD_AXIS(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2178,7 +2299,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setodconsva(e.target.value)}
+                                value={SPECCON_OD_VA}
+                                onChange={(e) => set_SPECCON_OD_VA(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2193,7 +2315,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setodconbcurve(e.target.value)}
+                                value={SPECCON_OD_B_Curve}
+                                onChange={(e) => set_SPECCON_OD_B_Curve(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2208,7 +2331,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setodcondiam(e.target.value)}
+                                value={SPECCON_OD_Diam}
+                                onChange={(e) => set_SPECCON_OD_Diam(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2223,7 +2347,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setodcondesign(e.target.value)}
+                                value={SPECCON_OD_Design}
+                                onChange={(e) => set_SPECCON_OD_Design(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2241,7 +2366,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setosconsph(e.target.value)}
+                                value={SPECCON_OS_SPH}
+                                onChange={(e) => set_SPECCON_OS_SPH(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2256,7 +2382,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setosconcyl(e.target.value)}
+                                value={SPECCON_OS_CYL}
+                                onChange={(e) => set_SPECCON_OS_CYL(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2271,7 +2398,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setosconaxis(e.target.value)}
+                                value={SPECCON_OS_AXIS}
+                                onChange={(e) => set_SPECCON_OS_AXIS(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2287,7 +2415,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setosconsva(e.target.value)}
+                                value={SPECCON_OS_VA}
+                                onChange={(e) => set_SPECCON_OS_VA(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2302,7 +2431,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setosconbcurve(e.target.value)}
+                                value={SPECCON_OS_B_Curve}
+                                onChange={(e) => set_SPECCON_OS_B_Curve(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2317,7 +2447,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setoscondiam(e.target.value)}
+                                value={SPECCON_OS_Diam}
+                                onChange={(e) => set_SPECCON_OS_Diam(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2332,7 +2463,8 @@ const OptometristOrders = () => {
                                   padding: '4px 6px',
                                   textAlign: 'center'
                                 }}
-                                onChange={(e) => setoscondesign(e.target.value)}
+                                value={SPECCON_OS_Design}
+                                onChange={(e) => set_SPECCON_OS_Design(e.target.value)}
                               />
                             </Form.Group>
                           </td>
@@ -2341,7 +2473,7 @@ const OptometristOrders = () => {
                     </Table>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                       <Form.Label>Remarks</Form.Label>
-                      <Form.Control as="textarea" rows="3" onChange={(e) => setConLenRemark(e.target.value)} />
+                      <Form.Control as="textarea" rows="3" value={SPECCON_remark} onChange={(e) => set_SPECCON_Remark(e.target.value)} />
                     </Form.Group>
 
                     <Row>
@@ -2351,6 +2483,35 @@ const OptometristOrders = () => {
                         </Button>
                       </Col>
                     </Row>
+                  </Tab>
+                  <Tab eventKey="fundus" title="Fundus">
+                    <div>
+                      <input type="file" multiple onChange={handleFileChange} />
+                      <button onClick={handleUpload}>Upload</button>
+                    </div>
+                    {/* {selectedFiles.map((file) => (
+                      <div key={file.id}>
+                        {file.file_type.startsWith("image/") ? (
+                          <img
+                            src={`http://localhost:2776/api/order/${file.file_name}`}
+                            alt={file.file_name}
+                            style={{ width: "200px", margin: "10px" }}
+                          />
+                        ) : (
+                          <a
+                            href={`http://localhost:2776/api/order/${file.file_name}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {file.file_name}
+                          </a>
+                        )}
+                      </div>
+                    ))} */}
+
+                  </Tab>
+                  <Tab eventKey="reports" title="Reports">
+
                   </Tab>
                 </Tabs>
               </Row>
@@ -2371,3 +2532,7 @@ const OptometristOrders = () => {
 };
 
 export default OptometristOrders;
+
+
+
+
