@@ -44,6 +44,8 @@ const JWTLogin = () => {
         navigate('/optometrist/orders');
       } else if (user.u_type === 'Cashier') {
         navigate('/cashier');
+      } else if (user.u_type === 'RootAdmin') {
+        navigate('/rootadmin');
       } else {
         navigate('/admin'); // Default fallback if needed
       }

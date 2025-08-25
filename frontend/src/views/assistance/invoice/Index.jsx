@@ -7,182 +7,197 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-const LensMaterial = [
-  "Glass",
-  "CR-39",
-  "Trivex",
-  "Polycarbonate",
-  "Hi Index 1.56",
-  "Hi Index 1.61",
-  "Hi Index 1.67",
-  "Hi Index 1.74",
-  "Other",
-];
+// const LensMaterial = [
+//   "Glass",
+//   "CR-39",
+//   "Trivex",
+//   "Polycarbonate",
+//   "Hi Index 1.56",
+//   "Hi Index 1.61",
+//   "Hi Index 1.67",
+//   "Hi Index 1.74",
+//   "Other",
+// ];
 
-const LensesType = [
-  "Single Vision",
-  "Round Top BF",
-  "Round Top BF 38mm",
-  "Flat Top BF",
-  "Flat Top BF 35mm",
-  "Executive",
-  "Trifocal",
-  "Progressive SC Wide",
-  "Progressive LC Wide",
-  "Lenticular",
-  "Other",
-]
+// const LensesType = [
+//   "Single Vision",
+//   "Round Top BF",
+//   "Round Top BF 38mm",
+//   "Flat Top BF",
+//   "Flat Top BF 35mm",
+//   "Executive",
+//   "Trifocal",
+//   "Progressive SC Wide",
+//   "Progressive LC Wide",
+//   "Lenticular",
+//   "Other",
+// ]
 
-const LensTreatment = [
-  "Lens Treatment",
-  "None",
-  "Photo Grey",
-  "Photo Brown",
-  "ARC - One Side",
-  "ARC - Both Side",
-  "ARC  Photo Grey",
-  "ARC  Photo Brown",
-  "Blue Cut Coating",
-  " Blue cut Photogrey",
-  "Polarised Green",
-  "Polarised Gray",
-  "Polarised Brown",
-  "Hard Coat - One Side",
-  "Hard Coat - Both Sides",
-  "Chrome Coating",
-  "Other"
-]
+// const LensTreatment = [
+//   "Lens Treatment",
+//   "None",
+//   "Photo Grey",
+//   "Photo Brown",
+//   "ARC - One Side",
+//   "ARC - Both Side",
+//   "ARC  Photo Grey",
+//   "ARC  Photo Brown",
+//   "Blue Cut Coating",
+//   " Blue cut Photogrey",
+//   "Polarised Green",
+//   "Polarised Gray",
+//   "Polarised Brown",
+//   "Hard Coat - One Side",
+//   "Hard Coat - Both Sides",
+//   "Chrome Coating",
+//   "Other"
+// ]
 
-const LensColour = [
-  "Clear",
-  "SP20",
-  "SP20 Shaded",
-  "SP10",
-  "SP10 Shaded",
-  "A1",
-  "A1 Shaded",
-  "R1",
-  "R1 Shaded",
-  "B1",
-  "B1 Shaded",
-  "Amber",
-  "Sunglass Grey",
-  "Sunglass Grey Shaded",
-  "Sunglass brown",
-  "Sunglass brown Shaded",
-  "Sunglass Green",
-  "Sunglass Green Shaded",
-  "Other"
-]
+// const LensColour = [
+//   "Clear",
+//   "SP20",
+//   "SP20 Shaded",
+//   "SP10",
+//   "SP10 Shaded",
+//   "A1",
+//   "A1 Shaded",
+//   "R1",
+//   "R1 Shaded",
+//   "B1",
+//   "B1 Shaded",
+//   "Amber",
+//   "Sunglass Grey",
+//   "Sunglass Grey Shaded",
+//   "Sunglass brown",
+//   "Sunglass brown Shaded",
+//   "Sunglass Green",
+//   "Sunglass Green Shaded",
+//   "Other"
+// ]
 
-const LensSize = [
-  "60mm",
-  "65mm",
-  "68mm",
-  "70mm",
-  "75mm"
-]
+// const LensSize = [
+//   "60mm",
+//   "65mm",
+//   "68mm",
+//   "70mm",
+//   "75mm"
+// ]
 
-const LensBase = [
-  "-",
-  "2",
-  "4",
-  "6",
-  "8"
-]
+// const LensBase = [
+//   "-",
+//   "2",
+//   "4",
+//   "6",
+//   "8"
+// ]
 
-const LensBrand = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E"
-]
+// const LensBrand = [
+//   "A",
+//   "B",
+//   "C",
+//   "D",
+//   "E"
+// ]
 
-const LensesAt = [
-  "Stock",
-  "New Optical",
-  "ANT",
-  "HR",
-  "Neat",
-  "Eye Optical",
-  "Ralisha",
-  "Essilor",
-  "Zeiss",
-  "Other"
-]
+// const LensesAt = [
+//   "Stock",
+//   "New Optical",
+//   "ANT",
+//   "HR",
+//   "Neat",
+//   "Eye Optical",
+//   "Ralisha",
+//   "Essilor",
+//   "Zeiss",
+//   "Other"
+// ]
 
-const FrameCategory = [
-  "New",
-  "Own",
-  "Own Removed",
-  "Await for fitting",
-  "Await for Instructions",
-  "Other"
-]
+// const FrameCategory = [
+//   "New",
+//   "Own",
+//   "Own Removed",
+//   "Await for fitting",
+//   "Await for Instructions",
+//   "Other"
+// ]
 
-const FrameMaterial = [
-  "Metal",
-  "Plastic",
-  "Other"
-]
+// const FrameMaterial = [
+//   "Metal",
+//   "Plastic",
+//   "Other"
+// ]
 
-const Frametype = [
-  "Full Frame",
-  "Half Frame",
-  "rimless",
-  "other"
-]
+// const Frametype = [
+//   "Full Frame",
+//   "Half Frame",
+//   "rimless",
+//   "other"
+// ]
 
-const FrameColor = [
-  "black",
-  "white"
-]
+// const FrameColor = [
+//   "black",
+//   "white"
+// ]
 
-const DoctorRx = [
-  "A.B Abeysinghe",
-  "Baminiwatte Damayantha",
-  "Dayawansa K.R",
-  "Dhanapala Mangala",
-  "Fonseka Charith",
-  "Fonseka Imalka",
-  "Iddawela Priyanga",
-  "Jayasekara Ishantha",
-  "Makuluoluwa C.A.B",
-  "Rajapaksha R.D.K",
-  "Samarakoon Prabha",
-  "Senanayake Saman",
-  "Senarath Lalitha",
-  "Senaratne Tissa",
-  "Shahabdeen J.M",
-  "Shivantha V",
-  "Silva",
-  "Sriharanathna P",
-  "Udupihilla Thavisha",
-  "Other"
-]
+// const DoctorRx = [
+//   "A.B Abeysinghe",
+//   "Baminiwatte Damayantha",
+//   "Dayawansa K.R",
+//   "Dhanapala Mangala",
+//   "Fonseka Charith",
+//   "Fonseka Imalka",
+//   "Iddawela Priyanga",
+//   "Jayasekara Ishantha",
+//   "Makuluoluwa C.A.B",
+//   "Rajapaksha R.D.K",
+//   "Samarakoon Prabha",
+//   "Senanayake Saman",
+//   "Senarath Lalitha",
+//   "Senaratne Tissa",
+//   "Shahabdeen J.M",
+//   "Shivantha V",
+//   "Silva",
+//   "Sriharanathna P",
+//   "Udupihilla Thavisha",
+//   "Other"
+// ]
 
-const TestedBy = [
-  "Upali Samarasinghe",
-  "Thivanthi Samarasinghe",
-  "Shiran Nilantha",
-  "Other"
-]
+// const TestedBy = [
+//   "Upali Samarasinghe",
+//   "Thivanthi Samarasinghe",
+//   "Shiran Nilantha",
+//   "Other"
+// ]
 
-const EnteredBy = [
-  "Upali Samarasinghe",
-  "Thivanthi",
-  "Ayesha",
-  "Sandya",
-  "Randika",
-  "Renuka",
-  "Bhagya",
-  "Achinika",
-  "Other"
-]
+// const EnteredBy = [
+//   "Upali Samarasinghe",
+//   "Thivanthi",
+//   "Ayesha",
+//   "Sandya",
+//   "Randika",
+//   "Renuka",
+//   "Bhagya",
+//   "Achinika",
+//   "Other"
+// ]
 
 const AssistanceInvoice = () => {
   const [allUsers, setAllUsers] = useState(['']);
+  const [LensMaterial, setLensMaterial] = useState(['']);
+  const [LensesType, setLensesType] = useState(['']);
+  const [LensTreatment, setLensTreatment] = useState(['']);
+  const [LensColour, setLensColour] = useState(['']);
+  const [LensSize, setLensSize] = useState(['']);
+  const [LensBase, setLensBase] = useState(['']);
+  const [LensBrand, setLensBrand] = useState(['']);
+  const [LensesAt, setLensesAt] = useState(['']);
+  const [FrameCategory, setFrameCategory] = useState(['']);
+  const [FrameMaterial, setFrameMaterial] = useState(['']);
+  const [Frametype, setFrametype] = useState(['']);
+  const [FrameColor, setFrameColor] = useState(['']);
+  const [DoctorRx, setDoctorRx] = useState(['']);
+  const [TestedBy, setTestedBy] = useState(['']);
+  const [EnteredBy, setEnteredBy] = useState(['']);
   const [allPage, setAllPage] = useState(1);
   const allPerPage = 5;
   const [searchTerm, setSearchTerm] = useState('');
@@ -194,6 +209,81 @@ const AssistanceInvoice = () => {
     axios
       .get('http://localhost:2776/api/order/assitance/process')
       .then((res) => setAllUsers(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense')
+      .then((res) => setLensMaterial(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/type')
+      .then((res) => setLensesType(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/treatment')
+      .then((res) => setLensTreatment(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/colour')
+      .then((res) => setLensColour(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/size')
+      .then((res) => setLensSize(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/base')
+      .then((res) => setLensBase(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/brand')
+      .then((res) => setLensBrand(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/at')
+      .then((res) => setLensesAt(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/frame/category')
+      .then((res) => setFrameCategory(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/frame/material')
+      .then((res) => setFrameMaterial(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/frame/type')
+      .then((res) => setFrametype(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/frame/color')
+      .then((res) => setFrameColor(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/doctor')
+      .then((res) => setDoctorRx(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/test')
+      .then((res) => setTestedBy(res.data))
+      .catch((err) => console.log(err));
+
+       axios
+      .get('http://localhost:2776/api/root/enter')
+      .then((res) => setEnteredBy(res.data))
       .catch((err) => console.log(err));
   }, []);
 
@@ -2487,7 +2577,7 @@ const AssistanceInvoice = () => {
                           <option value="">-- Lens Material --</option>
                           {LensMaterial.map((remark, index) => (
                             <option key={index} value={remark}>
-                              {remark}
+                              {remark.text}
                             </option>
                           ))}
                         </Form.Select>
@@ -2506,7 +2596,7 @@ const AssistanceInvoice = () => {
                           <option value="">-- Lenses_Type --</option>
                           {LensesType.map((remark, index) => (
                             <option key={index} value={remark}>
-                              {remark}
+                              {remark.text}
                             </option>
                           ))}
                         </Form.Select>
@@ -2525,7 +2615,7 @@ const AssistanceInvoice = () => {
                           <option value="">-- Lens Treatment --</option>
                           {LensTreatment.map((remark, index) => (
                             <option key={index} value={remark}>
-                              {remark}
+                              {remark.text}
                             </option>
                           ))}
                         </Form.Select>
@@ -2544,7 +2634,7 @@ const AssistanceInvoice = () => {
                           <option value="">-- Lens Colour --</option>
                           {LensColour.map((remark, index) => (
                             <option key={index} value={remark}>
-                              {remark}
+                              {remark.text}
                             </option>
                           ))}
                         </Form.Select>
@@ -2563,7 +2653,7 @@ const AssistanceInvoice = () => {
                           <option value="">-- Lens Size --</option>
                           {LensSize.map((remark, index) => (
                             <option key={index} value={remark}>
-                              {remark}
+                              {remark.text}
                             </option>
                           ))}
                         </Form.Select>
@@ -2582,7 +2672,7 @@ const AssistanceInvoice = () => {
                           <option value="">-- Lens Base --</option>
                           {LensBase.map((remark, index) => (
                             <option key={index} value={remark}>
-                              {remark}
+                              {remark.text}
                             </option>
                           ))}
                         </Form.Select>
@@ -2601,7 +2691,7 @@ const AssistanceInvoice = () => {
                           <option value="">-- Lens Brand --</option>
                           {LensBrand.map((remark, index) => (
                             <option key={index} value={remark}>
-                              {remark}
+                              {remark.text}
                             </option>
                           ))}
                         </Form.Select>
@@ -2620,7 +2710,7 @@ const AssistanceInvoice = () => {
                           <option value="">-- Lenses At --</option>
                           {LensesAt.map((remark, index) => (
                             <option key={index} value={remark}>
-                              {remark}
+                              {remark.text}
                             </option>
                           ))}
                         </Form.Select>
@@ -2700,7 +2790,7 @@ const AssistanceInvoice = () => {
                           <option value="">-- Frame Category --</option>
                           {FrameCategory.map((remark, index) => (
                             <option key={index} value={remark}>
-                              {remark}
+                              {remark.text}
                             </option>
                           ))}
                         </Form.Select>
@@ -2719,7 +2809,7 @@ const AssistanceInvoice = () => {
                           <option value="">-- Frame Material --</option>
                           {FrameMaterial.map((remark, index) => (
                             <option key={index} value={remark}>
-                              {remark}
+                              {remark.text}
                             </option>
                           ))}
                         </Form.Select>
@@ -2738,7 +2828,7 @@ const AssistanceInvoice = () => {
                           <option value="">-- Frame type --</option>
                           {Frametype.map((remark, index) => (
                             <option key={index} value={remark}>
-                              {remark}
+                              {remark.text}
                             </option>
                           ))}
                         </Form.Select>
@@ -2797,7 +2887,7 @@ const AssistanceInvoice = () => {
                           <option value="">-- Lens Base --</option>
                           {FrameColor.map((remark, index) => (
                             <option key={index} value={remark}>
-                              {remark}
+                              {remark.text}
                             </option>
                           ))}
                         </Form.Select>
@@ -2922,7 +3012,7 @@ const AssistanceInvoice = () => {
                   <option value="">-- Doctor Rx --</option>
                   {DoctorRx.map((remark, index) => (
                     <option key={index} value={remark}>
-                      {remark}
+                      {remark.text}
                     </option>
                   ))}
                 </Form.Select>
@@ -2938,7 +3028,7 @@ const AssistanceInvoice = () => {
                   <option value="">-- Tested By --</option>
                   {TestedBy.map((remark, index) => (
                     <option key={index} value={remark}>
-                      {remark}
+                      {remark.text}
                     </option>
                   ))}
                 </Form.Select>
@@ -2954,7 +3044,7 @@ const AssistanceInvoice = () => {
                   <option value="">-- Entered By --</option>
                   {EnteredBy.map((remark, index) => (
                     <option key={index} value={remark}>
-                      {remark}
+                      {remark.text}
                     </option>
                   ))}
                 </Form.Select>
@@ -2979,7 +3069,7 @@ const AssistanceInvoice = () => {
               </Form.Group>
             </Col> */}
 
-       
+
 
             <Col md={3} style={{ marginTop: 40 }}>
               <Button variant="outline-primary" size="sm" className="px-4" onClick={submitInvocie}>

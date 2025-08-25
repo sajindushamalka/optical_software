@@ -9,61 +9,65 @@ import { useNavigate } from 'react-router-dom';
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import { BsCalendarDate } from "react-icons/bs";
 
-const purposeofvisit = [
-  { id: 1, text: 'Routine test' },
-  { id: 2, text: 'Broken Spectacle' },
-  { id: 3, text: 'Rx Complaint' },
-  { id: 4, text: 'Measurement Complaint' },
-  { id: 5, text: 'Lens Design complaint' },
-  { id: 6, text: 'Other' }
-];
+// const purposeofvisit = [
+//   { id: 1, text: 'Routine test' },
+//   { id: 2, text: 'Broken Spectacle' },
+//   { id: 3, text: 'Rx Complaint' },
+//   { id: 4, text: 'Measurement Complaint' },
+//   { id: 5, text: 'Lens Design complaint' },
+//   { id: 6, text: 'Other' }
+// ];
 
-const symptoms_list = [
-  { id: 1, text: 'Blur Distance Vision' },
-  { id: 2, text: 'Blur Near Vision' },
-  { id: 3, text: 'Flashes' },
-  { id: 4, text: 'Floaters' },
-  { id: 5, text: 'Double Vision' },
-  { id: 6, text: 'Pain' },
-  { id: 7, text: 'Red eye/ Discharge' },
-  { id: 8, text: 'Dryness/Irritation' },
-  { id: 9, text: 'Blur Distance Vision' },
-  { id: 10, text: 'Other' }
-];
+// const symptoms_list = [
+//   { id: 1, text: 'Blur Distance Vision' },
+//   { id: 2, text: 'Blur Near Vision' },
+//   { id: 3, text: 'Flashes' },
+//   { id: 4, text: 'Floaters' },
+//   { id: 5, text: 'Double Vision' },
+//   { id: 6, text: 'Pain' },
+//   { id: 7, text: 'Red eye/ Discharge' },
+//   { id: 8, text: 'Dryness/Irritation' },
+//   { id: 10, text: 'Other' }
+// ];
 
-const generalhealth = [
-  { id: 1, text: 'Diabetes' },
-  { id: 2, text: 'Hypertension' },
-  { id: 3, text: 'Cholesterol' },
-  { id: 4, text: 'Arthritis' },
-  { id: 5, text: 'Thyroid' },
-  { id: 6, text: 'Other' }
-];
+// const generalhealth = [
+//   { id: 1, text: 'Diabetes' },
+//   { id: 2, text: 'Hypertension' },
+//   { id: 3, text: 'Cholesterol' },
+//   { id: 4, text: 'Arthritis' },
+//   { id: 5, text: 'Thyroid' },
+//   { id: 6, text: 'Other' }
+// ];
 
-const occularhealth = [
-  { id: 1, text: 'Refractive Error' },
-  { id: 2, text: 'IOP' },
-  { id: 3, text: 'Keratoconus' },
-  { id: 4, text: 'Cataracts' },
-  { id: 5, text: 'IOL' },
-  { id: 6, text: 'Strabismus' },
-  { id: 7, text: 'Amblyopia' },
-  { id: 8, text: 'Glaucoma' },
-  { id: 9, text: 'Diabetic Retinopathy' },
-  { id: 10, text: 'ARMD' },
-  { id: 11, text: 'Colour Blindness' },
-  { id: 12, text: 'Other' }
-];
+// const occularhealth = [
+//   { id: 1, text: 'Refractive Error' },
+//   { id: 2, text: 'IOP' },
+//   { id: 3, text: 'Keratoconus' },
+//   { id: 4, text: 'Cataracts' },
+//   { id: 5, text: 'IOL' },
+//   { id: 6, text: 'Strabismus' },
+//   { id: 7, text: 'Amblyopia' },
+//   { id: 8, text: 'Glaucoma' },
+//   { id: 9, text: 'Diabetic Retinopathy' },
+//   { id: 10, text: 'ARMD' },
+//   { id: 11, text: 'Colour Blindness' },
+//   { id: 12, text: 'Other' }
+// ];
 
-const typeofLense = [
-  { id: 1, text: 'Distance only' },
-  { id: 2, text: 'Reading only' },
-  { id: 3, text: 'Bifocal' },
-  { id: 4, text: 'Prograssive' }
-];
+// const typeofLense = [
+//   { id: 1, text: 'Distance only' },
+//   { id: 2, text: 'Reading only' },
+//   { id: 3, text: 'Bifocal' },
+//   { id: 4, text: 'Prograssive' }
+// ];
 
 const AssistanceOrder = () => {
   const [allUsers, setAllUsers] = useState([]);
+  const [purposeofvisit, setpurposeofvisit] = useState([]);
+  const [generalhealth, setgeneralhealth] = useState([]);
+  const [symptoms_list, setsymptoms_list] = useState([]);
+  const [occularhealth, setoccularhealth] = useState([]);
+  const [typeofLense, settypeofLense] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -116,6 +120,36 @@ const AssistanceOrder = () => {
     // Save on mount
     localStorage.setItem("lastDate", todayDate);
     localStorage.setItem("todayNo", 1);
+
+    axios.get('http://localhost:2776/api/root/purposeov').then((res)=>{
+      setpurposeofvisit(res.data)
+    }).catch((err)=>{
+      console.log(err)
+    })
+
+    axios.get('http://localhost:2776/api/root/general').then((res)=>{
+      setgeneralhealth(res.data)
+    }).catch((err)=>{
+      console.log(err)
+    })
+
+    axios.get('http://localhost:2776/api/root/symptoms').then((res)=>{
+      setsymptoms_list(res.data)
+    }).catch((err)=>{
+      console.log(err)
+    })
+
+    axios.get('http://localhost:2776/api/root/occular').then((res)=>{
+      setoccularhealth(res.data)
+    }).catch((err)=>{
+      console.log(err)
+    })
+
+     axios.get('http://localhost:2776/api/root/typeoflense').then((res)=>{
+      settypeofLense(res.data)
+    }).catch((err)=>{
+      console.log(err)
+    })
   }, []);
 
 
@@ -1148,7 +1182,7 @@ const AssistanceOrder = () => {
                       value={purpose_of_visit ? purpose_of_visit.split(", ") : []} // split back into array
                     >
                       {purposeofvisit.map((p) => (
-                        <option key={p.id} value={p.text}>
+                        <option key={p.pov_id} value={p.text}>
                           {p.text}
                         </option>
                       ))}
@@ -1595,7 +1629,7 @@ const AssistanceOrder = () => {
                   <Form.Group className="mb-3">
                     {typeofLense.map((t) => (
                       <Form.Check
-                        key={t.id}
+                        key={t.tol_id}
                         inline
                         type="radio"
                         label={t.text} // show each lens type

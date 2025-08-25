@@ -14,6 +14,7 @@ const optMedDeatilsRouters = require("./routes/OptMedDetails.js");
 const sendEmailRouter = require("./routes/SendEmail.js");
 const cashierRouter = require("./routes/Cashier.js");
 const newCusOrder = require("./routes/NewCustomerReport.js");
+const rootAmin = require("./routes/RootAdmin.js");
 
 const app = express();
 const PORT = process.env.PORT || 2677;
@@ -30,6 +31,7 @@ app.use("/api/opt/med", optMedDeatilsRouters);
 app.use("/api/email", sendEmailRouter);
 app.use("/api/cahsier", cashierRouter);
 app.use("/api/order", newCusOrder);
+app.use("/api/root", rootAmin);
 
 const httpServer = http.createServer(app);
 
