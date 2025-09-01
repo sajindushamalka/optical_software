@@ -59,7 +59,7 @@ const JWTLogin = () => {
   return (
     <Formik
       initialValues={{
-        email: 'vision.care',
+        email: 'AA.Samarasinghe',
         password: '123456',
         submit: null
       }}

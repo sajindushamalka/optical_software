@@ -7,180 +7,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-// const LensMaterial = [
-//   "Glass",
-//   "CR-39",
-//   "Trivex",
-//   "Polycarbonate",
-//   "Hi Index 1.56",
-//   "Hi Index 1.61",
-//   "Hi Index 1.67",
-//   "Hi Index 1.74",
-//   "Other",
-// ];
-
-// const LensesType = [
-//   "Single Vision",
-//   "Round Top BF",
-//   "Round Top BF 38mm",
-//   "Flat Top BF",
-//   "Flat Top BF 35mm",
-//   "Executive",
-//   "Trifocal",
-//   "Progressive SC Wide",
-//   "Progressive LC Wide",
-//   "Lenticular",
-//   "Other",
-// ]
-
-// const LensTreatment = [
-//   "Lens Treatment",
-//   "None",
-//   "Photo Grey",
-//   "Photo Brown",
-//   "ARC - One Side",
-//   "ARC - Both Side",
-//   "ARC  Photo Grey",
-//   "ARC  Photo Brown",
-//   "Blue Cut Coating",
-//   " Blue cut Photogrey",
-//   "Polarised Green",
-//   "Polarised Gray",
-//   "Polarised Brown",
-//   "Hard Coat - One Side",
-//   "Hard Coat - Both Sides",
-//   "Chrome Coating",
-//   "Other"
-// ]
-
-// const LensColour = [
-//   "Clear",
-//   "SP20",
-//   "SP20 Shaded",
-//   "SP10",
-//   "SP10 Shaded",
-//   "A1",
-//   "A1 Shaded",
-//   "R1",
-//   "R1 Shaded",
-//   "B1",
-//   "B1 Shaded",
-//   "Amber",
-//   "Sunglass Grey",
-//   "Sunglass Grey Shaded",
-//   "Sunglass brown",
-//   "Sunglass brown Shaded",
-//   "Sunglass Green",
-//   "Sunglass Green Shaded",
-//   "Other"
-// ]
-
-// const LensSize = [
-//   "60mm",
-//   "65mm",
-//   "68mm",
-//   "70mm",
-//   "75mm"
-// ]
-
-// const LensBase = [
-//   "-",
-//   "2",
-//   "4",
-//   "6",
-//   "8"
-// ]
-
-// const LensBrand = [
-//   "A",
-//   "B",
-//   "C",
-//   "D",
-//   "E"
-// ]
-
-// const LensesAt = [
-//   "Stock",
-//   "New Optical",
-//   "ANT",
-//   "HR",
-//   "Neat",
-//   "Eye Optical",
-//   "Ralisha",
-//   "Essilor",
-//   "Zeiss",
-//   "Other"
-// ]
-
-// const FrameCategory = [
-//   "New",
-//   "Own",
-//   "Own Removed",
-//   "Await for fitting",
-//   "Await for Instructions",
-//   "Other"
-// ]
-
-// const FrameMaterial = [
-//   "Metal",
-//   "Plastic",
-//   "Other"
-// ]
-
-// const Frametype = [
-//   "Full Frame",
-//   "Half Frame",
-//   "rimless",
-//   "other"
-// ]
-
-// const FrameColor = [
-//   "black",
-//   "white"
-// ]
-
-// const DoctorRx = [
-//   "A.B Abeysinghe",
-//   "Baminiwatte Damayantha",
-//   "Dayawansa K.R",
-//   "Dhanapala Mangala",
-//   "Fonseka Charith",
-//   "Fonseka Imalka",
-//   "Iddawela Priyanga",
-//   "Jayasekara Ishantha",
-//   "Makuluoluwa C.A.B",
-//   "Rajapaksha R.D.K",
-//   "Samarakoon Prabha",
-//   "Senanayake Saman",
-//   "Senarath Lalitha",
-//   "Senaratne Tissa",
-//   "Shahabdeen J.M",
-//   "Shivantha V",
-//   "Silva",
-//   "Sriharanathna P",
-//   "Udupihilla Thavisha",
-//   "Other"
-// ]
-
-// const TestedBy = [
-//   "Upali Samarasinghe",
-//   "Thivanthi Samarasinghe",
-//   "Shiran Nilantha",
-//   "Other"
-// ]
-
-// const EnteredBy = [
-//   "Upali Samarasinghe",
-//   "Thivanthi",
-//   "Ayesha",
-//   "Sandya",
-//   "Randika",
-//   "Renuka",
-//   "Bhagya",
-//   "Achinika",
-//   "Other"
-// ]
-
 const AssistanceInvoice = () => {
   const [allUsers, setAllUsers] = useState(['']);
   const [LensMaterial, setLensMaterial] = useState(['']);
@@ -281,7 +107,7 @@ const AssistanceInvoice = () => {
       .then((res) => setTestedBy(res.data))
       .catch((err) => console.log(err));
 
-       axios
+    axios
       .get('http://localhost:2776/api/root/enter')
       .then((res) => setEnteredBy(res.data))
       .catch((err) => console.log(err));
@@ -620,13 +446,17 @@ const AssistanceInvoice = () => {
       console.log(res.data)
       axios.put(`http://localhost:2776/api/order/assitance/update/${selectedcmd_id}`).then((res) => {
         console.log(res.data)
+        toast.success("Order Updated!")
       }).catch((err) => {
         console.log(err)
+        toast.error("Error!")
       })
     }).catch((err) => {
-      console.log(err)
+      toast.error("Error!")
     })
   };
+
+  console.log(Lens_Base)
 
   return (
     <React.Fragment>
@@ -889,7 +719,7 @@ const AssistanceInvoice = () => {
                       {' '}
                       <Form.Group className="mb-0" controlId="formBasicFloat">
                         <Form.Control
-                          type="number"
+                          type="text"
                           step="any"
                           style={{
                             border: 'none',
@@ -1040,7 +870,7 @@ const AssistanceInvoice = () => {
                       {' '}
                       <Form.Group className="mb-0" controlId="formBasicFloat">
                         <Form.Control
-                          type="number"
+                          type="text"
                           step="any"
                           style={{
                             border: 'none',
@@ -1213,7 +1043,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1372,7 +1202,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -2576,7 +2406,7 @@ const AssistanceInvoice = () => {
                         >
                           <option value="">-- Lens Material --</option>
                           {LensMaterial.map((remark, index) => (
-                            <option key={index} value={remark}>
+                            <option key={index} value={remark.text}>
                               {remark.text}
                             </option>
                           ))}
@@ -2595,7 +2425,7 @@ const AssistanceInvoice = () => {
                         >
                           <option value="">-- Lenses_Type --</option>
                           {LensesType.map((remark, index) => (
-                            <option key={index} value={remark}>
+                            <option key={index} value={remark.text}>
                               {remark.text}
                             </option>
                           ))}
@@ -2614,7 +2444,7 @@ const AssistanceInvoice = () => {
                         >
                           <option value="">-- Lens Treatment --</option>
                           {LensTreatment.map((remark, index) => (
-                            <option key={index} value={remark}>
+                            <option key={index} value={remark.text}>
                               {remark.text}
                             </option>
                           ))}
@@ -2633,7 +2463,7 @@ const AssistanceInvoice = () => {
                         >
                           <option value="">-- Lens Colour --</option>
                           {LensColour.map((remark, index) => (
-                            <option key={index} value={remark}>
+                            <option key={index} value={remark.text}>
                               {remark.text}
                             </option>
                           ))}
@@ -2652,7 +2482,7 @@ const AssistanceInvoice = () => {
                         >
                           <option value="">-- Lens Size --</option>
                           {LensSize.map((remark, index) => (
-                            <option key={index} value={remark}>
+                            <option key={index} value={remark.text}>
                               {remark.text}
                             </option>
                           ))}
@@ -2671,7 +2501,7 @@ const AssistanceInvoice = () => {
                         >
                           <option value="">-- Lens Base --</option>
                           {LensBase.map((remark, index) => (
-                            <option key={index} value={remark}>
+                            <option key={index} value={remark.text}>
                               {remark.text}
                             </option>
                           ))}
@@ -2690,7 +2520,7 @@ const AssistanceInvoice = () => {
                         >
                           <option value="">-- Lens Brand --</option>
                           {LensBrand.map((remark, index) => (
-                            <option key={index} value={remark}>
+                            <option key={index} value={remark.text}>
                               {remark.text}
                             </option>
                           ))}
@@ -2709,7 +2539,7 @@ const AssistanceInvoice = () => {
                         >
                           <option value="">-- Lenses At --</option>
                           {LensesAt.map((remark, index) => (
-                            <option key={index} value={remark}>
+                            <option key={index} value={remark.text}>
                               {remark.text}
                             </option>
                           ))}
@@ -2789,7 +2619,7 @@ const AssistanceInvoice = () => {
                         >
                           <option value="">-- Frame Category --</option>
                           {FrameCategory.map((remark, index) => (
-                            <option key={index} value={remark}>
+                            <option key={index} value={remark.text}>
                               {remark.text}
                             </option>
                           ))}
@@ -2808,7 +2638,7 @@ const AssistanceInvoice = () => {
                         >
                           <option value="">-- Frame Material --</option>
                           {FrameMaterial.map((remark, index) => (
-                            <option key={index} value={remark}>
+                            <option key={index} value={remark.text}>
                               {remark.text}
                             </option>
                           ))}
@@ -2827,7 +2657,7 @@ const AssistanceInvoice = () => {
                         >
                           <option value="">-- Frame type --</option>
                           {Frametype.map((remark, index) => (
-                            <option key={index} value={remark}>
+                            <option key={index} value={remark.text}>
                               {remark.text}
                             </option>
                           ))}
@@ -2886,7 +2716,7 @@ const AssistanceInvoice = () => {
                         >
                           <option value="">-- Lens Base --</option>
                           {FrameColor.map((remark, index) => (
-                            <option key={index} value={remark}>
+                            <option key={index} value={remark.text}>
                               {remark.text}
                             </option>
                           ))}
@@ -3011,7 +2841,7 @@ const AssistanceInvoice = () => {
                 >
                   <option value="">-- Doctor Rx --</option>
                   {DoctorRx.map((remark, index) => (
-                    <option key={index} value={remark}>
+                    <option key={index} value={remark.text}>
                       {remark.text}
                     </option>
                   ))}
@@ -3027,7 +2857,7 @@ const AssistanceInvoice = () => {
                 >
                   <option value="">-- Tested By --</option>
                   {TestedBy.map((remark, index) => (
-                    <option key={index} value={remark}>
+                    <option key={index} value={remark.text}>
                       {remark.text}
                     </option>
                   ))}
@@ -3043,7 +2873,7 @@ const AssistanceInvoice = () => {
                 >
                   <option value="">-- Entered By --</option>
                   {EnteredBy.map((remark, index) => (
-                    <option key={index} value={remark}>
+                    <option key={index} value={remark.text}>
                       {remark.text}
                     </option>
                   ))}

@@ -109,4 +109,13 @@ router.post('/user', RootAdminCOntroller.createusersCon);
 router.put('/user/:id', RootAdminCOntroller.updateusersCon);
 router.delete('/user/:id', RootAdminCOntroller.deleteusersCon);
 
+router.get('/invoice', RootAdminCOntroller.getAllcashier_invoice_detailsCon);
+router.post('/invoice', RootAdminCOntroller.createcashier_invoice_detailsCon);
+router.put('/invoice/:id', RootAdminCOntroller.updatecashier_invoice_detailsCon);
+router.delete('/invoice/:id', RootAdminCOntroller.deletecashier_invoice_detailsCon);
+
+router.get('/complate/:id', RootAdminCOntroller.getchasiercomplateinvoicetableCon);
+router.put('/cashier/:id', RootAdminCOntroller.updatecashier_invoiceTable_detailsCon);
+router.put('/cashier/date/:id', RootAdminCOntroller.updatecashier_invoice_date_detailsCon);
+
 module.exports = router;

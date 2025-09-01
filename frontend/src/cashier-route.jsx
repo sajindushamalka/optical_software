@@ -77,9 +77,24 @@ const cashier_routes = [
       {
         exact: 'true',
         path: '*',
-        element: lazy(() => import('./views/cashier/complate/Index'))
+        element: lazy(() => import('./views/cashier/history/Index'))
       },
 
+    ]
+  },
+   {
+    path: '/logout',
+    layout: CashierLayout, // no layout needed
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: () => {
+          localStorage.clear();
+          window.location.href = "/aas";
+          return null; // nothing to render
+        }
+      }
     ]
   }
 ];

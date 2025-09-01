@@ -1,14 +1,16 @@
 const express = require('express');
-const multer = require("multer");
 
 const NewCustomersMedDeatilsController = require('../controllers/NewCustomerReport.js');
 
 const router = express.Router();
-// configure multer (store files in memory for DB)
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 
+
+router.put('/cashier/:id',NewCustomersMedDeatilsController.updateStatusCashierStatusCon);
+router.get("/cahsierhi", NewCustomersMedDeatilsController.getCustomerRecForCashierCon);
+router.get("/complate", NewCustomersMedDeatilsController.getCustomerRecForComplateCon);
 router.post('/',NewCustomersMedDeatilsController.createCustomersMedDetails);
+router.post('/new/cahser',NewCustomersMedDeatilsController.createCashierInvoiceCon);
+router.post('/new/cahser/items',NewCustomersMedDeatilsController.createCashierInvoiceTableItemsCon);
 router.get('/:id',NewCustomersMedDeatilsController.getCustomerOldRecordsCon);
 router.get('/objective/:id',NewCustomersMedDeatilsController.getByCMDIdObjCon);
 router.get('/conatct/:id',NewCustomersMedDeatilsController.getByCMDIdContactLensesCon);
@@ -18,11 +20,6 @@ router.post('/new',NewCustomersMedDeatilsController.optimizer_create_con);
 router.post('/new/objective',NewCustomersMedDeatilsController.optimizer_objective_create_con);
 router.post('/new/contact',NewCustomersMedDeatilsController.optimizer_contact_lenses_create_con);
 router.put('/:id',NewCustomersMedDeatilsController.updateStatusOptimizerCon);
-router.post(
-  "/upload",
-  upload.array("files", 10), // max 10 files at once
-  NewCustomersMedDeatilsController.uploadFiles
-);
 router.get("/user/:id", NewCustomersMedDeatilsController.getUserFiles);
 router.get("/:fileId", NewCustomersMedDeatilsController.getFileById);
 router.get("/assitance/process", NewCustomersMedDeatilsController.getCustomerRecForAssistanceCon);
@@ -32,6 +29,8 @@ router.get("/assitance/contact/:id", NewCustomersMedDeatilsController.getByIDWit
 router.post("/assitance/second", NewCustomersMedDeatilsController.createAssistanceSecondCon);
 router.get("/assitance/second/:id", NewCustomersMedDeatilsController.getBycreateAssistanceSecondCon);
 router.put("/assitance/update/:id", NewCustomersMedDeatilsController.updateStatusAssistacnceSecondCon);
+router.get("/all/optimistric", NewCustomersMedDeatilsController.getAllOptimsitricRecordsCon);
+router.post("/upload/files", NewCustomersMedDeatilsController.getUploadedFilesNameOnlyCon);
 
 
 module.exports = router;

@@ -9,58 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import { BsCalendarDate } from "react-icons/bs";
 
-// const purposeofvisit = [
-//   { id: 1, text: 'Routine test' },
-//   { id: 2, text: 'Broken Spectacle' },
-//   { id: 3, text: 'Rx Complaint' },
-//   { id: 4, text: 'Measurement Complaint' },
-//   { id: 5, text: 'Lens Design complaint' },
-//   { id: 6, text: 'Other' }
-// ];
-
-// const symptoms_list = [
-//   { id: 1, text: 'Blur Distance Vision' },
-//   { id: 2, text: 'Blur Near Vision' },
-//   { id: 3, text: 'Flashes' },
-//   { id: 4, text: 'Floaters' },
-//   { id: 5, text: 'Double Vision' },
-//   { id: 6, text: 'Pain' },
-//   { id: 7, text: 'Red eye/ Discharge' },
-//   { id: 8, text: 'Dryness/Irritation' },
-//   { id: 10, text: 'Other' }
-// ];
-
-// const generalhealth = [
-//   { id: 1, text: 'Diabetes' },
-//   { id: 2, text: 'Hypertension' },
-//   { id: 3, text: 'Cholesterol' },
-//   { id: 4, text: 'Arthritis' },
-//   { id: 5, text: 'Thyroid' },
-//   { id: 6, text: 'Other' }
-// ];
-
-// const occularhealth = [
-//   { id: 1, text: 'Refractive Error' },
-//   { id: 2, text: 'IOP' },
-//   { id: 3, text: 'Keratoconus' },
-//   { id: 4, text: 'Cataracts' },
-//   { id: 5, text: 'IOL' },
-//   { id: 6, text: 'Strabismus' },
-//   { id: 7, text: 'Amblyopia' },
-//   { id: 8, text: 'Glaucoma' },
-//   { id: 9, text: 'Diabetic Retinopathy' },
-//   { id: 10, text: 'ARMD' },
-//   { id: 11, text: 'Colour Blindness' },
-//   { id: 12, text: 'Other' }
-// ];
-
-// const typeofLense = [
-//   { id: 1, text: 'Distance only' },
-//   { id: 2, text: 'Reading only' },
-//   { id: 3, text: 'Bifocal' },
-//   { id: 4, text: 'Prograssive' }
-// ];
-
 const AssistanceOrder = () => {
   const [allUsers, setAllUsers] = useState([]);
   const [purposeofvisit, setpurposeofvisit] = useState([]);
@@ -530,6 +478,7 @@ const AssistanceOrder = () => {
       set_SPEC_RED_OS_O(res.data.SPEC_RED_OS_O)
       set_SPEC_RED_OS_T(res.data.SPEC_RED_OS_T)
       set_SPEC_Type_Of_lenses_Used(res.data.SPEC_Type_Of_lenses_Used)
+      console.log(res.data)
       set_SPEC_Time_Period(res.data.SPEC_Time_Period)
       set_SPEC_Time_More(res.data.SPEC_Time_More)
       set_SPEC_remark(res.data.SPEC_remark)
@@ -1411,7 +1360,7 @@ const AssistanceOrder = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1570,7 +1519,7 @@ const AssistanceOrder = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1764,7 +1713,7 @@ const AssistanceOrder = () => {
                                     {' '}
                                     <Form.Group className="mb-0" controlId="formBasicFloat">
                                       <Form.Control
-                                        type="number"
+                                        type="text"
                                         step="any"
                                         readOnly
                                         style={{
@@ -1923,7 +1872,7 @@ const AssistanceOrder = () => {
                                     {' '}
                                     <Form.Group className="mb-0" controlId="formBasicFloat">
                                       <Form.Control
-                                        type="number"
+                                        type="text"
                                         step="any"
                                         readOnly
                                         style={{

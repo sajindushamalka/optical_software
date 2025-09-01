@@ -752,3 +752,66 @@ exports.deleteusersCon = (req, res) => {
         res.json({ message: "User Deleted" })
     })
 }
+
+
+
+exports.getAllcashier_invoice_detailsCon = (req, res) => {
+    RootAdminModel.getAllcashier_invoice_details((err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}
+
+exports.createcashier_invoice_detailsCon = (req, res) => {
+    const newUser = req.body;
+    RootAdminModel.createcashier_invoice_details(newUser, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.status(201).json({ message: "User Created", id: result.insertId });
+    });
+};
+
+exports.updatecashier_invoice_detailsCon = (req, res) => {
+    const { id } = req.params;
+    const updateU = req.body;
+    RootAdminModel.updatecashier_invoice_details(id, updateU, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
+exports.deletecashier_invoice_detailsCon = (req, res) => {
+    const { id } = req.params;
+    RootAdminModel.deletecashier_invoice_details(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json({ message: "User Deleted" })
+    })
+}
+
+
+exports.getchasiercomplateinvoicetableCon = (req, res) => {
+    const { id } = req.params;
+    RootAdminModel.getchasiercomplateinvoicetable(id, (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}
+
+exports.updatecashier_invoiceTable_detailsCon = (req, res) => {
+    const { id } = req.params;
+    const updateU = req.body; 
+    RootAdminModel.updatecashier_invoiceTable_details(id,updateU, (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}
+
+exports.updatecashier_invoice_date_detailsCon = (req, res) => {
+    const { id } = req.params;
+    const updateU = req.body; 
+    RootAdminModel.updatecashier_invoice_date_details(id,updateU, (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}

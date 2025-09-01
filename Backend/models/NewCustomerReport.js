@@ -150,181 +150,58 @@ const NewCustomersMedDeatils = {
         );
     },
 
-    // getAll: (callback) => {
-    //     db.query("select * from optical_software.new_customer_order_assitance oc, optical_software.customers c where oc.cid = c.c_id", callback);
-    // },
-    // getById: (id, callback) => {
-    //     db.query(
-    //         "Select * from optical_software.new_customer_order_assitance where cid = ?",
-    //         [id],
-    //         callback
-    //     );
-    // },
-    // create: (customermeddeatils, callback) => {
-    //     db.query(
-    //         "Insert into optical_software.customer_med_details SET ?",
-    //         customermeddeatils,
-    //         callback
-    //     );
-    // },
-    // update: (id, customer, callback) => {
-    //     db.query(
-    //         "Update optical_software.customer_med_details SET ? where cmd_id = ?",
-    //         [customer, id],
-    //         callback
-    //     );
-    // },
-    // delete: (id, callback) => {
-    //     db.query(
-    //         "Delete from optical_software.customer_med_details where cmd_id = ? ",
-    //         [id],
-    //         callback
-    //     );
-    // },
-    // getAllOptometristOrders: (callback) => {
-    //     db.query(
-    //         "select * from optical_software.customer_med_details cmd, optical_software.customers c  where c.c_id = cmd.cid and report_status = 'Pass_to_optometrist' ORDER BY date ASC;",
-    //         callback
-    //     );
-    // },
-    // updateOrderStatus: (id, callback) => {
-    //     db.query(
-    //         "Update optical_software.customer_med_details SET report_status = 'Pass_to_Assistance' where cmd_id = ?",
-    //         [id],
-    //         callback
-    //     );
-    // },
-    // getAllAssistanceInvoices: (callback) => {
-    //     db.query(
-    //         "select * from optical_software.customer_med_details cmd, optical_software.customers c  where c.c_id = cmd.cid and report_status = 'Pass_to_Assistance' ORDER BY date DESC;",
-    //         callback
-    //     );
-    // },
-    // getAllAssistanceInvoicesMedicalDeatilsForRX: (
-    //     cmd_id,
-    //     cid,
-    //     date,
-    //     callback
-    // ) => {
-    //     db.query(
-    //         "select * from optical_software.reading_total_opt where ccmd_id = ? and cid = ? and date = ? ",
-    //         [cmd_id, cid, date],
-    //         callback
-    //     );
-    // },
+    getCustomerRecForCashier: (callback) => {
+        db.query(
+            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c where c.c_id = a.cid and  a.report_status = 'Pass_to_Cash' ORDER BY a.date DESC;",
+            callback
+        );
+    },
 
-    // getAllAssistanceInvoicesMedicalDeatilsSecondRX: (
-    //     date,
-    //     ccmd_id,
-    //     cid,
-    //     callback
-    // ) => {
-    //     db.query(
-    //         "select * from optical_software.reading_total_opt_second  where ccmd_id = ? and cid = ? and date = ? ",
-    //         [date, ccmd_id, cid],
-    //         callback
-    //     );
-    // },
+    createCashierInvoice: (customermeddeatils, callback) => {
+        db.query(
+            "Insert into optical_software.cashier_invoice SET ?",
+            customermeddeatils,
+            callback
+        );
+    },
 
-    // getAllAssistanceInvoicesMedicalDeatilsUnPiIoReading: (
-    //     date,
-    //     ccmd_id,
-    //     cid,
-    //     callback
-    // ) => {
-    //     db.query(
-    //         "select * from optical_software.reading_total_un_pi_io_re_opt  where ccmd_id = ? and cid = ? and date = ? ",
-    //         [date, ccmd_id, cid],
-    //         callback
-    //     );
-    // },
+    createCashierInvoiceTableItems: (customermeddeatils, callback) => {
+        db.query(
+            "Insert into optical_software.cashier_invoice_item_table SET ?",
+            customermeddeatils,
+            callback
+        );
+    },
 
-    // getAllAssistanceInvoicesMedicalDeatilsMore: (
-    //     date,
-    //     ccmd_id,
-    //     cid,
-    //     callback
-    // ) => {
-    //     db.query(
-    //         "select * from optical_software.reading_total_opt_more where ccmd_id = ? and cid = ? and date = ?",
-    //         [date, ccmd_id, cid],
-    //         callback
-    //     );
-    // },
+    updateStatusCashierStatus: (id, callback) => {
+        db.query(
+            "Update optical_software.new_customer_order_assitance SET report_status = 'Complete' where cmd_id = ?",
+            [id],
+            callback
+        );
+    },
 
-    // getAllAssistanceInvoicesMedicalDeatilsObjective: (
-    //     date,
-    //     ccmd_id,
-    //     cid,
-    //     callback
-    // ) => {
-    //     db.query(
-    //         "select * from optical_software.opt_objective  where ccmd_id = ? and cid = ? and date = ? ",
-    //         [date, ccmd_id, cid],
-    //         callback
-    //     );
-    // },
+    getCustomerRecForComplate: (callback) => {
+        db.query(
+            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c, optical_software.cashier_invoice ci where c.c_id = a.cid and ci.cmd_id = a.cmd_id and  a.report_status = 'Complete' ORDER BY a.date DESC;",
+            callback
+        );
+    },
 
-    // getAllAssistanceInvoicesMedicalDeatilsContactLen: (
-    //     date,
-    //     ccmd_id,
-    //     cid,
-    //     callback
-    // ) => {
-    //     db.query(
-    //         "select * from optical_software.opt_contact_len where ccmd_id = ? and cid = ? and date =  ? ",
-    //         [date, ccmd_id, cid],
-    //         callback
-    //     );
-    // },
+    getAllOptimsitricRecords: (callback) => {
+        db.query(
+            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c where c.c_id = a.cid ORDER BY a.date DESC",
+            callback
+        );
+    },
 
-    // getAllAssistanceInvoicesMedicalDeatilsRemarks: (
-    //     date,
-    //     ccmd_id,
-    //     cid,
-    //     callback
-    // ) => {
-    //     db.query(
-    //         "select * from optical_software.opt_remarks where ccmd_id = ? and cid = ? and date =  ? ;",
-    //         [date, ccmd_id, cid],
-    //         callback
-    //     );
-    // },
-
-    // updateOrderStatusToCashier: (id, amount, callback) => {
-    //     db.query(
-    //         "Update optical_software.customer_med_details SET report_status = 'Pass_to_Cashier' , contact_len_type = ?  where cmd_id = ?",
-    //         [amount, id],
-    //         callback
-    //     );
-    // },
-    // getAllCashierInvoices: (callback) => {
-    //     db.query(
-    //         "select * from optical_software.customer_med_details cmd, optical_software.customers c  where c.c_id = cmd.cid and report_status = 'Pass_to_Cashier' ORDER BY date DESC;",
-    //         callback
-    //     );
-    // },
-    // getCustomerHistory: (id, callback) => {
-    //     db.query(
-    //         "select * from optical_software.customer_med_details where cid = ?",
-    //         [id],
-    //         callback
-    //     );
-    // },
-    // updateCashierOrder: (id, callback) => {
-    //     db.query(
-    //         "Update optical_software.customer_med_details SET report_status = 'Pass_to_Final_Invoice' where cmd_id = ?",
-    //         [id],
-    //         callback
-    //     );
-    // },
-    // updateandcomplateorder: (id, callback) => {
-    //     db.query(
-    //         "Update optical_software.customer_med_details SET report_status = 'Complete_Order' where cmd_id = ?",
-    //         [id],
-    //         callback
-    //     );
-    // },
+    getUploadedFilesNameOnly: (id, id2, callback) => {
+        db.query(
+            "select * from optical_software.customer_files where cmd_id = ? and cid = ? ",
+            [id, id2],
+            callback
+        );
+    },
 };
 
 module.exports = NewCustomersMedDeatils;

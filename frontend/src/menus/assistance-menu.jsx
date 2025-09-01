@@ -6,13 +6,13 @@ const AssistanceMenuItem = {
       type: 'group',
       icon: 'icon-navigation',
       children: [
-        {
-          id: 'dashboard',
-          title: 'Dashboard',
-          type: 'item',
-          icon: 'feather icon-home',
-          url: '/basic/button'
-        },
+        // {
+        //   id: 'dashboard',
+        //   title: 'Dashboard',
+        //   type: 'item',
+        //   icon: 'feather icon-home',
+        //   url: '/basic/button'
+        // },
         {
           id: 'orders',
           title: 'Orders',
@@ -40,20 +40,20 @@ const AssistanceMenuItem = {
           icon: 'fas fa-file-invoice',
           url: '/assistance/invoice'
         },
-        {
-          id: 'prescription',
-          title: 'Prescription',
-          type: 'item',
-          icon: 'fas fa-first-aid',
-          url: '/basic/badges'
-        },
-        {
-          id: 'sales',
-          title: 'Sales',
-          type: 'item',
-          icon: 'fas fa-chart-line',
-          url: '/basic/badges'
-        },
+        // {
+        //   id: 'prescription',
+        //   title: 'Prescription',
+        //   type: 'item',
+        //   icon: 'fas fa-first-aid',
+        //   url: '/basic/badges'
+        // },
+        // {
+        //   id: 'sales',
+        //   title: 'Sales',
+        //   type: 'item',
+        //   icon: 'fas fa-chart-line',
+        //   url: '/basic/badges'
+        // },
         {
           id: 'logout',
           title: 'Log Out',
@@ -63,58 +63,58 @@ const AssistanceMenuItem = {
         },
       ]
     },
-    {
-      id: 'reports',
-      title: 'Reports',
-      type: 'group',
-      icon: 'icon-ui',
-      children: [
-        {
-          id: 'sections',
-          title: 'Sections',
-          type: 'collapse',
-          icon: 'feather icon-box',
-          children: [
-            {
-              id: 'button',
-              title: 'Button',
-              type: 'item',
-              url: '/basic/button'
-            },
-            {
-              id: 'badges',
-              title: 'Badges',
-              type: 'item',
-              url: '/basic/badges'
-            },
-            {
-              id: 'breadcrumb',
-              title: 'Breadcrumb & Pagination',
-              type: 'item',
-              url: '/basic/breadcrumb-paging'
-            },
-            {
-              id: 'collapse',
-              title: 'Collapse',
-              type: 'item',
-              url: '/basic/collapse'
-            },
-            {
-              id: 'tabs-pills',
-              title: 'Tabs & Pills',
-              type: 'item',
-              url: '/basic/tabs-pills'
-            },
-            {
-              id: 'typography',
-              title: 'Typography',
-              type: 'item',
-              url: '/basic/typography'
-            }
-          ]
-        }
-      ]
-    }
+    // {
+    //   id: 'reports',
+    //   title: 'Reports',
+    //   type: 'group',
+    //   icon: 'icon-ui',
+    //   children: [
+    //     {
+    //       id: 'sections',
+    //       title: 'Sections',
+    //       type: 'collapse',
+    //       icon: 'feather icon-box',
+    //       children: [
+    //         {
+    //           id: 'button',
+    //           title: 'Button',
+    //           type: 'item',
+    //           url: '/basic/button'
+    //         },
+    //         {
+    //           id: 'badges',
+    //           title: 'Badges',
+    //           type: 'item',
+    //           url: '/basic/badges'
+    //         },
+    //         {
+    //           id: 'breadcrumb',
+    //           title: 'Breadcrumb & Pagination',
+    //           type: 'item',
+    //           url: '/basic/breadcrumb-paging'
+    //         },
+    //         {
+    //           id: 'collapse',
+    //           title: 'Collapse',
+    //           type: 'item',
+    //           url: '/basic/collapse'
+    //         },
+    //         {
+    //           id: 'tabs-pills',
+    //           title: 'Tabs & Pills',
+    //           type: 'item',
+    //           url: '/basic/tabs-pills'
+    //         },
+    //         {
+    //           id: 'typography',
+    //           title: 'Typography',
+    //           type: 'item',
+    //           url: '/basic/typography'
+    //         }
+    //       ]
+    //     }
+    //   ]
+    // }
   ]
 };
 

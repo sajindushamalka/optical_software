@@ -63,13 +63,13 @@ const OptometristOrders = () => {
   const [SPEC_OS_near_full, set_SPEC_OS_type_near_full] = useState('');
   const [SPEC_OS_near_va, set_SPEC_OS_type_near_va] = useState('');
   const [SPEC_Pro_Add, set_SPEC_Pro_Add] = useState('');
-  const [SPEC_RE_OD_SPH, set_SPEC_RE_OD_SPH] = useState('');
+  const [SPEC_RE_OD_SPH, set_SPEC_RE_OD_SPH] = useState(Number(SPEC_OD_SPH) - Number(SPEC_Pro_Add));
   const [SPEC_RE_OD_CYL, set_SPEC_RE_OD_CYL] = useState('');
   const [SPEC_RE_OD_AXIS, set_SPEC_RE_OD_AXIS] = useState('');
   const [SPEC_RE_OD_Prism, set_SPEC_RE_OD_Prism] = useState('');
   const [SPEC_RE_OD_Base, set_SPEC_RE_OD_Base] = useState('');
   const [SPEC_RE_OD_VA, set_SPEC_RE_OD_VA] = useState('');
-  const [SPEC_RE_OS_SPH, set_SPEC_RE_OS_SPH] = useState('');
+  const [SPEC_RE_OS_SPH, set_SPEC_RE_OS_SPH] = useState(Number(SPEC_OS_SPH) - Number(SPEC_Pro_Add));
   const [SPEC_RE_OS_CYL, set_SPEC_RE_OS_CYL] = useState('');
   const [SPEC_RE_OS_AXIS, set_SPEC_RE_OS_AXIS] = useState('');
   const [SPEC_RE_OS_Prism, set_SPEC_RE_OS_Prism] = useState('');
@@ -123,13 +123,14 @@ const OptometristOrders = () => {
   const [SPECCON_OS_Diam, set_SPECCON_OS_Diam] = useState('');
   const [SPECCON_OS_Design, set_SPECCON_OS_Design] = useState('');
   const [SPECCON_remark, set_SPECCON_Remark] = useState('');
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [file, setFile] = useState(null);
+  const [myFiles, setMyFiles] = useState(['']);
 
-
-  // When user selects files
   const handleFileChange = (e) => {
-    setSelectedFiles(e.target.files);
+    setFile(e.target.files[0]);
   };
+
+
 
   useEffect(() => {
     axios
@@ -284,13 +285,17 @@ const OptometristOrders = () => {
       console.log(err)
     })
 
-    axios.get(`http://localhost:2776/api/order/user/${order.cid}`)
-      .then((res) => {
-        console.log(res.data)
-        setSelectedFiles(res.data)
-      }).catch((err) => {
-        console.log(err)
-      });
+    const myFIle = {
+      id: order.cmd_id,
+      id2: order.c_id
+    }
+
+    axios.post('http://localhost:2776/api/order/upload/files', myFIle).then((res) => {
+      console.log(res.data)
+      setMyFiles(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
   };
 
   const completeOrder = async () => {
@@ -473,32 +478,35 @@ const OptometristOrders = () => {
     }
   };
 
-  // When user clicks upload
-  const handleUpload = async () => {
-    if (!selectedFiles || selectedFiles.length === 0) {
-      alert("Please select files first!");
+  const handleUpload = async (type) => {
+    if (!file) {
+      alert("Please select a file first!");
       return;
     }
 
     const formData = new FormData();
-    for (let i = 0; i < selectedFiles.length; i++) {
-      formData.append("files", selectedFiles[i]);
-    }
-    formData.append("userId", selectedcid);
-    formData.append("type", "fundus"); // or "reports"
+    formData.append("file", file);
+    formData.append("cid", selectedcid);
+    formData.append("cmd_id", selectedccmid);
+    formData.append("type", type);
+    formData.append("file_name", file.name);
+    formData.append("upload_date", formatDate(today));
 
-    try {
-      await axios.post("http://localhost:2776/api/order/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      alert("Files uploaded successfully!");
-    } catch (err) {
-      console.error(err);
-      alert("Upload failed");
+    const response = await fetch("http://localhost:2776/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (response.ok) {
+      alert("File uploaded successfully!");
+    } else {
+      alert("Upload failed!");
     }
   };
 
-
+  // Filter files for each tab
+  const fundusFiles = myFiles.filter((f) => f.type === "Fundus");
+  const otherFiles = myFiles.filter((f) => f.type === "Reports"); // example
 
   return (
     <>
@@ -749,7 +757,7 @@ const OptometristOrders = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -900,7 +908,7 @@ const OptometristOrders = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1016,7 +1024,7 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OD_CYL}
-                                    onChange={(e) => set_SPEC_OD_CYL(e.target.value)}
+                                    onChange={(e) => { set_SPEC_OD_CYL(e.target.value); set_SPEC_RE_OD_CYL(e.target.value) }}
                                   />
                                 </Form.Group>
                               </td>
@@ -1033,7 +1041,7 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OD_AXIS}
-                                    onChange={(e) => set_SPEC_OD_AXIS(e.target.value)}
+                                    onChange={(e) => { set_SPEC_OD_AXIS(e.target.value); set_SPEC_RE_OD_AXIS(e.target.value) }}
                                   />
                                 </Form.Group>
                               </td>
@@ -1050,7 +1058,7 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OD_Prism}
-                                    onChange={(e) => set_SPEC_OD_Prim(e.target.value)}
+                                    onChange={(e) => { set_SPEC_OD_Prim(e.target.value); set_SPEC_RE_OD_Prism(e.target.value) }}
                                   />
                                 </Form.Group>
                               </td>
@@ -1067,7 +1075,7 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OD_Base}
-                                    onChange={(e) => set_SPEC_OD_Base(e.target.value)}
+                                    onChange={(e) => { set_SPEC_OD_Base(e.target.value); set_SPEC_RE_OD_Base(e.target.value) }}
                                   />
                                 </Form.Group>
                               </td>
@@ -1075,7 +1083,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -1084,7 +1092,7 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OD_VA}
-                                    onChange={(e) => set_SPEC_OD_VA(e.target.value)}
+                                    onChange={(e) => { set_SPEC_OD_VA(e.target.value); set_SPEC_RE_OD_VA(e.target.value) }}
                                   />
                                 </Form.Group>
                               </td>
@@ -1175,7 +1183,7 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OS_CYL}
-                                    onChange={(e) => set_SPEC_OS_CYL(e.target.value)}
+                                    onChange={(e) => { set_SPEC_OS_CYL(e.target.value); set_SPEC_RE_OS_CYL(e.target.value) }}
                                   />
                                 </Form.Group>
                               </td>
@@ -1192,7 +1200,7 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OS_AXIS}
-                                    onChange={(e) => set_SPEC_OS_AXIS(e.target.value)}
+                                    onChange={(e) => { set_SPEC_OS_AXIS(e.target.value); set_SPEC_RE_OS_AXIS(e.target.value) }}
                                   />
                                 </Form.Group>
                               </td>
@@ -1209,7 +1217,7 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OS_Prism}
-                                    onChange={(e) => set_SPEC_OS_Prim(e.target.value)}
+                                    onChange={(e) => { set_SPEC_OS_Prim(e.target.value); set_SPEC_RE_OS_Prism(e.target.value) }}
                                   />
                                 </Form.Group>
                               </td>
@@ -1226,7 +1234,7 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OS_Base}
-                                    onChange={(e) => set_SPEC_OS_Base(e.target.value)}
+                                    onChange={(e) => { set_SPEC_OS_Base(e.target.value); set_SPEC_RE_OS_Base(e.target.value) }}
                                   />
                                 </Form.Group>
                               </td>
@@ -1234,7 +1242,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -1243,7 +1251,7 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OS_VA}
-                                    onChange={(e) => set_SPEC_OS_VA(e.target.value)}
+                                    onChange={(e) => { set_SPEC_OS_VA(e.target.value); set_SPEC_RE_OS_VA(e.target.value) }}
                                   />
                                 </Form.Group>
                               </td>
@@ -1300,7 +1308,12 @@ const OptometristOrders = () => {
                               textAlign: 'center'
                             }}
                             value={SPEC_Pro_Add}
-                            onChange={(e) => set_SPEC_Pro_Add(e.target.value)}
+                            onChange={(e) => {
+                              set_SPEC_Pro_Add(e.target.value);
+                              set_SPEC_RE_OD_SPH(Number(SPEC_OD_SPH) - Number(e.target.value));
+                              set_SPEC_RE_OS_SPH(Number(SPEC_OS_SPH) - Number(e.target.value));
+                            }}
+
                           />
                         </Form.Group></Col>
                     </Row>
@@ -1334,7 +1347,7 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    value={Number(SPEC_OD_SPH)-Number(SPEC_Pro_Add)}
+                                    value={SPEC_RE_OD_SPH}
                                     onChange={(e) => set_SPEC_RE_OD_SPH(e.target.value)}
                                   />
                                 </Form.Group>
@@ -1451,7 +1464,7 @@ const OptometristOrders = () => {
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    value={Number(SPEC_OS_SPH)-Number(SPEC_Pro_Add)}
+                                    value={SPEC_RE_OS_SPH}
                                     onChange={(e) => set_SPEC_RE_OS_SPH(e.target.value)}
                                   />
                                 </Form.Group>
@@ -1996,7 +2009,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -2155,7 +2168,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -2485,33 +2498,33 @@ const OptometristOrders = () => {
                     </Row>
                   </Tab>
                   <Tab eventKey="fundus" title="Fundus">
-                    <div>
-                      <input type="file" multiple onChange={handleFileChange} />
-                      <button onClick={handleUpload}>Upload</button>
+                    <input type="file" onChange={handleFileChange} />
+                    <button onClick={() => handleUpload('Fundus')}>Upload</button>
+                    <div className="p-3">
+                      {fundusFiles.length === 0 ? (
+                        <p>No files uploaded for Fundus</p>
+                      ) : (
+                        <ul>
+                          {fundusFiles.map((file) => (
+                            <li key={file.id}>
+                              {file.file_name} - {new Date(file.upload_date).toLocaleDateString()}
+                              <a
+                                href={`http://localhost:2776/uploads/${file.file_name}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ marginLeft: "10px" }}
+                              >
+                                View
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
-                    {/* {selectedFiles.map((file) => (
-                      <div key={file.id}>
-                        {file.file_type.startsWith("image/") ? (
-                          <img
-                            src={`http://localhost:2776/api/order/${file.file_name}`}
-                            alt={file.file_name}
-                            style={{ width: "200px", margin: "10px" }}
-                          />
-                        ) : (
-                          <a
-                            href={`http://localhost:2776/api/order/${file.file_name}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {file.file_name}
-                          </a>
-                        )}
-                      </div>
-                    ))} */}
-
                   </Tab>
                   <Tab eventKey="reports" title="Reports">
-
+                    <input type="file" onChange={handleFileChange} />
+                    <button onClick={() => handleUpload('Reports')}>Upload</button>
                   </Tab>
                 </Tabs>
               </Row>

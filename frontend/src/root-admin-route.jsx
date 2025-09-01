@@ -102,6 +102,18 @@ const root_admin_route = [
 
     ]
   },
+   {
+    path: '/rootadmin/invoice',
+    layout: RootAdminLayout,
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: lazy(() => import('./views/root-admin/invoice'))
+      },
+
+    ]
+  },
   {
     path: '/logoutO',
     layout: Fragment, // no layout needed
@@ -116,7 +128,31 @@ const root_admin_route = [
         }
       }
     ]
-  }
+  },
+ {
+    path: '/rootadmin/invoice/edit',
+    layout: RootAdminLayout,
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: lazy(() => import('./views/root-admin/invoiceedit'))
+      },
+
+    ]
+  },
+   {
+    path: '/rootadmin/invoice/sales',
+    layout: RootAdminLayout,
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: lazy(() => import('./views/root-admin/salesrepots'))
+      },
+
+    ]
+  },
 ];
 
 export default root_admin_route;

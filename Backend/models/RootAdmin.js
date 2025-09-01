@@ -526,6 +526,56 @@ const RootAdmin = {
             callback
         );
     },
+
+    getAllcashier_invoice_details: (callback) => {
+        db.query("select * from optical_software.cashier_invoice_details", callback);
+    },
+    createcashier_invoice_details: (customermeddeatils, callback) => {
+        db.query(
+            "Insert into optical_software.cashier_invoice_details SET ?",
+            customermeddeatils,
+            callback
+        );
+    },
+    updatecashier_invoice_details: (id, customer, callback) => {
+        db.query(
+            "Update optical_software.cashier_invoice_details SET ? where cid_id = ?",
+            [customer, id],
+            callback
+        );
+    },
+    deletecashier_invoice_details: (id, callback) => {
+        db.query(
+            "Delete from optical_software.cashier_invoice_details where cid_id = ? ",
+            [id],
+            callback
+        );
+    },
+
+    getchasiercomplateinvoicetable: (id, callback) => {
+        db.query(
+            "select * from optical_software.cashier_invoice_item_table where ci_id = ?",
+            [id],
+            callback
+        );
+    },
+
+    updatecashier_invoiceTable_details: (id, customer, callback) => {
+        db.query(
+            "Update optical_software.cashier_invoice_item_table SET ? where ciit_id = ?",
+            [customer, id],
+            callback
+        );
+    },
+
+    
+    updatecashier_invoice_date_details: (id, customer, callback) => {
+        db.query(
+            "Update optical_software.cashier_invoice SET ? where ci_id = ?",
+            [customer, id],
+            callback
+        );
+    },
 };
 
 module.exports = RootAdmin;

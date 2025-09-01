@@ -6,7 +6,7 @@ import avatar3 from '../../../assets/images/user/avatar-3.jpg';
 import LOGO from '../../../assets/images/S_LOGO.jpg';
 import axios from 'axios';
 
-const CashierHistory = () => {
+const RootAdminInvoiceEdit = () => {
     const [allUsers, setAllUsers] = useState([]);
     const [invoiceItems, setinvoiceItems] = useState([]);
     const [allPage, setAllPage] = useState(1);
@@ -84,8 +84,8 @@ const CashierHistory = () => {
         })
     }
 
-
-    const handlePrint = () => {
+    
+ const handlePrint = () => {
         const printContents = invoiceRef.current.innerHTML;
         const newWindow = window.open("", "_blank", "width=900,height=1200");
 
@@ -155,7 +155,7 @@ const CashierHistory = () => {
         newWindow.close();
     };
 
-
+    
     return (
         <React.Fragment>
             <Row>
@@ -237,7 +237,28 @@ const CashierHistory = () => {
                         </Tabs>
                     </Card>
                 </Col>
+                {/* ✅ Toggle Edit/Save */}
+                <div className="d-flex justify-content-end mb-2">
+                    {isEditing ? (
+                        <Button variant="success" size="sm" onClick={updateTabele}>
+                            Save
+                        </Button>
+                    ) : (
+                        <Button variant="warning" size="sm" onClick={() => setIsEditing(true)}>
+                            Edit
+                        </Button>
+                    )}
 
+                    {ediedVersion ? (
+                        <Button variant="success" size="sm" onClick={() => setEdiedVersion(false)}>
+                            Original
+                        </Button>
+                    ) : (
+                        <Button variant="warning" size="sm" onClick={() => setEdiedVersion(true)}>
+                            Edited
+                        </Button>
+                    )}
+                </div>
                 {selectedUser && (
                     <Col md={12} className="mt-4">
                         <Card className="shadow p-4">
@@ -393,14 +414,18 @@ const CashierHistory = () => {
                         </Card>
                     </Col>
                 )}
-                <div className="text-end mt-4">
-                    <Button variant="outline-primary" onClick={handlePrint}>
-                        Print
-                    </Button>
-                </div>
+
+                      <div className="text-end mt-4">
+                                <Button variant="outline-primary" onClick={handlePrint}>
+                                    Print
+                                </Button>
+                                <Button variant="outline-primary" >
+                                    Proceed
+                                </Button>
+                            </div>
             </Row>
         </React.Fragment>
     );
 };
 
-export default CashierHistory;
+export default RootAdminInvoiceEdit;
