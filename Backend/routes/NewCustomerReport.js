@@ -30,6 +30,7 @@ router.post("/assitance/second", NewCustomersMedDeatilsController.createAssistan
 router.get("/assitance/second/:id", NewCustomersMedDeatilsController.getBycreateAssistanceSecondCon);
 router.put("/assitance/update/:id", NewCustomersMedDeatilsController.updateStatusAssistacnceSecondCon);
 router.get("/all/optimistric", NewCustomersMedDeatilsController.getAllOptimsitricRecordsCon);
+router.get("/all/broken", NewCustomersMedDeatilsController.getBrokenOrdersCon);
 router.post("/upload/files", NewCustomersMedDeatilsController.getUploadedFilesNameOnlyCon);
 
 

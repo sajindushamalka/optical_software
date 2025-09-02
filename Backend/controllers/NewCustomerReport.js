@@ -268,3 +268,10 @@ exports.getUploadedFilesNameOnlyCon = (req, res) => {
         res.json(result);
     });
 };
+
+exports.getBrokenOrdersCon = (req, res) => {
+    NewCustomersMedDeatilsModel.getBrokenOrders((err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}

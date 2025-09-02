@@ -202,6 +202,13 @@ const NewCustomersMedDeatils = {
             callback
         );
     },
+
+        getBrokenOrders: (callback) => {
+        db.query(
+            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c where c.c_id = a.cid and  a.report_status = 'Pass_to_Prev' ORDER BY a.date DESC;",
+            callback
+        );
+    },
 };
 
 module.exports = NewCustomersMedDeatils;

@@ -43,7 +43,7 @@ const optometrist_routes = [
         path: '*',
         element: lazy(() => import('./views/optometrist/dashboard'))
       },
-     
+
     ]
   },
   {
@@ -55,10 +55,22 @@ const optometrist_routes = [
         path: '*',
         element: lazy(() => import('./views/optometrist/orders/Index'))
       },
-     
+
     ]
   },
-    {
+  {
+    path: '/optometrist/broken',
+    layout: OptometristLayout,
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: lazy(() => import('./views/optometrist/brokenorders/Index'))
+      },
+
+    ]
+  },
+  {
     path: '/optometrist/logout',
     layout: OptometristLayout,
     routes: [
@@ -67,7 +79,7 @@ const optometrist_routes = [
         path: '*',
         element: lazy(() => import('./logout'))
       },
-     
+
     ]
   },
   {
