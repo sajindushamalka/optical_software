@@ -69,33 +69,33 @@ const AssistanceOrder = () => {
     localStorage.setItem("lastDate", todayDate);
     localStorage.setItem("todayNo", 1);
 
-    axios.get('http://localhost:2776/api/root/purposeov').then((res)=>{
+    axios.get('http://localhost:2776/api/root/purposeov').then((res) => {
       setpurposeofvisit(res.data)
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err)
     })
 
-    axios.get('http://localhost:2776/api/root/general').then((res)=>{
+    axios.get('http://localhost:2776/api/root/general').then((res) => {
       setgeneralhealth(res.data)
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err)
     })
 
-    axios.get('http://localhost:2776/api/root/symptoms').then((res)=>{
+    axios.get('http://localhost:2776/api/root/symptoms').then((res) => {
       setsymptoms_list(res.data)
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err)
     })
 
-    axios.get('http://localhost:2776/api/root/occular').then((res)=>{
+    axios.get('http://localhost:2776/api/root/occular').then((res) => {
       setoccularhealth(res.data)
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err)
     })
 
-     axios.get('http://localhost:2776/api/root/typeoflense').then((res)=>{
+    axios.get('http://localhost:2776/api/root/typeoflense').then((res) => {
       settypeofLense(res.data)
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err)
     })
   }, []);
@@ -137,13 +137,17 @@ const AssistanceOrder = () => {
   const [dob1, setDob1] = useState(new Date('2000-01-01'));
   const [age, setAge] = useState(0);
   const [name, setname] = useState('NULL');
+  const [firstName, setfirstName] = useState('NULL');
   const [address, setaddress] = useState('NULL');
+  const [city, setcity] = useState('NULL');
   const [email, setemail] = useState('NULL');
   const [telephone, settelephone] = useState(0);
   const [occupation, setoccupation] = useState('NULL');
   const [mobile2, setmobile2] = useState(0);
+  const [lanMobile, setlanMobile] = useState(0);
   const [nic, setnic] = useState('NULL');
   const [gender, setgender] = useState('NULL');
+  const [titles, settitles] = useState('NULL');
   const [reg_date, setreg_date] = useState(today);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [selectedUserEMail, setSelectedUserEmail] = useState(null);
@@ -728,10 +732,14 @@ const AssistanceOrder = () => {
 
   const submitNewCustomer = () => {
     const ob = {
+      first_name: firstName,
       name,
       email,
       telephone,
       mobile2,
+      lan_phone: lanMobile,
+      town: city,
+      prefix: titles,
       address,
       occupation,
       dob: formatDate(dob1),
@@ -767,7 +775,7 @@ const AssistanceOrder = () => {
     let status = ""
     if (purpose_of_visit == "Broken Spectacle") {
       status = "Pass_to_Prev"
-    }else{
+    } else {
       status = "Pass_to_O"
     }
     const ob = {
@@ -888,14 +896,17 @@ const AssistanceOrder = () => {
                           />
                           # {a.c_id}
                         </span>
+                        <h6 className="m-0 d-inline fw-bold">Name : {a.prefix}</h6>
+                        <h6 className="m-0 d-inline fw-bold">{a.first_name}</h6>
                         <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
-                        <h6 className="m-3 d-inline">{a.email}</h6>
-                        <h6 className="m-3 d-inline">{a.age}</h6>
-                        <h6 className="m-3 d-inline">{a.telephone}</h6>
-                        <h6 className="m-3 d-inline">{a.nic}</h6>
-                        <h6 className="m-3 d-inline">{new Date(a.dob).toLocaleDateString()}</h6>
+                        <h6 className="m-3 d-inline">Email : {a.email}</h6>
+                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
+                        <h6 className="m-3 d-inline">Mobile : {a.telephone || a.lan_phone || a.mobile2}</h6>
+                        <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
+                        <h6 className="m-3 d-inline">DOB : {new Date(a.dob).toLocaleDateString()}</h6>
                         <br />
-                        <h6 className="m-0 d-inline">{a.address}</h6>
+                        <h6 className="m-0 d-inline">Home Address : {a.address}</h6>
+                        <h6 className="m-3 d-inline">City : {a.town}</h6>
                       </div>
                     </div>
                   );
@@ -954,14 +965,17 @@ const AssistanceOrder = () => {
                           />
                           # {a.c_id}
                         </span>
+                        <h6 className="m-0 d-inline fw-bold">Name : {a.prefix}</h6>
+                        <h6 className="m-0 d-inline fw-bold">{a.first_name}</h6>
                         <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
-                        <h6 className="m-3 d-inline">{a.email}</h6>
-                        <h6 className="m-3 d-inline">{a.age}</h6>
-                        <h6 className="m-3 d-inline">{a.telephone}</h6>
-                        <h6 className="m-3 d-inline">{a.nic}</h6>
-                        <h6 className="m-3 d-inline">{new Date(a.dob).toLocaleDateString()}</h6>
+                        <h6 className="m-3 d-inline">Email : {a.email}</h6>
+                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
+                        <h6 className="m-3 d-inline">Mobile : {a.telephone || a.lan_phone || a.mobile2}</h6>
+                        <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
+                        <h6 className="m-3 d-inline">DOB : {new Date(a.dob).toLocaleDateString()}</h6>
                         <br />
-                        <h6 className="m-0 d-inline">{a.address}</h6>
+                        <h6 className="m-0 d-inline">Home Address : {a.address}</h6>
+                        <h6 className="m-3 d-inline">City : {a.town}</h6>
                       </div>
                     </div>
                   );
@@ -1020,14 +1034,17 @@ const AssistanceOrder = () => {
                           />
                           # {a.c_id}
                         </span>
+                        <h6 className="m-0 d-inline fw-bold">Name : {a.prefix}</h6>
+                        <h6 className="m-0 d-inline fw-bold">{a.first_name}</h6>
                         <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
-                        <h6 className="m-3 d-inline">{a.email}</h6>
-                        <h6 className="m-3 d-inline">{a.age}</h6>
-                        <h6 className="m-3 d-inline">{a.telephone}</h6>
-                        <h6 className="m-3 d-inline">{a.nic}</h6>
-                        <h6 className="m-3 d-inline">{new Date(a.dob).toLocaleDateString()}</h6>
+                        <h6 className="m-3 d-inline">Email : {a.email}</h6>
+                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
+                        <h6 className="m-3 d-inline">Mobile : {a.telephone || a.lan_phone || a.mobile2}</h6>
+                        <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
+                        <h6 className="m-3 d-inline">DOB : {new Date(a.dob).toLocaleDateString()}</h6>
                         <br />
-                        <h6 className="m-0 d-inline">{a.address}</h6>
+                        <h6 className="m-0 d-inline">Home Address : {a.address}</h6>
+                        <h6 className="m-3 d-inline">City : {a.town}</h6>
                       </div>
                     </div>
                   );
@@ -1117,26 +1134,34 @@ const AssistanceOrder = () => {
             <Form style={{ color: 'black', paddingTop: 20 }}>
               <Row>
                 <Col md={6}>
-                  <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
-                    <Form.Label>Purpose of visit</Form.Label>
-                    <Form.Select
-                      multiple
-                      onChange={(e) => {
-                        const selectedOptions = Array.from(
-                          e.target.selectedOptions,
-                          (option) => option.value
-                        );
-                        set_purpose_of_visit(selectedOptions.join(", ")); // store as string
-                      }}
-                      value={purpose_of_visit ? purpose_of_visit.split(", ") : []} // split back into array
-                    >
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontWeight: 'bold' }}>Purpose of visit</Form.Label>
+                    <div>
                       {purposeofvisit.map((p) => (
-                        <option key={p.pov_id} value={p.text}>
-                          {p.text}
-                        </option>
+                        <Form.Check
+                          key={p.pov_id}
+                          type="checkbox"
+                          label={p.text}
+                          value={p.text}
+                          checked={purpose_of_visit.includes(p.text)}
+                          onChange={(e) => {
+                            let updated;
+                            if (e.target.checked) {
+                              // Add value
+                              updated = [...purpose_of_visit.split(", ").filter(Boolean), p.text];
+                            } else {
+                              // Remove value
+                              updated = purpose_of_visit
+                                .split(", ")
+                                .filter((val) => val !== p.text);
+                            }
+                            set_purpose_of_visit(updated.join(", "));
+                          }}
+                        />
                       ))}
-                    </Form.Select>
+                    </div>
                   </Form.Group>
+
 
 
                   <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
@@ -1150,21 +1175,34 @@ const AssistanceOrder = () => {
                   </Form.Group>
 
 
-                  <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
-                    <Form.Label>Symptoms</Form.Label>
-                    <Form.Select
-                      multiple
-                      onChange={(e) => {
-                        const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-                        set_symptoms(selectedOptions.join(", "));
-                      }}
-                      value={symptoms ? symptoms.split(", ") : []}
-                    >
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontWeight: 'bold' }}>Symptoms</Form.Label>
+                    <div>
                       {symptoms_list.map((p, i) => (
-                        <option key={i}>{p.text}</option>
+                        <Form.Check
+                          key={i}
+                          type="checkbox"
+                          label={p.text}
+                          value={p.text}
+                          checked={symptoms.includes(p.text)}
+                          onChange={(e) => {
+                            let updated;
+                            if (e.target.checked) {
+                              // Add selected symptom
+                              updated = [...symptoms.split(", ").filter(Boolean), p.text];
+                            } else {
+                              // Remove unselected symptom
+                              updated = symptoms
+                                .split(", ")
+                                .filter((val) => val !== p.text);
+                            }
+                            set_symptoms(updated.join(", "));
+                          }}
+                        />
                       ))}
-                    </Form.Select>
+                    </div>
                   </Form.Group>
+
 
 
                   <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
@@ -1179,7 +1217,7 @@ const AssistanceOrder = () => {
 
 
                   <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
-                    <Form.Label>Medication</Form.Label>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Medication</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Medication"
@@ -1187,23 +1225,41 @@ const AssistanceOrder = () => {
                       onChange={(e) => set_general_health_medication(e.target.value)}
                     />
                   </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Allergies</Form.Label>
+                    <Form.Control type="text" placeholder="Allergies" value={general_health_allergies} onChange={(e) => set_general_health_allergies(e.target.value)} />
+                  </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
-                    <Form.Label> General Health</Form.Label>
-                    <Form.Select
-                      multiple
-                      onChange={(e) => {
-                        const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-                        set_general_health(selectedOptions.join(", "));
-                      }}
-                      value={general_health ? general_health.split(", ") : []}
-                    >
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontWeight: 'bold' }}>General Health</Form.Label>
+                    <div>
                       {generalhealth.map((p, i) => (
-                        <option key={i}>{p.text}</option>
+                        <Form.Check
+                          key={i}
+                          type="checkbox"
+                          label={p.text}
+                          value={p.text}
+                          checked={general_health.includes(p.text)}
+                          onChange={(e) => {
+                            let updated;
+                            if (e.target.checked) {
+                              // Add selected option
+                              updated = [...general_health.split(", ").filter(Boolean), p.text];
+                            } else {
+                              // Remove unselected option
+                              updated = general_health
+                                .split(", ")
+                                .filter((val) => val !== p.text);
+                            }
+                            set_general_health(updated.join(", "));
+                          }}
+                        />
                       ))}
-                    </Form.Select>
+                    </div>
                   </Form.Group>
+
 
 
                   <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
@@ -1217,21 +1273,34 @@ const AssistanceOrder = () => {
                   </Form.Group>
 
 
-                  <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
-                    <Form.Label> Occular Health</Form.Label>
-                    <Form.Select
-                      multiple
-                      onChange={(e) => {
-                        const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-                        set_occular_health(selectedOptions.join(", "));
-                      }}
-                      value={occular_health ? occular_health.split(", ") : []}
-                    >
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontWeight: 'bold' }}>Occular Health</Form.Label>
+                    <div>
                       {occularhealth.map((p, i) => (
-                        <option key={i}>{p.text}</option>
+                        <Form.Check
+                          key={i}
+                          type="checkbox"
+                          label={p.text}
+                          value={p.text}
+                          checked={occular_health.includes(p.text)}
+                          onChange={(e) => {
+                            let updated;
+                            if (e.target.checked) {
+                              // Add selected option
+                              updated = [...occular_health.split(", ").filter(Boolean), p.text];
+                            } else {
+                              // Remove unselected option
+                              updated = occular_health
+                                .split(", ")
+                                .filter((val) => val !== p.text);
+                            }
+                            set_occular_health(updated.join(", "));
+                          }}
+                        />
                       ))}
-                    </Form.Select>
+                    </div>
                   </Form.Group>
+
 
 
                   <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
@@ -1244,11 +1313,6 @@ const AssistanceOrder = () => {
                     />
                   </Form.Group>
 
-
-                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
-                    <Form.Label>Allergies</Form.Label>
-                    <Form.Control type="text" placeholder="Allergies" value={general_health_allergies} onChange={(e) => set_general_health_allergies(e.target.value)} />
-                  </Form.Group>
                 </Col>
               </Row>
               <h6 className="mt-4 fw-bold mb-3">Habitual Rx </h6>
@@ -1930,7 +1994,7 @@ const AssistanceOrder = () => {
                             <Form.Group className="mb-0" controlId="formBasicFloat">
                               <Form.Label>Pro. ADD</Form.Label>
                               <Form.Control
-                                type="number"
+                                type="text"
                                 step="any"
                                 readOnly
                                 style={{
@@ -2450,7 +2514,7 @@ const AssistanceOrder = () => {
                         </Row>
                         <Row>
                           <Col md={4}>
-                            <h6 className="mt-4 fw-bold mb-4">Type of Lenses Used</h6>
+                            <h6 className="mt-4 fw-bold mb-4">Prescribe Spectacle</h6>
                             <Form.Group className="mb-3">
                               <Form.Control
                                 type="text"
@@ -2467,7 +2531,7 @@ const AssistanceOrder = () => {
                             </Form.Group>
                           </Col>
                           <Col md={4}>
-                            <h6 className="mt-4 fw-bold mb-4">Time Period</h6>
+                            <h6 className="mt-4 fw-bold mb-4">_</h6>
                             <Form.Group className="mb-3">
                               <Form.Control
                                 type="text"
@@ -2484,7 +2548,7 @@ const AssistanceOrder = () => {
                             </Form.Group>
                           </Col>
                           <Col md={4}>
-                            <h6 className="mt-4 fw-bold mb-4">More</h6>
+                            <h6 className="mt-4 fw-bold mb-4">Lens Recommendation</h6>
                             <Form.Group className="mb-3">
                               <Form.Control
                                 type="text"
@@ -2499,6 +2563,11 @@ const AssistanceOrder = () => {
                                 value={SPEC_Time_More}
                               />
                             </Form.Group>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                           <h6 className="mt-4 fw-bold mb-4">Remark</h6>
                             <Form.Group className="mt-4" controlId="formBasicFloat">
                               <Form.Control
                                 type="text"
@@ -2512,7 +2581,6 @@ const AssistanceOrder = () => {
                                 value={SPEC_remark}
                               />
                             </Form.Group>
-
                           </Col>
                         </Row>
                       </Tab>
@@ -2626,7 +2694,7 @@ const AssistanceOrder = () => {
                                       {' '}
                                       <Form.Group className="mb-0" controlId="formBasicFloat">
                                         <Form.Control
-                                          type="number"
+                                          type="text"
                                           step="any"
                                           readOnly
                                           style={{
@@ -2785,7 +2853,7 @@ const AssistanceOrder = () => {
                                       {' '}
                                       <Form.Group className="mb-0" controlId="formBasicFloat">
                                         <Form.Control
-                                          type="number"
+                                          type="text"
                                           step="any"
                                           readOnly
                                           style={{
@@ -3672,9 +3740,30 @@ const AssistanceOrder = () => {
           <Form>
             <Container>
               <Row>
-                <Col xs={12} md={6}>
+                <Col xs={12} md={2}>
+                  <Form.Group className="mb-3" controlId="formGender">
+                    <Form.Label>Titles</Form.Label>
+                    <Form.Select onChange={(e) => settitles(e.target.value)}>
+                      <option value="">Select Title</option>
+                      <option value="Mr.">Mr.</option>
+                      <option value="Mrs.">Mrs.</option>
+                      <option value="Miss.">Miss.</option>
+                      <option value="Ms.">Ms.</option>
+                      <option value="Dr.">Dr.</option>
+                      <option value="Prof.">Prof.</option>
+                      <option value="Sir / Dame">Sir / Dame</option>
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+                <Col xs={12} md={5}>
                   <Form.Group className="mb-3">
-                    <Form.Label>Name</Form.Label>
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control type="text" placeholder="Customer Name" onChange={(e) => setfirstName(e.target.value)} />
+                  </Form.Group>
+                </Col>
+                <Col xs={12} md={5}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Last Name</Form.Label>
                     <Form.Control type="text" placeholder="Customer Name" onChange={(e) => setname(e.target.value)} />
                   </Form.Group>
                 </Col>
@@ -3699,15 +3788,30 @@ const AssistanceOrder = () => {
                 </Col>
 
                 <Col xs={12} md={6}>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Lan Mobile</Form.Label>
+                    <Form.Control type="tel" placeholder="011 222 2222" onChange={(e) => setlanMobile(e.target.value)} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
                   <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                    <Form.Label>Home Address</Form.Label>
+                    <Form.Label>Address</Form.Label>
                     <Form.Control as="textarea" rows="3" onChange={(e) => setaddress(e.target.value)} />
                   </Form.Group>
                 </Col>
+
                 <Col xs={12} md={6}>
                   <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                     <Form.Label>Occupation</Form.Label>
                     <Form.Control as="textarea" rows="3" onChange={(e) => setoccupation(e.target.value)} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>City</Form.Label>
+                    <Form.Control type="text" placeholder="City" onChange={(e) => setcity(e.target.value)} />
                   </Form.Group>
                 </Col>
 

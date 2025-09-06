@@ -1265,7 +1265,7 @@ const AssistanceInvoice = () => {
                   <Form.Group className="mb-0" controlId="formBasicFloat">
                     <Form.Label>Pro. ADD</Form.Label>
                     <Form.Control
-                      type="number"
+                      type="text"
                       step="any"
                       style={{
                         width: '',
@@ -1783,21 +1783,24 @@ const AssistanceInvoice = () => {
                   </Table>
                 </Col>
               </Row>
+              <h6 style={{ fontWeight: '600', marginTop: 15 }}>Recommendation</h6>
               <Row style={{ padding: 15, textAlign: 'center' }}>
-                <Col md={3}>
-                  <small className="text-muted d-blockmb-1">Type of Lenses used</small>
+                <Col md={4}>
+                  <small className="text-muted d-blockmb-1">Prescribe Spectacle</small>
                   <h6 className="mb-0">{SPEC_Type_Of_lenses_Used || 'N/A'}</h6>
                 </Col>
-                <Col md={3}>
-                  <small className="text-muted d-blockmb-1">Time Period</small>
+                <Col md={4}>
+                  <small className="text-muted d-blockmb-1">_</small>
                   <h6 className="mb-0">{SPEC_Time_Period || 'N/A'}</h6>
                 </Col>
-                <Col md={3}>
-                  <small className="text-muted d-blockmb-1">More Info</small>
+                <Col md={4}>
+                  <small className="text-muted d-blockmb-1">Lens Recommendatio</small>
                   <h6 className="mb-0">{SPEC_Time_More || 'N/A'}</h6>
                 </Col>
-                <Col md={3}>
-                  <small className="text-muted d-blockmb-1">More Info</small>
+              </Row>
+              <Row>
+                <Col md={12} style={{ padding: 20 }}>
+                  <small className="text-muted d-blockmb-1">Remark</small>
                   <h6 className="mb-0">{SPEC_remark || 'N/A'}</h6>
                 </Col>
               </Row>
@@ -1911,7 +1914,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',

@@ -6,6 +6,7 @@ const router = express.Router();
 
 
 router.put('/cashier/:id',NewCustomersMedDeatilsController.updateStatusCashierStatusCon);
+router.put('/assitacnce/:id',NewCustomersMedDeatilsController.updateAssistanceDetilsCon);
 router.get("/cahsierhi", NewCustomersMedDeatilsController.getCustomerRecForCashierCon);
 router.get("/complate", NewCustomersMedDeatilsController.getCustomerRecForComplateCon);
 router.post('/',NewCustomersMedDeatilsController.createCustomersMedDetails);

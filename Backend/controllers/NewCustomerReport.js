@@ -118,51 +118,51 @@ exports.updateStatusOptimizerCon = (req, res) => {
 }
 
 exports.uploadFiles = (req, res) => {
-  const { userId, type } = req.body;
-  console.log(userId, type)
+    const { userId, type } = req.body;
+    console.log(userId, type)
 
-  if (!req.files || req.files.length === 0) {
-    return res.status(400).json({ message: "No files uploaded" });
-  }
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ message: "No files uploaded" });
+    }
 
-  req.files.forEach((file) => {
-    const fileData = {
-      cid: userId,
-      type,
-      file_name: file.originalname,
-      file_type: file.mimetype,
-      data: file.buffer,
-    };
+    req.files.forEach((file) => {
+        const fileData = {
+            cid: userId,
+            type,
+            file_name: file.originalname,
+            file_type: file.mimetype,
+            data: file.buffer,
+        };
 
-    NewCustomersMedDeatilsModel.saveFile(fileData, (err) => {
-      if (err) console.error("Error saving file:", err);
+        NewCustomersMedDeatilsModel.saveFile(fileData, (err) => {
+            if (err) console.error("Error saving file:", err);
+        });
     });
-  });
 
-  res.json({ message: "Files uploaded successfully" });
+    res.json({ message: "Files uploaded successfully" });
 };
 
 exports.getUserFiles = (req, res) => {
-  const { id } = req.params;
+    const { id } = req.params;
 
-  NewCustomersMedDeatilsModel.getFilesByUser(id, (err, result) => {
-    if (err) return res.status(500).json({ err: err.message });
-    res.json(result);
-  });
+    NewCustomersMedDeatilsModel.getFilesByUser(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.json(result);
+    });
 };
 
 exports.getFileById = (req, res) => {
-  const { fileId } = req.params;
+    const { fileId } = req.params;
 
-  NewCustomersMedDeatilsModel.getFileById(fileId, (err, result) => {
-    if (err) return res.status(500).json({ err: err.message });
-    if (result.length === 0) return res.status(404).json({ message: "File not found" });
+    NewCustomersMedDeatilsModel.getFileById(fileId, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.length === 0) return res.status(404).json({ message: "File not found" });
 
-    const file = result[0];
-    res.setHeader("Content-Type", file.file_type);
-    res.setHeader("Content-Disposition", `attachment; filename=${file.file_name}`);
-    res.send(file.data);
-  });
+        const file = result[0];
+        res.setHeader("Content-Type", file.file_type);
+        res.setHeader("Content-Disposition", `attachment; filename=${file.file_name}`);
+        res.send(file.data);
+    });
 
 }
 
@@ -263,8 +263,8 @@ exports.getAllOptimsitricRecordsCon = (req, res) => {
 exports.getUploadedFilesNameOnlyCon = (req, res) => {
     const i1 = req.body.id;
     const i2 = req.body.id2;
-    NewCustomersMedDeatilsModel.getUploadedFilesNameOnly(i1,i2, (err, result) => {
-         if (err) return res.status(500).json({ error: err.message });
+    NewCustomersMedDeatilsModel.getUploadedFilesNameOnly(i1, i2, (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
         res.json(result);
     });
 };
@@ -273,5 +273,17 @@ exports.getBrokenOrdersCon = (req, res) => {
     NewCustomersMedDeatilsModel.getBrokenOrders((err, result) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json(result);
+    })
+}
+
+
+exports.updateAssistanceDetilsCon = (req, res) => {
+    const { id } = req.params;
+    const updateU = req.body;
+
+    NewCustomersMedDeatilsModel.updateAssistanceDetils(id, updateU, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
     })
 }

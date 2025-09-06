@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Card, Button, CardGroup, Row, Col, Table, Form, Tabs, Tab } from 'react-bootstrap';
+import { Card, Button, CardGroup, Row, Col, Table, Form, Tabs, Tab, Modal, Container } from 'react-bootstrap';
 import axios from 'axios';
 import avatar1 from '../../../assets/images/user/avatar-1.jpg';
 import avatar2 from '../../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../../assets/images/user/avatar-3.jpg';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+
 
 const typeofLense = [
   { id: 1, text: 'Distance only' },
@@ -14,16 +15,37 @@ const typeofLense = [
   { id: 4, text: 'Prograssive' }
 ];
 
+const prescribe_spectacle = [
+  { id: 1, text: 'Constant wear' },
+  { id: 2, text: 'Near Only' },
+  { id: 3, text: 'Distance Only' },
+  { id: 4, text: 'Wear as needed' }
+]
+
 const timepreiod = [
-  { id: 1, text: ' Prescribe Spectacle' },
-  { id: 2, text: 'Review in 3 Months' },
-  { id: 3, text: 'Review in 6 Months' },
-  { id: 4, text: 'Review in 1 Year' }
+  { id: 1, text: 'Refer to an ophthalmologist' },
+  { id: 2, text: 'Retest' },
+  { id: 3, text: 'Review in 3 Months' },
+  { id: 4, text: 'Review in 6 Months' },
+  { id: 5, text: 'Review in 1 Year' },
+  { id: 6, text: 'Other' },
+];
+
+
+const LensRecommendation = [
+  { id: 1, text: 'Single vision' },
+  { id: 2, text: 'Bifocal' },
+  { id: 3, text: 'Progressive' },
+  { id: 4, text: 'Hi index' },
+  { id: 5, text: 'ARC' },
+  { id: 6, text: 'EPG' },
+  { id: 7, text: 'Other' },
 ];
 
 const OptometristOrders = () => {
   const [allOrders, setAllOrders] = useState([]);
   const scrollRef = useRef(null);
+  const [show, setShow] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedccmid, setSelectedccmid] = useState(null);
   const [selectedcid, setSelectedcid] = useState(null);
@@ -125,6 +147,24 @@ const OptometristOrders = () => {
   const [SPECCON_remark, set_SPECCON_Remark] = useState('');
   const [file, setFile] = useState(null);
   const [myFiles, setMyFiles] = useState(['']);
+  const [purposeofvisit, setpurposeofvisit] = useState([]);
+  const [purpose_of_visit, set_purpose_of_visit] = useState('');
+  const [purpose_of_visit_remark, set_purpose_of_visit_remark] = useState('');
+  const [occular_health, set_occular_health] = useState('');
+  const [occular_health_remark, set_occular_health_remark] = useState('');
+  const [general_health, set_general_health] = useState('');
+  const [general_health_medication, set_general_health_medication] = useState('');
+  const [general_health_allergies, set_general_health_allergies] = useState('');
+  const [general_health_remark, set_general_health_remark] = useState('');
+  const [symptoms, set_symptoms] = useState('');
+  const [symptoms_remark, set_symptoms_remark] = useState('');
+  const [type_of_lenses_used, set_type_of_lenses_used] = useState('');
+  const [generalhealth, setgeneralhealth] = useState([]);
+  const [symptoms_list, setsymptoms_list] = useState([]);
+  const [occularhealth, setoccularhealth] = useState([]);
+  const [typeofLense, settypeofLense] = useState([]);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -142,6 +182,37 @@ const OptometristOrders = () => {
       .catch((err) => {
         console.log(err);
       });
+
+
+    axios.get('http://localhost:2776/api/root/purposeov').then((res) => {
+      setpurposeofvisit(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    axios.get('http://localhost:2776/api/root/general').then((res) => {
+      setgeneralhealth(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    axios.get('http://localhost:2776/api/root/symptoms').then((res) => {
+      setsymptoms_list(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    axios.get('http://localhost:2776/api/root/occular').then((res) => {
+      setoccularhealth(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    axios.get('http://localhost:2776/api/root/typeoflense').then((res) => {
+      settypeofLense(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
   }, []);
 
   const scroll = (direction) => {
@@ -168,6 +239,17 @@ const OptometristOrders = () => {
 
   const handleCardClick = (order) => {
     setSelectedOrder(order);
+    set_purpose_of_visit(order.purpose_of_visit);
+    set_purpose_of_visit_remark(order.purpose_of_visit_remark);
+    set_occular_health(order.occular_health);
+    set_occular_health_remark(order.occular_health_remark);
+    set_general_health(order.general_health);
+    set_general_health_medication(order.general_health_medication);
+    set_general_health_allergies(order.general_health_allergies);
+    set_general_health_remark(order.general_health_remark);
+    set_symptoms(order.symptoms);
+    set_symptoms_remark(order.symptoms_remark);
+    set_type_of_lenses_used(order.type_of_lenses_used);
     set_HABI_OD_SPH(order.HABI_OD_SPH)
     set_HABI_OD_CYL(order.HABI_OD_CYL)
     set_HABI_OD_AXIS(order.HABI_OD_AXIS)
@@ -424,7 +506,7 @@ const OptometristOrders = () => {
         SPEC_OD_Prism,
         SPEC_OD_Base,
         SPEC_OD_VA,
-        SPEC_OD_near_full,
+        SPEC_OD_near_full: "+ Add " + SPEC_OD_near_full,
         SPEC_OD_near_va,
         SPEC_OS_SPH,
         SPEC_OS_CYL,
@@ -432,7 +514,7 @@ const OptometristOrders = () => {
         SPEC_OS_Prism,
         SPEC_OS_Base,
         SPEC_OS_VA,
-        SPEC_OS_near_full,
+        SPEC_OS_near_full: "+ Add " + SPEC_OS_near_full,
         SPEC_OS_near_va,
         SPEC_Pro_Add,
         SPEC_RE_OD_SPH,
@@ -453,8 +535,8 @@ const OptometristOrders = () => {
         SPEC_UNA_NEAR_OS,
         SPEC_Pin_OD,
         SPEC_Pin_OS,
-        SPEC_IOP_OD,
-        SPEC_IOP_OS,
+        SPEC_IOP_OD: SPEC_IOP_OD + " mmHG",
+        SPEC_IOP_OS: SPEC_IOP_OS + " mmHG",
         SPEC_RED_OD_O,
         SPEC_RED_OD_T,
         SPEC_RED_OS_O,
@@ -508,6 +590,30 @@ const OptometristOrders = () => {
   const fundusFiles = myFiles.filter((f) => f.type === "Fundus");
   const otherFiles = myFiles.filter((f) => f.type === "Reports"); // example
 
+  const UpdateAssistanceDetails = () => {
+    //selectedccmid
+    const ob = {
+      purpose_of_visit,
+      purpose_of_visit_remark,
+      occular_health,
+      occular_health_remark,
+      general_health,
+      general_health_allergies,
+      general_health_medication,
+      general_health_remark,
+      symptoms,
+      symptoms_remark,
+      type_of_lenses_used
+    }
+
+    axios.put(`http://localhost:2776/api/order/assitacnce/${selectedccmid}`, ob).then((res) => {
+      console.log(res.data)
+      toast.success("Details Updated")
+    }).catch((err) => {
+      toast.error("Error!")
+    })
+  }
+
   return (
     <>
       <div style={{ position: 'relative' }}>
@@ -557,7 +663,7 @@ const OptometristOrders = () => {
 
               <Card.Body>
                 <Card.Title style={{ fontSize: '0.9rem', color: '#6c757d' }}>#Token {o.cmd_id || 'ID'}</Card.Title>
-                <Card.Title style={{ fontSize: '1.1rem', fontWeight: '600' }}>{o.name || 'Name'}</Card.Title>
+                <Card.Title style={{ fontSize: '1.1rem', fontWeight: '600' }}>{o.prefix || 'Prefix'} {o.first_name || 'FirstName'} {o.name || 'LastName'}</Card.Title>
                 <Card.Text style={{ fontSize: '0.9rem' }}>
                   {o.email || 'N/A'} <br />
                   {o.mobile2 || o.telephone || 'N/A'}
@@ -586,13 +692,28 @@ const OptometristOrders = () => {
           }}
         >
           <Row>
-            <h5 className="mb-4 text-primary" style={{ fontWeight: '600' }}>
+            {/* <h5 className="mb-4 text-primary" style={{ fontWeight: '600' }}>
               👤 Basic Information
-            </h5>
+            </h5> */}
+            <Col>
+              <h5 className="mb-4 text-primary" style={{ fontWeight: "600" }}>
+                👤 Basic Information
+              </h5>
+            </Col>
+            <Col className="text-end">
+              <Button
+                variant="outline-primary"
+                size="sm"
+                className="px-3"
+                onClick={handleShow}
+              >
+                Edit
+              </Button>
+            </Col>
             <Row className="mt-1">
               <Col md={3} className="mb-3">
                 <small className="text-muted">Name</small>
-                <h6 className="mb-0">{selectedOrder.name || 'N/A'}</h6>
+                <h6 className="mb-0">{selectedOrder.prefix || 'N/A'} {selectedOrder.name || 'N/A'}</h6>
               </Col>
 
               <Col md={3} className="mb-3">
@@ -999,7 +1120,7 @@ const OptometristOrders = () => {
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -1015,7 +1136,7 @@ const OptometristOrders = () => {
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -1032,7 +1153,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -1049,7 +1170,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -1066,7 +1187,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -1100,21 +1221,33 @@ const OptometristOrders = () => {
                             <tr className="text-center">
                               <td className="fw-bold">Near</td>
                               <td colSpan="5" className="bg-light">
-                                <Form.Group className="mb-0" controlId="formBasicFloat">
+                                <Form.Group
+                                  className="mb-0 d-flex align-items-center"
+                                  controlId="formBasicFloat"
+                                >
+                                  <span
+                                    style={{
+                                      marginRight: "6px",
+                                      cursor: "pointer"
+                                    }}
+                                  >
+                                    + Add
+                                  </span>
                                   <Form.Control
                                     type="text"
                                     step="any"
                                     style={{
-                                      border: 'none',
-                                      width: '',
-                                      padding: '4px 6px',
-                                      textAlign: 'center'
+                                      border: "none",
+                                      padding: "4px 6px",
+                                      textAlign: "center",
+                                      flex: 1, // input takes remaining space
                                     }}
                                     value={SPEC_OD_near_full}
-                                    onChange={(e) => set_SPEC_OD_type_near_full(e.target.value)}
+                                    onChange={(e) => { set_SPEC_OD_type_near_full(e.target.value); set_SPEC_RE_OD_SPH(Number(SPEC_OD_SPH) + Number(e.target.value)); }}
                                   />
                                 </Form.Group>
                               </td>
+
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
@@ -1158,7 +1291,7 @@ const OptometristOrders = () => {
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -1174,7 +1307,7 @@ const OptometristOrders = () => {
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -1191,7 +1324,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -1208,7 +1341,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -1225,7 +1358,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -1259,21 +1392,28 @@ const OptometristOrders = () => {
                             <tr className="text-center">
                               <td className="fw-bold">Near</td>
                               <td colSpan="5" className="bg-light">
-                                <Form.Group className="mb-0" controlId="formBasicFloat">
+                                <Form.Group
+                                  className="mb-0 d-flex align-items-center"
+                                  controlId="formBasicFloat"
+                                >
+                                  <span style={{ marginRight: "6px", cursor: "pointer" }}>
+                                    + Add
+                                  </span>
                                   <Form.Control
                                     type="text"
                                     step="any"
                                     style={{
-                                      border: 'none',
-                                      width: '',
-                                      padding: '4px 6px',
-                                      textAlign: 'center'
+                                      border: "none",
+                                      padding: "4px 6px",
+                                      textAlign: "center",
+                                      flex: 1, // make input take remaining space
                                     }}
                                     value={SPEC_OS_near_full}
-                                    onChange={(e) => set_SPEC_OS_type_near_full(e.target.value)}
+                                    onChange={(e) => { set_SPEC_OS_type_near_full(e.target.value); set_SPEC_RE_OS_SPH(Number(SPEC_OS_SPH) + Number(e.target.value)) }}
                                   />
                                 </Form.Group>
                               </td>
+
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
@@ -1300,7 +1440,7 @@ const OptometristOrders = () => {
                         <Form.Group className="mb-0" controlId="formBasicFloat">
                           <Form.Label>Pro. ADD</Form.Label>
                           <Form.Control
-                            type="number"
+                            type="text"
                             step="any"
                             style={{
                               width: '',
@@ -1309,9 +1449,8 @@ const OptometristOrders = () => {
                             }}
                             value={SPEC_Pro_Add}
                             onChange={(e) => {
-                              set_SPEC_Pro_Add(e.target.value);
-                              set_SPEC_RE_OD_SPH(Number(SPEC_OD_SPH) - Number(e.target.value));
-                              set_SPEC_RE_OS_SPH(Number(SPEC_OS_SPH) - Number(e.target.value));
+                              set_SPEC_Pro_Add(e.target.value)
+
                             }}
 
                           />
@@ -1703,40 +1842,62 @@ const OptometristOrders = () => {
                             <tr>
                               <td>OD</td>
                               <td>
-                                <Form.Group className="mb-0" controlId="formBasicFloat">
+                                <Form.Group
+                                  className="mb-0 d-flex align-items-center"
+                                  controlId="formBasicFloat"
+                                >
                                   <Form.Control
                                     type="text"
                                     step="any"
                                     style={{
-                                      border: 'none',
-                                      width: '',
-                                      padding: '4px 6px',
-                                      textAlign: 'center'
+                                      border: "none",
+                                      padding: "4px 6px",
+                                      textAlign: "center",
+                                      flex: 1, // input takes remaining space
                                     }}
                                     value={SPEC_IOP_OD}
                                     onChange={(e) => set_SPEC_IOP_OD(e.target.value)}
                                   />
+                                  <span
+                                    style={{
+                                      cursor: "pointer"
+                                    }}
+                                  >
+                                    mmHG
+                                  </span>
                                 </Form.Group>
                               </td>
+
                             </tr>
                             <tr>
                               <td>OS</td>
                               <td>
-                                <Form.Group className="mb-0" controlId="formBasicFloat">
+                                <Form.Group
+                                  className="mb-0 d-flex align-items-center"
+                                  controlId="formBasicFloat"
+                                >
                                   <Form.Control
                                     type="text"
                                     step="any"
                                     style={{
-                                      border: 'none',
-                                      width: '',
-                                      padding: '4px 6px',
-                                      textAlign: 'center'
+                                      border: "none",
+                                      padding: "4px 6px",
+                                      textAlign: "center",
+                                      flex: 1, // input takes remaining space
                                     }}
                                     value={SPEC_IOP_OS}
                                     onChange={(e) => set_SPEC_IOP_OS(e.target.value)}
                                   />
+                                  <span
+                                    style={{
+                                      cursor: "pointer"
+                                    }}
+                                  >
+                                    mmHG
+                                  </span>
                                 </Form.Group>
                               </td>
+
                             </tr>
                           </tbody>
                         </Table>
@@ -1745,7 +1906,7 @@ const OptometristOrders = () => {
                         <Table bordered hover responsive className="table-sm align-middle shadow-sm">
                           <thead className="bg-primary text-white text-center">
                             <tr>
-                              <th colSpan={3}>Reading</th>
+                              <th colSpan={3}>K Reading</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -1825,60 +1986,66 @@ const OptometristOrders = () => {
                     </Row>
                     <Row>
                       <Col md={4}>
-                        <h6 className="mt-4 fw-bold mb-4">Type of Lenses Used</h6>
+                        <h6 className="mt-4 fw-bold mb-4">Prescribe Spectacle</h6>
                         <Form.Group className="mb-3">
-                          {typeofLense.map((t) => (
+                          {prescribe_spectacle.map((t) => (
                             <Form.Check
                               key={t.id}
                               type="radio"
                               label={t.text}
-                              id={`radio-${t.text}`}
-                              className="custom-radio"
-                              value={SPEC_Type_Of_lenses_Used}
+                              id={`radio-${t.id}`}
+                              name="spec-type-of-lenses" // 👈 ensures only one can be selected
+                              value={t.text} // 👈 give each option its own value
+                              checked={SPEC_Type_Of_lenses_Used === t.text} // 👈 keeps selection highlighted
                               onChange={(e) => set_SPEC_Type_Of_lenses_Used(e.target.value)}
                             />
                           ))}
                         </Form.Group>
+
                       </Col>
                       <Col md={4}>
-                        <h6 className="mt-4 fw-bold mb-4">Time Period</h6>
+                        <h6 className="mt-4 fw-bold mb-4"></h6>
                         <Form.Group className="mb-3">
                           {timepreiod.map((t) => (
                             <Form.Check
                               key={t.id}
                               type="radio"
                               label={t.text}
-                              id={`radio-${t.text}`}
-                              value={SPEC_Time_Period}
-                              className="custom-radio"
-                              onChange={(e) => set_SPEC_Time_Period(e.target.value)}
+                              id={`radio-${t.id}`}
+                              name="time-period" // 👈 groups radios together
+                              value={t.text}     // 👈 each option has its own value
+                              checked={SPEC_Time_Period === t.text} // 👈 highlights selected
+                              onChange={(e) => set_SPEC_Time_Period(e.target.value)} // 👈 saves to state
                             />
                           ))}
                         </Form.Group>
+
                       </Col>
                       <Col md={4}>
-                        <h6 className="mt-4 fw-bold mb-4">More</h6>
+                        <h6 className="mt-4 fw-bold mb-4">Lens Recommendation</h6>
                         <Form.Group className="mb-3">
-                          <Form.Check
-                            type="radio"
-                            label="Refer to an ophthalmologist"
-                            id="1"
-                            value="Refer to an ophthalmologist"
-                            checked={selectedOption === 'Refer to an ophthalmologist'}
-                            onChange={handleOptionChange}
-                          />
-                          <Form.Check
-                            type="radio"
-                            label="Retest"
-                            id="2"
-                            value="Retest"
-                            checked={selectedOption === 'Retest'}
-                            onChange={handleOptionChange}
-                          />
+                          {LensRecommendation.map((t) => (
+                            <Form.Check
+                              key={t.id}
+                              type="radio"
+                              label={t.text}
+                              id={`radio-${t.id}`}
+                              name="lens-recommendation"   // 👈 group radios together
+                              value={t.text}               // 👈 set the real option value
+                              checked={SPEC_Time_More === t.text} // 👈 control the selection
+                              onChange={(e) => set_SPEC_Time_More(e.target.value)} // 👈 save to state
+                            />
+                          ))}
                         </Form.Group>
+
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
                         <Form.Group className="mt-4" controlId="formBasicFloat">
                           <Form.Control
-                            type="text"
+                            as="textarea"
+                            rows="6"
                             step="any"
                             style={{
                               width: '',
@@ -1889,7 +2056,6 @@ const OptometristOrders = () => {
                             onChange={(e) => set_SPEC_remark(e.target.value)}
                           />
                         </Form.Group>
-
                       </Col>
                     </Row>
                     <Row>
@@ -2540,6 +2706,223 @@ const OptometristOrders = () => {
           </Row>
         </Card>
       )}
+
+      <Modal show={show} onHide={handleClose} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Update Assistance Entered Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Container>
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontWeight: 'bold' }}>Purpose of visit</Form.Label>
+                    <div>
+                      {purposeofvisit.map((p) => (
+                        <Form.Check
+                          key={p.pov_id}
+                          type="checkbox"
+                          label={p.text}
+                          value={p.text}
+                          checked={purpose_of_visit.includes(p.text)}
+                          onChange={(e) => {
+                            let updated;
+                            if (e.target.checked) {
+                              // Add value
+                              updated = [...purpose_of_visit.split(", ").filter(Boolean), p.text];
+                            } else {
+                              // Remove value
+                              updated = purpose_of_visit
+                                .split(", ")
+                                .filter((val) => val !== p.text);
+                            }
+                            set_purpose_of_visit(updated.join(", "));
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </Form.Group>
+
+
+
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label>Remark</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter Purpose of Visit Remarks"
+                      value={purpose_of_visit_remark}
+                      onChange={(e) => set_purpose_of_visit_remark(e.target.value)}
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontWeight: 'bold' }}>Symptoms</Form.Label>
+                    <div>
+                      {symptoms_list.map((p, i) => (
+                        <Form.Check
+                          key={i}
+                          type="checkbox"
+                          label={p.text}
+                          value={p.text}
+                          checked={symptoms.includes(p.text)}
+                          onChange={(e) => {
+                            let updated;
+                            if (e.target.checked) {
+                              // Add selected symptom
+                              updated = [...symptoms.split(", ").filter(Boolean), p.text];
+                            } else {
+                              // Remove unselected symptom
+                              updated = symptoms
+                                .split(", ")
+                                .filter((val) => val !== p.text);
+                            }
+                            set_symptoms(updated.join(", "));
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </Form.Group>
+
+
+
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label>Remark</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter Symptoms Remarks"
+                      value={symptoms_remark}
+                      onChange={(e) => set_symptoms_remark(e.target.value)}
+                    />
+                  </Form.Group>
+
+
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Medication</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Medication"
+                      value={general_health_medication}
+                      onChange={(e) => set_general_health_medication(e.target.value)}
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Allergies</Form.Label>
+                    <Form.Control type="text" placeholder="Allergies" value={general_health_allergies} onChange={(e) => set_general_health_allergies(e.target.value)} />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontWeight: 'bold' }}>General Health</Form.Label>
+                    <div>
+                      {generalhealth.map((p, i) => (
+                        <Form.Check
+                          key={i}
+                          type="checkbox"
+                          label={p.text}
+                          value={p.text}
+                          checked={general_health.includes(p.text)}
+                          onChange={(e) => {
+                            let updated;
+                            if (e.target.checked) {
+                              // Add selected option
+                              updated = [...general_health.split(", ").filter(Boolean), p.text];
+                            } else {
+                              // Remove unselected option
+                              updated = general_health
+                                .split(", ")
+                                .filter((val) => val !== p.text);
+                            }
+                            set_general_health(updated.join(", "));
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </Form.Group>
+
+
+
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label>Remark</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter General Health Remarks"
+                      value={general_health_remark}
+                      onChange={(e) => set_general_health_remark(e.target.value)}
+                    />
+                  </Form.Group>
+
+
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontWeight: 'bold' }}>Occular Health</Form.Label>
+                    <div>
+                      {occularhealth.map((p, i) => (
+                        <Form.Check
+                          key={i}
+                          type="checkbox"
+                          label={p.text}
+                          value={p.text}
+                          checked={occular_health.includes(p.text)}
+                          onChange={(e) => {
+                            let updated;
+                            if (e.target.checked) {
+                              // Add selected option
+                              updated = [...occular_health.split(", ").filter(Boolean), p.text];
+                            } else {
+                              // Remove unselected option
+                              updated = occular_health
+                                .split(", ")
+                                .filter((val) => val !== p.text);
+                            }
+                            set_occular_health(updated.join(", "));
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </Form.Group>
+
+
+
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label>Remark</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter Occular Health Remarks"
+                      value={occular_health_remark}
+                      onChange={(e) => set_occular_health_remark(e.target.value)}
+                    />
+                  </Form.Group>
+                  <h6 className="mt-4 fw-bold mb-4">Type of Lenses Used</h6>
+                  <Form.Group className="mb-3">
+                    {typeofLense.map((t) => (
+                      <Form.Check
+                        key={t.tol_id}
+                        inline
+                        type="radio"
+                        label={t.text} // show each lens type
+                        id={`radio-${t.text}`}
+                        value={t.text}
+                        className="custom-radio"
+                        checked={type_of_lenses_used === t.text} // mark correct one as selected
+                        onChange={(e) => set_type_of_lenses_used(e.target.value)}
+                      />
+                    ))}
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Container>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={UpdateAssistanceDetails}>
+            Update
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

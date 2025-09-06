@@ -369,8 +369,6 @@ const CashierInvoice = () => {
                   </Form.Group>
                 )}
               </div>
-
-
             </>
           )}
 
@@ -498,13 +496,15 @@ const CashierInvoice = () => {
                     {selectedItems.map((item, index) => (
                       <tr key={index}>
                         <td>{item.title}</td>
+
+                        {/* QTY Column */}
                         <td>
                           <Form.Control
                             type="number"
                             min="1"
                             value={item.qty}
                             onChange={(e) => {
-                              const newQty = parseInt(e.target.value);
+                              const newQty = parseInt(e.target.value) || 1;
                               setSelectedItems((prev) =>
                                 prev.map((p, i) => (i === index ? { ...p, qty: newQty } : p))
                               );
@@ -512,45 +512,79 @@ const CashierInvoice = () => {
                             style={{ width: "80px", textAlign: "center" }}
                           />
                         </td>
-                        <td>Rs.{item.price}</td>
+
+                        {/* Price Column (Editable) */}
+                        <td>
+                          <Form.Control
+                            type="number"
+                            min="0"
+                            value={item.price}
+                            onChange={(e) => {
+                              const newPrice = parseFloat(e.target.value) || 0;
+                              setSelectedItems((prev) =>
+                                prev.map((p, i) => (i === index ? { ...p, price: newPrice } : p))
+                              );
+                            }}
+                            style={{ width: "100px", textAlign: "center" }}
+                          />
+                        </td>
+
+                        {/* Total Column */}
                         <td>Rs.{item.price * item.qty}</td>
                       </tr>
                     ))}
-                    <tr style={{ backgroundColor: '#E3E3E3', fontWeight: "bold" }}>
-                      <td style={{ backgroundColor: '#E3E3E3' }}>Total</td>
+
+                    {/* Totals Row */}
+                    <tr style={{ backgroundColor: "#E3E3E3", fontWeight: "bold" }}>
+                      <td style={{ backgroundColor: "#E3E3E3" }}>Total</td>
 
                       {/* Total Quantity */}
-                      <td style={{ backgroundColor: '#E3E3E3' }}>
+                      <td style={{ backgroundColor: "#E3E3E3" }}>
                         {selectedItems.reduce((sum, item) => sum + item.qty, 0)}
                       </td>
 
                       {/* Total Price */}
-                      <td style={{ backgroundColor: '#E3E3E3' }}>
-                        Rs.{selectedItems.reduce((sum, item) => sum + item.qty * item.price, 0)}
+                      <td style={{ backgroundColor: "#E3E3E3" }}>
+                        Rs.
+                        {selectedItems.reduce(
+                          (sum, item) => sum + item.qty * item.price,
+                          0
+                        )}
                       </td>
-                      <td style={{ backgroundColor: '#E3E3E3' }}>
-                        Rs.{selectedItems.reduce((sum, item) => sum + item.qty * item.price, 0)}
+
+                      <td style={{ backgroundColor: "#E3E3E3" }}>
+                        Rs.
+                        {selectedItems.reduce(
+                          (sum, item) => sum + item.qty * item.price,
+                          0
+                        )}
                       </td>
                     </tr>
-                    {/* Show Advance row if paymentType === 'advance' */}
+
+                    {/* Show Advance rows if paymentType === 'advance' */}
                     {paymentType === "advance" && (
                       <>
                         <tr>
-                          <td colSpan="3">Advance Paid / Payment Method : {paymentMethod}</td>
+                          <td colSpan="3">
+                            Advance Paid / Payment Method : {paymentMethod}
+                          </td>
                           <td>Rs.{advanceAmount}</td>
                         </tr>
                         <tr>
                           <td colSpan="3">Remaining Payment</td>
                           <td>
-                            Rs.{selectedItems.reduce((sum, item) => sum + item.qty * item.price, 0) - advanceAmount}
+                            Rs.
+                            {selectedItems.reduce(
+                              (sum, item) => sum + item.qty * item.price,
+                              0
+                            ) - advanceAmount}
                           </td>
                         </tr>
                       </>
                     )}
-
                   </tbody>
-
                 </Table>
+
               </div>
 
               <div className="text-end mt-4">
