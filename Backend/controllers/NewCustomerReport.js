@@ -287,3 +287,14 @@ exports.updateAssistanceDetilsCon = (req, res) => {
         res.json(this.updateU)
     })
 }
+
+exports.updateCustomeDetailsCon = (req, res) => {
+    const { id } = req.params;
+    const updateU = req.body;
+
+    NewCustomersMedDeatilsModel.updateCustomeDetails(id, updateU, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}

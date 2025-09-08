@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import { BsCalendarDate } from "react-icons/bs";
+import { title } from 'process';
 
 const AssistanceOrder = () => {
   const [allUsers, setAllUsers] = useState([]);
@@ -34,7 +35,8 @@ const AssistanceOrder = () => {
 
   const [prevOrders, setPrevOrders] = useState([]);
   const [todayNo, setTodayNo] = useState(1);
-
+  const [showEditModal2, setShowEditModal2] = useState(false);
+  const [editData, setEditData] = useState(''); // copy current customer data
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -759,7 +761,7 @@ const AssistanceOrder = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error('Submission failed. Please try again.');
+        toast.error('Submission failed. Email is Required, Please try again.');
       });
   };
 
@@ -822,7 +824,30 @@ const AssistanceOrder = () => {
     })
   }
 
-  console.log(prevOrders)
+  const handleChange2 = (e) => {
+    const { name, value } = e.target;
+    setEditData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Handle save (you can call API here)
+  const handleSave = () => {
+    console.log("Updated customer data:", editData);
+    const payload = {
+      ...editData,
+      dob: formatDate(editData.dob),
+      reg_date: formatDate(editData.reg_date),
+    };
+
+    axios.put(`http://localhost:2776/api/order/customer/${editData.c_id}`, payload).then((res) => {
+      console.log(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+  };
+
 
   return (
     <React.Fragment>
@@ -1045,6 +1070,14 @@ const AssistanceOrder = () => {
                         <br />
                         <h6 className="m-0 d-inline">Home Address : {a.address}</h6>
                         <h6 className="m-3 d-inline">City : {a.town}</h6>
+                        <Button
+                          variant="warning"
+                          size="sm"
+                          className="ms-3"
+                          onClick={() => { setShowEditModal2(true); setEditData(a) }}
+                        >
+                          ✏️ Edit
+                        </Button>
                       </div>
                     </div>
                   );
@@ -1340,7 +1373,7 @@ const AssistanceOrder = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1356,7 +1389,7 @@ const AssistanceOrder = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1373,7 +1406,7 @@ const AssistanceOrder = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1390,7 +1423,7 @@ const AssistanceOrder = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1407,7 +1440,7 @@ const AssistanceOrder = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1499,7 +1532,7 @@ const AssistanceOrder = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1515,7 +1548,7 @@ const AssistanceOrder = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1532,7 +1565,7 @@ const AssistanceOrder = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1549,7 +1582,7 @@ const AssistanceOrder = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1566,7 +1599,7 @@ const AssistanceOrder = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -2567,7 +2600,7 @@ const AssistanceOrder = () => {
                         </Row>
                         <Row>
                           <Col>
-                           <h6 className="mt-4 fw-bold mb-4">Remark</h6>
+                            <h6 className="mt-4 fw-bold mb-4">Remark</h6>
                             <Form.Group className="mt-4" controlId="formBasicFloat">
                               <Form.Control
                                 type="text"
@@ -3743,16 +3776,7 @@ const AssistanceOrder = () => {
                 <Col xs={12} md={2}>
                   <Form.Group className="mb-3" controlId="formGender">
                     <Form.Label>Titles</Form.Label>
-                    <Form.Select onChange={(e) => settitles(e.target.value)}>
-                      <option value="">Select Title</option>
-                      <option value="Mr.">Mr.</option>
-                      <option value="Mrs.">Mrs.</option>
-                      <option value="Miss.">Miss.</option>
-                      <option value="Ms.">Ms.</option>
-                      <option value="Dr.">Dr.</option>
-                      <option value="Prof.">Prof.</option>
-                      <option value="Sir / Dame">Sir / Dame</option>
-                    </Form.Select>
+                    <Form.Control type="text" value={titles} />
                   </Form.Group>
                 </Col>
                 <Col xs={12} md={5}>
@@ -3765,6 +3789,25 @@ const AssistanceOrder = () => {
                   <Form.Group className="mb-3">
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control type="text" placeholder="Customer Name" onChange={(e) => setname(e.target.value)} />
+                  </Form.Group>
+                </Col>
+                <Col xs={12} md={12}>
+                  <Form.Group className="mb-3" controlId="formGender">
+                    <Form.Label>Titles</Form.Label>
+                    <div>
+                      {["Mr.", "Mrs.", "Miss.", "Ms.", "Dr.", "Prof.", "Sir / Dame"].map((title, i) => (
+                        <Form.Check
+                          key={i}
+                          type="radio"
+                          label={title}
+                          name="titles" // group name so only one can be selected
+                          value={title}
+                          checked={titles === title}
+                          onChange={(e) => settitles(e.target.value)}
+                          inline // keeps them in a row
+                        />
+                      ))}
+                    </div>
                   </Form.Group>
                 </Col>
                 <Col xs={12} md={6}>
@@ -3789,7 +3832,7 @@ const AssistanceOrder = () => {
 
                 <Col xs={12} md={6}>
                   <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Lan Mobile</Form.Label>
+                    <Form.Label>Landline</Form.Label>
                     <Form.Control type="tel" placeholder="011 222 2222" onChange={(e) => setlanMobile(e.target.value)} />
                   </Form.Group>
                 </Col>
@@ -3838,14 +3881,23 @@ const AssistanceOrder = () => {
                 <Col xs={12} md={6}>
                   <Form.Group className="mb-3" controlId="formGender">
                     <Form.Label>Gender</Form.Label>
-                    <Form.Select onChange={(e) => setgender(e.target.value)}>
-                      <option value="">Select Gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
-                    </Form.Select>
+                    <div>
+                      {["male", "female", "other"].map((g, i) => (
+                        <Form.Check
+                          key={i}
+                          type="radio"
+                          label={g.charAt(0).toUpperCase() + g.slice(1)}
+                          name="gender" // 👈 ensures only one can be selected
+                          value={g}
+                          checked={gender === g}
+                          onChange={(e) => setgender(e.target.value)}
+                          inline // 👈 makes them appear side by side
+                        />
+                      ))}
+                    </div>
                   </Form.Group>
                 </Col>
+
               </Row>
             </Container>
           </Form>
@@ -3856,6 +3908,148 @@ const AssistanceOrder = () => {
           </Button>
           <Button variant="primary" onClick={submitNewCustomer}>
             Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Edit Modal */}
+      <Modal show={showEditModal2} onHide={() => setShowEditModal2(false)} centered size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Customer Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+
+          <Form>
+            <Container>
+              <Row>
+                <Col xs={12} md={2}>
+                  <Form.Group className="mb-3" controlId="formTitlesText">
+                    <Form.Label>Titles</Form.Label>
+                    <Form.Control type="text" name="titles" value={editData.titles || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={5}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control type="text" name="first_name" value={editData.first_name || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={5}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Last Name</Form.Label>
+                    <Form.Control type="text" name="name" value={editData.name || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={12}>
+                  <Form.Group className="mb-3" controlId="formTitlesRadio">
+                    <Form.Label>Titles</Form.Label>
+                    <div>
+                      {["Mr.", "Mrs.", "Miss.", "Ms.", "Dr.", "Prof.", "Sir / Dame"].map((title, i) => (
+                        <Form.Check
+                          key={i}
+                          type="radio"
+                          label={title}
+                          name="prefix" // maps to editData.prefix
+                          value={title}
+                          checked={editData.prefix === title}
+                          onChange={handleChange2}
+                          inline
+                        />
+                      ))}
+                    </div>
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="email" name="email" value={editData.email || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Mobile 1</Form.Label>
+                    <Form.Control type="tel" name="telephone" value={editData.telephone || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Mobile 2</Form.Label>
+                    <Form.Control type="tel" name="mobile2" value={editData.mobile2 || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Landline</Form.Label>
+                    <Form.Control type="tel" name="lan_phone" value={editData.lan_phone || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control as="textarea" rows="3" name="address" value={editData.address || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Occupation</Form.Label>
+                    <Form.Control as="textarea" rows="3" name="occupation" value={editData.occupation || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>City</Form.Label>
+                    <Form.Control type="text" name="town" value={editData.town || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>NIC</Form.Label>
+                    <Form.Control type="text" name="nic" value={editData.nic || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Gender</Form.Label>
+                    <div>
+                      {["male", "female", "other"].map((g, i) => (
+                        <Form.Check
+                          key={i}
+                          type="radio"
+                          label={g.charAt(0).toUpperCase() + g.slice(1)}
+                          name="gender"
+                          value={g}
+                          checked={editData.gender === g}
+                          onChange={handleChange2}
+                          inline
+                        />
+                      ))}
+                    </div>
+                  </Form.Group>
+                </Col>
+
+              </Row>
+            </Container>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEditModal2(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleSave}>
+            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

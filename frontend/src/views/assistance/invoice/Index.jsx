@@ -30,6 +30,8 @@ const AssistanceInvoice = () => {
   const [isSelecetOne, setIsSelectOne] = useState(false);
   const [amount, setAmount] = useState(0);
   const navigate = useNavigate();
+  const [doctorEntryType, setDoctorEntryType] = useState([])
+
 
   useEffect(() => {
     axios
@@ -2389,7 +2391,7 @@ const AssistanceInvoice = () => {
           </Tabs>
 
 
-          <Row className="align-items-center py-3 px-2 bg-light rounded shadow-sm" style={{ margin: '1rem' }}>
+          <Row className="align-items-center py-3 px-2 bg-light rounded shadow-sm" style={{ margin: 10 }}>
             <Col md={6} style={{ textAlign: 'center' }}>
               <div>
                 <h6 className="mb-3">Lens Description</h6>
@@ -2398,7 +2400,7 @@ const AssistanceInvoice = () => {
                 <thead className="bg-primary text-white text-center">
                 </thead>
                 <tbody className="text-center">
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>01</td>
                     <td>Lens Material</td>
                     <td>
@@ -2417,7 +2419,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>02</td>
                     <td>Lenses Type</td>
                     <td>
@@ -2436,7 +2438,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>03</td>
                     <td>Lens Treatment</td>
                     <td>
@@ -2455,7 +2457,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>04</td>
                     <td>Lens Colour</td>
                     <td>
@@ -2474,7 +2476,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>05</td>
                     <td>Lens Size</td>
                     <td>
@@ -2493,7 +2495,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>06</td>
                     <td>Lens Base</td>
                     <td>
@@ -2512,7 +2514,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>07</td>
                     <td>Lens Brand</td>
                     <td>
@@ -2531,7 +2533,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>08</td>
                     <td>Lenses At</td>
                     <td>
@@ -2550,7 +2552,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>09</td>
                     <td>Lens Price</td>
                     <td>
@@ -2570,7 +2572,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>10</td>
                     <td>Lens order Date</td>
                     <td>
@@ -2583,7 +2585,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>11</td>
                     <td>Lens wanted on</td>
                     <td>
@@ -2599,7 +2601,7 @@ const AssistanceInvoice = () => {
                 </tbody>
               </Table>
               <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                <Form.Label>Remarks</Form.Label>
+                <Form.Label>Lens Remarks</Form.Label>
                 <Form.Control as="textarea" rows="3" onChange={(e) => setLense_Description(e.target.value)} />
               </Form.Group>
             </Col>
@@ -2611,7 +2613,7 @@ const AssistanceInvoice = () => {
                 <thead className="bg-primary text-white text-center">
                 </thead>
                 <tbody className="text-center">
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>01</td>
                     <td>Frame Category</td>
                     <td>
@@ -2630,7 +2632,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>02</td>
                     <td>Frame Material </td>
                     <td>
@@ -2649,7 +2651,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>03</td>
                     <td>Frame type</td>
                     <td>
@@ -2668,7 +2670,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>04</td>
                     <td>Frame Brand</td>
                     <td>
@@ -2688,7 +2690,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>05</td>
                     <td>Model number</td>
                     <td>
@@ -2708,7 +2710,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>06</td>
                     <td>Colour</td>
                     <td>
@@ -2727,7 +2729,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>07</td>
                     <td>Front size</td>
                     <td>
@@ -2747,7 +2749,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>08</td>
                     <td>Bridge size</td>
                     <td>
@@ -2767,7 +2769,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>09</td>
                     <td>Arm Size</td>
                     <td>
@@ -2787,7 +2789,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>10</td>
                     <td>PD</td>
                     <td>
@@ -2807,7 +2809,7 @@ const AssistanceInvoice = () => {
                       </Form.Group>
                     </td>
                   </tr>
-                  <tr>
+                  <tr style={{ height: "50px" }}>
                     <td>11</td>
                     <td>SEG</td>
                     <td>
@@ -2830,27 +2832,63 @@ const AssistanceInvoice = () => {
                 </tbody>
               </Table>
               <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                <Form.Label>Remarks</Form.Label>
+                <Form.Label>Frame Remarks</Form.Label>
                 <Form.Control as="textarea" rows="3" onChange={(e) => setFreame_Description(e.target.value)} />
               </Form.Group>
 
             </Col>
+
             <Col md={4}>
-              <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>Doctor Rx</Form.Label>
-                <Form.Select
-                  value={Doctor_Rx}
-                  onChange={(e) => setDoctor_Rx(e.target.value)}
-                >
-                  <option value="">-- Doctor Rx --</option>
-                  {DoctorRx.map((remark, index) => (
-                    <option key={index} value={remark.text}>
-                      {remark.text}
-                    </option>
-                  ))}
-                </Form.Select>
+              <Form.Group controlId="doctorEntryType">
+                <Form.Label>Doctor Name</Form.Label>
+
+                {/* Toggle between typing or selecting */}
+                <div className="mb-2">
+                  <Form.Check
+                    inline
+                    type="radio"
+                    label="Select from list"
+                    name="doctorEntryType"
+                    value="select"
+                    checked={doctorEntryType === "select"}
+                    onChange={(e) => setDoctorEntryType(e.target.value)}
+                  />
+                  <Form.Check
+                    inline
+                    type="radio"
+                    label="Type manually"
+                    name="doctorEntryType"
+                    value="manual"
+                    checked={doctorEntryType === "manual"}
+                    onChange={(e) => setDoctorEntryType(e.target.value)}
+                  />
+                </div>
+
+                {/* Conditionally render input */}
+                {doctorEntryType === "select" ? (
+                  <Form.Select
+                    value={Doctor_Rx}
+                    onChange={(e) => setDoctor_Rx(e.target.value)}
+                  >
+                    <option value="">-- Select Doctor --</option>
+                    {DoctorRx.map((remark, index) => (
+                      <option key={index} value={remark.text}>
+                        {remark.text}
+                      </option>
+                    ))}
+                  </Form.Select>
+                ) : (
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Doctor Name"
+                    value={Doctor_Rx}
+                    onChange={(e) => setDoctor_Rx(e.target.value)}
+                  />
+                )}
               </Form.Group>
             </Col>
+
+
             <Col md={4}>
               <Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Label>Tested By</Form.Label>

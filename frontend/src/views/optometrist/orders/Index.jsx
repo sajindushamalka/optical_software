@@ -713,7 +713,7 @@ const OptometristOrders = () => {
             <Row className="mt-1">
               <Col md={3} className="mb-3">
                 <small className="text-muted">Name</small>
-                <h6 className="mb-0">{selectedOrder.prefix || 'N/A'} {selectedOrder.name || 'N/A'}</h6>
+                <h6 className="mb-0">{selectedOrder.prefix || 'N/A'} {selectedOrder.first_name || 'N/A'} {selectedOrder.name || 'N/A'}</h6>
               </Col>
 
               <Col md={3} className="mb-3">
@@ -729,6 +729,11 @@ const OptometristOrders = () => {
               <Col md={3} className="mb-3">
                 <small className="text-muted">Address</small>
                 <h6 className="mb-0">{selectedOrder.address || 'N/A'}</h6>
+              </Col>
+
+               <Col md={3} className="mb-3">
+                <small className="text-muted">Age</small>
+                <h6 className="mb-0">{selectedOrder.age || 'N/A'}</h6>
               </Col>
             </Row>
 
@@ -799,7 +804,7 @@ const OptometristOrders = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -814,7 +819,7 @@ const OptometristOrders = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -830,7 +835,7 @@ const OptometristOrders = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -846,7 +851,7 @@ const OptometristOrders = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -862,7 +867,7 @@ const OptometristOrders = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -950,7 +955,7 @@ const OptometristOrders = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -965,7 +970,7 @@ const OptometristOrders = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -981,7 +986,7 @@ const OptometristOrders = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -997,7 +1002,7 @@ const OptometristOrders = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1013,7 +1018,7 @@ const OptometristOrders = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1479,18 +1484,24 @@ const OptometristOrders = () => {
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
                                     type="text"
-                                    step="any"
                                     style={{
                                       border: 'none',
                                       width: '',
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    value={SPEC_RE_OD_SPH}
+                                    value={
+                                      SPEC_RE_OD_SPH
+                                        ? Number(SPEC_RE_OD_SPH) > 0
+                                          ? `+${SPEC_RE_OD_SPH}`
+                                          : SPEC_RE_OD_SPH
+                                        : ""
+                                    }
                                     onChange={(e) => set_SPEC_RE_OD_SPH(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
+
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
@@ -1596,18 +1607,24 @@ const OptometristOrders = () => {
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
                                     type="text"
-                                    step="any"
                                     style={{
                                       border: 'none',
                                       width: '',
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
-                                    value={SPEC_RE_OS_SPH}
+                                    value={
+                                      SPEC_RE_OS_SPH
+                                        ? Number(SPEC_RE_OS_SPH) > 0
+                                          ? `+${SPEC_RE_OS_SPH}`
+                                          : SPEC_RE_OS_SPH
+                                        : ""
+                                    }
                                     onChange={(e) => set_SPEC_RE_OS_SPH(e.target.value)}
                                   />
                                 </Form.Group>
                               </td>
+
                               <td>
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
@@ -2091,7 +2108,7 @@ const OptometristOrders = () => {
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -2107,7 +2124,7 @@ const OptometristOrders = () => {
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -2124,7 +2141,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -2141,7 +2158,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -2158,7 +2175,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -2250,7 +2267,7 @@ const OptometristOrders = () => {
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -2266,7 +2283,7 @@ const OptometristOrders = () => {
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -2283,7 +2300,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -2300,7 +2317,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',
@@ -2317,7 +2334,7 @@ const OptometristOrders = () => {
                                 {' '}
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
-                                    type="number"
+                                    type="text"
                                     step="any"
                                     style={{
                                       border: 'none',

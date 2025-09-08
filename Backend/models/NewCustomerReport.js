@@ -217,6 +217,14 @@ const NewCustomersMedDeatils = {
             callback
         );
     },
+
+      updateCustomeDetails: (id, customer, callback) => {
+        db.query(
+            "Update optical_software.customers SET ? where c_id = ?",
+            [customer, id],
+            callback
+        );
+    },
 };
 
 module.exports = NewCustomersMedDeatils;
