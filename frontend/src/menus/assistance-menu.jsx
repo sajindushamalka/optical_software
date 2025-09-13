@@ -40,20 +40,27 @@ const AssistanceMenuItem = {
           icon: 'fas fa-file-invoice',
           url: '/assistance/invoice'
         },
-        // {
-        //   id: 'prescription',
-        //   title: 'Prescription',
-        //   type: 'item',
-        //   icon: 'fas fa-first-aid',
-        //   url: '/basic/badges'
-        // },
-        // {
-        //   id: 'sales',
-        //   title: 'Sales',
-        //   type: 'item',
-        //   icon: 'fas fa-chart-line',
-        //   url: '/basic/badges'
-        // },
+        {
+          id: 'prescription',
+          title: 'Prescription',
+          type: 'item',
+          icon: 'fas fa-first-aid',
+          url: '/assistance/prescriptions'
+        },
+        {
+          id: 'factory',
+          title: 'Factory',
+          type: 'item',
+          icon: 'fas fa-chart-line',
+          url: '/assistance/factory'
+        },
+         {
+          id: 'job_status',
+          title: 'Job Status',
+          type: 'item',
+          icon: 'fas fa-tasks',
+          url: '/assistance/job'
+        },
         {
           id: 'logout',
           title: 'Log Out',

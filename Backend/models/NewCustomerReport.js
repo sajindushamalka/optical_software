@@ -144,6 +144,7 @@ const NewCustomersMedDeatils = {
 
     updateStatusAssistacnceSecond: (id, callback) => {
         db.query(
+            // "Update optical_software.new_customer_order_assitance SET report_status = 'Pass_to_Cash' where cmd_id = ?",
             "Update optical_software.new_customer_order_assitance SET report_status = 'Pass_to_Cash' where cmd_id = ?",
             [id],
             callback
@@ -175,7 +176,15 @@ const NewCustomersMedDeatils = {
 
     updateStatusCashierStatus: (id, callback) => {
         db.query(
-            "Update optical_software.new_customer_order_assitance SET report_status = 'Complete' where cmd_id = ?",
+            "Update optical_software.new_customer_order_assitance SET report_status = 'Complete_Full_Payment' where cmd_id = ?",
+            [id],
+            callback
+        );
+    },
+
+    updateStatusCashierStatusAdvance: (id, callback) => {
+        db.query(
+            "Update optical_software.new_customer_order_assitance SET report_status = 'Complete_Full_Advance' where cmd_id = ?",
             [id],
             callback
         );
@@ -183,7 +192,7 @@ const NewCustomersMedDeatils = {
 
     getCustomerRecForComplate: (callback) => {
         db.query(
-            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c, optical_software.cashier_invoice ci where c.c_id = a.cid and ci.cmd_id = a.cmd_id and  a.report_status = 'Complete' ORDER BY a.date DESC;",
+            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c, optical_software.cashier_invoice ci where c.c_id = a.cid and ci.cmd_id = a.cmd_id and  a.report_status = 'Complate_Order' ORDER BY a.date DESC;",
             callback
         );
     },
@@ -218,10 +227,79 @@ const NewCustomersMedDeatils = {
         );
     },
 
-      updateCustomeDetails: (id, customer, callback) => {
+    updateCustomeDetails: (id, customer, callback) => {
         db.query(
             "Update optical_software.customers SET ? where c_id = ?",
             [customer, id],
+            callback
+        );
+    },
+
+    getCustomerRecForPrescription: (callback) => {
+        db.query(
+            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c, optical_software.customer_order_assistance_last_details ca where c.c_id = a.cid and ca.cmd_id = a.cmd_id and  a.report_status IN ('Complete_Full_Payment', 'Complete_Full_Advance') ORDER BY a.date DESC;",
+            callback
+        );
+    },
+
+    updateStatusTOfactory: (id, callback) => {
+        db.query(
+            "Update optical_software.new_customer_order_assitance SET report_status = 'Pass_to_Factory' where cmd_id = ?",
+            [id],
+            callback
+        );
+    },
+
+    getCustomerFactoryDetails: (callback) => {
+        db.query(
+            "SELECT * FROM optical_software.new_customer_order_assitance a JOIN optical_software.customers c  ON c.c_id = a.cid JOIN optical_software.customer_order_assistance_last_details ca  ON ca.cmd_id = a.cmd_id JOIN optical_software.customer_order_optometrist_subjective_details cos ON cos.cmd_id = a.cmd_id WHERE a.report_status IN ('Complete_Full_Advance', 'Complete_Full_Payment') ORDER BY a.date DESC;",
+            callback
+        );
+    },
+
+    updateStatusfactoryProceesing: (id, callback) => {
+        db.query(
+            "Update optical_software.new_customer_order_assitance SET report_status = 'Factory_Processing' where cmd_id = ?",
+            [id],
+            callback
+        );
+    },
+
+    updateStatusfactorytext: (id, msg, callback) => {
+        db.query(
+            "Update optical_software.customer_order_assistance_last_details SET factory_remark = ? where coaldid = ?",
+            [msg, id],
+            callback
+        );
+    },
+
+    getJobStatusDeatils: (callback) => {
+        db.query(
+            "select * from optical_software.new_customer_order_assitance a,optical_software.customers cu,  optical_software.customer_order_assistance_last_details  c where a.cmd_id = c.cmd_id and cu.c_id = a.cid and a.report_status IN ('Complete_Full_Advance', 'Complete_Full_Payment') ",
+            callback
+        );
+    },
+
+    updateJobStatus: (rd, rt, nd, js, id, callback) => {
+        db.query(
+            "Update optical_software.customer_order_assistance_last_details SET removed_date = ? , notification_type = ?, notification_date = ? , job_status = ? where coaldid = ?",
+            [rd, rt, nd, js, id],
+            callback
+        );
+    },
+
+    finishOrder: (id, callback) => {
+        db.query(
+            "Update optical_software.new_customer_order_assitance SET report_status = 'Complate_Order' where cmd_id = ?",
+            [id],
+            callback
+        );
+    },
+
+    
+    getAdvancepayamentOnly: (callback) => {
+        db.query(
+            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c, optical_software.cashier_invoice ci where c.c_id = a.cid and ci.cmd_id = a.cmd_id and  a.report_status = 'Complete_Full_Advance' ORDER BY a.date DESC;",
             callback
         );
     },

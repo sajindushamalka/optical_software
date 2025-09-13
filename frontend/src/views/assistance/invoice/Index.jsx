@@ -442,7 +442,10 @@ const AssistanceInvoice = () => {
       Freame_Description,
       Doctor_Rx,
       Tested_By,
-      Entered_By
+      Entered_By,
+      factory_remark:'',
+      job_status:'',
+      notification_type:''
     }
     await axios.post('http://localhost:2776/api/order/assitance/second', ob).then((res) => {
       console.log(res.data)

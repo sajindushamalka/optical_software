@@ -11,6 +11,16 @@ exports.updateStatusCashierStatusCon = (req, res) => {
     })
 }
 
+exports.updateStatusCashierStatusAdvanceCon = (req, res) => {
+    const { id } = req.params;
+    console.log(id)
+    NewCustomersMedDeatilsModel.updateStatusCashierStatusAdvance(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
 exports.getCustomerRecForCashierCon = (req, res) => {
     NewCustomersMedDeatilsModel.getCustomerRecForCashier((err, result) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -253,6 +263,13 @@ exports.getCustomerRecForComplateCon = (req, res) => {
     })
 }
 
+exports.getAdvancepayamentOnlyCon = (req, res) => {
+    NewCustomersMedDeatilsModel.getAdvancepayamentOnly((err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}
+
 exports.getAllOptimsitricRecordsCon = (req, res) => {
     NewCustomersMedDeatilsModel.getAllOptimsitricRecords((err, result) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -276,7 +293,6 @@ exports.getBrokenOrdersCon = (req, res) => {
     })
 }
 
-
 exports.updateAssistanceDetilsCon = (req, res) => {
     const { id } = req.params;
     const updateU = req.body;
@@ -293,6 +309,81 @@ exports.updateCustomeDetailsCon = (req, res) => {
     const updateU = req.body;
 
     NewCustomersMedDeatilsModel.updateCustomeDetails(id, updateU, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
+exports.getCustomerRecForPrescriptionCon = (req, res) => {
+    NewCustomersMedDeatilsModel.getCustomerRecForPrescription((err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}
+
+exports.updateStatusTOfactoryCon = (req, res) => {
+    const { id } = req.params;
+    NewCustomersMedDeatilsModel.updateStatusTOfactory(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
+exports.getCustomerFactoryDetailsCon = (req, res) => {
+    NewCustomersMedDeatilsModel.getCustomerFactoryDetails((err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}
+
+exports.updateStatusfactoryProceesingCon = (req, res) => {
+    const { id } = req.params;
+    NewCustomersMedDeatilsModel.updateStatusfactoryProceesing(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
+exports.updateStatusfactorytextCon = (req, res) => {
+    const { id } = req.params;
+    const updateU = req.body.factory_remark;
+    NewCustomersMedDeatilsModel.updateStatusfactorytext(id, updateU, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
+
+exports.getJobStatusDeatilsCon = (req, res) => {
+    NewCustomersMedDeatilsModel.getJobStatusDeatils((err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}
+
+
+exports.updateJobStatusCon = (req, res) => {
+    const { id } = req.params;
+    const rd = req.body.removeDate;
+    const nt = req.body.selectedNotifications;
+    const nd = req.body.notificationDate;
+    const js = req.body.selectedJobStatus;
+    console.log(rd,nt,nd,js,id)
+    NewCustomersMedDeatilsModel.updateJobStatus(rd, nt, nd,js, id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
+exports.finishOrderCon = (req, res) => {
+    const { id } = req.params;
+    console.log(id)
+    NewCustomersMedDeatilsModel.finishOrder(id, (err, result) => {
         if (err) return res.status(500).json({ err: err.message });
         if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
         res.json(this.updateU)

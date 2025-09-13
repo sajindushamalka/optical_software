@@ -66,36 +66,69 @@ const CashierInvoice = () => {
       payment_method: paymentMethod,
       paeid_amount: advanceAmount
     }
+    console.log(paymentMethod)
 
-    axios.post('http://localhost:2776/api/order/new/cahser', ob).then((res) => {
-      console.log(res.data.id)
-      selectedItems.forEach(item => {
-        let ob = {
-          ci_id: res.data.id,
-          order_description: item.title,
-          quantity: item.qty,
-          price: item.price,
-        }
-        axios.post('http://localhost:2776/api/order/new/cahser/items', ob).then((res) => {
+    if (paymentType == "full") {
+      axios.post('http://localhost:2776/api/order/new/cahser', ob).then((res) => {
+        console.log(res.data.id)
+        selectedItems.forEach(item => {
+          let ob = {
+            ci_id: res.data.id,
+            order_description: item.title,
+            quantity: item.qty,
+            price: item.price,
+          }
+          axios.post('http://localhost:2776/api/order/new/cahser/items', ob).then((res) => {
+            console.log(res.data)
+          }).catch((err) => {
+            console.log(err)
+            toast.error("Error!")
+          })
+        })
+
+        axios.put(`http://localhost:2776/api/order/cashier/${selectedUser.cmd_id}`).then((res) => {
           console.log(res.data)
+          toast.success("Order Updated!")
         }).catch((err) => {
           console.log(err)
           toast.error("Error!")
         })
-      })
 
-      axios.put(`http://localhost:2776/api/order/cashier/${selectedUser.cmd_id}`).then((res) => {
-        console.log(res.data)
-        toast.success("Order Updated!")
+      }).catch((err) => {
+        console.log(err)
+        toast.error("System Error!")
+      })
+    } else if (paymentType == "advance") {
+      axios.post('http://localhost:2776/api/order/new/cahser', ob).then((res) => {
+        console.log(res.data.id)
+        selectedItems.forEach(item => {
+          let ob = {
+            ci_id: res.data.id,
+            order_description: item.title,
+            quantity: item.qty,
+            price: item.price,
+          }
+          axios.post('http://localhost:2776/api/order/new/cahser/items', ob).then((res) => {
+            console.log(res.data)
+          }).catch((err) => {
+            console.log(err)
+            toast.error("Error!")
+          })
+        })
+
+        axios.put(`http://localhost:2776/api/order/cashier/advance/${selectedUser.cmd_id}`).then((res) => {
+          console.log(res.data)
+          toast.success("Order Updated!")
+        }).catch((err) => {
+          console.log(err)
+          toast.error("Error!")
+        })
+
       }).catch((err) => {
         console.log(err)
         toast.error("Error!")
       })
-
-    }).catch((err) => {
-      console.log(err)
-      toast.error("Error!")
-    })
+    }
   }
 
   const handlePrint = () => {

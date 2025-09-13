@@ -20,13 +20,13 @@ const CashierMenuItem = {
              icon: 'fas fa-file-invoice',
             url: '/cashier/invoice'
           }, 
-          // {
-          //   id: 'ongoing',
-          //   title: 'On Going',
-          //   type: 'item',
-          //    icon: 'fas fa-spinner',
-          //   url: '/cashier/ongoing'
-          // }, 
+          {
+            id: 'advance',
+            title: 'Advance Payments',
+            type: 'item',
+             icon: 'fas fa-spinner',
+            url: '/cashier/ongoing'
+          }, 
           {
             id: 'history',
             title: 'History',

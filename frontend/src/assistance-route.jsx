@@ -83,6 +83,42 @@ const assistance_routes = [
     ]
   },
   {
+    path: '/assistance/prescriptions',
+    layout: AssistanceLayout,
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: lazy(() => import('./views/assistance/prescriptions/Index'))
+      },
+
+    ]
+  },
+    {
+    path: '/assistance/factory',
+    layout: AssistanceLayout,
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: lazy(() => import('./views/assistance/factory/Index'))
+      },
+
+    ]
+  },
+      {
+    path: '/assistance/job',
+    layout: AssistanceLayout,
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: lazy(() => import('./views/assistance/job/Index'))
+      },
+
+    ]
+  },
+  {
     path: '/logout',
     layout: Fragment, // no layout needed
     routes: [

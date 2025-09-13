@@ -65,7 +65,7 @@ const cashier_routes = [
       {
         exact: 'true',
         path: '*',
-        element: lazy(() => import('./views/cashier/history/Index'))
+        element: lazy(() => import('./views/cashier/advance/Index'))
       },
 
     ]
