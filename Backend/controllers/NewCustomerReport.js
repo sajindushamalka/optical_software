@@ -389,3 +389,19 @@ exports.finishOrderCon = (req, res) => {
         res.json(this.updateU)
     })
 }
+
+exports.createCashierInvoiceReciptCon = (req, res) => {
+    const newUser = req.body;
+    NewCustomersMedDeatilsModel.createCashierInvoiceRecipt(newUser, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.status(201).json({ message: "Order Created", id: result.insertId });
+    });
+};
+
+exports.getPartialPaymentAmountCon = (req, res) => {
+    const { id } = req.params;
+    NewCustomersMedDeatilsModel.getPartialPaymentAmount(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.json(result[0]);
+    })
+}

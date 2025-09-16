@@ -44,6 +44,8 @@ router.post("/upload/files", NewCustomersMedDeatilsController.getUploadedFilesNa
 router.get("/assitance/prescription", NewCustomersMedDeatilsController.getCustomerRecForPrescriptionCon);
 router.get("/assitance/factory", NewCustomersMedDeatilsController.getCustomerFactoryDetailsCon);
 router.get("/assitance/job", NewCustomersMedDeatilsController.getJobStatusDeatilsCon);
+router.post("/cashier/recipt", NewCustomersMedDeatilsController.createCashierInvoiceReciptCon);
+router.get("/cashier/recipt/:id", NewCustomersMedDeatilsController.getPartialPaymentAmountCon);
 
 
 module.exports = router;

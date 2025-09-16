@@ -296,10 +296,26 @@ const NewCustomersMedDeatils = {
         );
     },
 
-    
+
     getAdvancepayamentOnly: (callback) => {
         db.query(
             "select * from optical_software.new_customer_order_assitance a, optical_software.customers c, optical_software.cashier_invoice ci where c.c_id = a.cid and ci.cmd_id = a.cmd_id and  a.report_status = 'Complete_Full_Advance' ORDER BY a.date DESC;",
+            callback
+        );
+    },
+
+    createCashierInvoiceRecipt: (customermeddeatils, callback) => {
+        db.query(
+            "Insert into optical_software.cashier_recipt SET ?",
+            customermeddeatils,
+            callback
+        );
+    },
+
+    getPartialPaymentAmount: (id, callback) => {
+        db.query(
+            "Select  SUM(amount) as sum from optical_software.cashier_recipt where ci_id = ?",
+            [id],
             callback
         );
     },

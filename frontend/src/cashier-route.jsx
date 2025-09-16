@@ -82,6 +82,18 @@ const cashier_routes = [
 
     ]
   },
+  {
+    path: '/cashier/claims',
+    layout: CashierLayout,
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: lazy(() => import('./views/cashier/claims/Index'))
+      },
+
+    ]
+  },
    {
     path: '/logout',
     layout: CashierLayout, // no layout needed

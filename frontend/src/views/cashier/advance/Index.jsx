@@ -5,6 +5,7 @@ import avatar2 from '../../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../../assets/images/user/avatar-3.jpg';
 import LOGO from '../../../assets/images/S_LOGO.jpg';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const CashierHistory = () => {
     const [allUsers, setAllUsers] = useState([]);
@@ -15,9 +16,16 @@ const CashierHistory = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const invoiceRef = useRef();
     const [tableDetals, setTableDetails] = useState([]);
-    const [isEditing, setIsEditing] = useState(false); // ✅ toggle edit mode
-    const [ediedVersion, setEdiedVersion] = useState(false); // ✅ toggle edit mode
+    const [paymentMethod, setPaymentMethod] = useState("");
+    const [paymentType, setPaymentType] = useState("");
+    const [enteredAmount, setEnteredAmount] = useState("");
+    const [partialPayAmount, setPartialPaymAmount] = useState(0);
+    const [invoiceRows, setInvoiceRows] = useState([]);
+    const today = new Date().toLocaleDateString();
+    const [invoiceNo, setInvoiceNo] = React.useState("");
 
+
+    // Load users / invoices on mount
     useEffect(() => {
         axios
             .get('http://localhost:2776/api/order/advance')
@@ -29,62 +37,199 @@ const CashierHistory = () => {
             .then((res) => setinvoiceItems(res.data))
             .catch((err) => console.log(err));
 
+        const lastInvoice = "2025/09/INV00005"; // example, null if none
+        const newInvoice = generateInvoiceNumber(lastInvoice);
+        setInvoiceNo(newInvoice);
     }, []);
 
+    // Recalculate balance
+    const balance = selectedUser
+        ? (Number(selectedUser.total_amount || 0) - Number(selectedUser.paeid_amount || 0) - Number(partialPayAmount || 0))
+        : 0;
+
+    // Autofill for balance payment
+    useEffect(() => {
+        if (paymentType === "advance" && selectedUser) {
+            setEnteredAmount(String(balance));
+        } else if (paymentType === "full") {
+            setEnteredAmount("");
+        }
+    }, [paymentType, selectedUser]); // eslint-disable-line
+
+    // Reset invoice rows when selecting new user
+    const handleUserClick = (user) => {
+        console.log(user)
+        setSelectedUser(user);
+        setInvoiceRows([]);
+        setPaymentType("");
+        setPaymentMethod("");
+        setEnteredAmount("");
+        axios.get(`http://localhost:2776/api/root/complate/${user.ci_id}`)
+            .then((res) => setTableDetails(res.data))
+            .catch((err) => console.log(err));
+
+        axios.get(`http://localhost:2776/api/order/cashier/recipt/${user.ci_id}`).then((res) => {
+            console.log(res.data);
+            setPartialPaymAmount(res.data.sum)
+        }).catch((err) => {
+            console.log(err)
+        })
+    };
+
+    // Add payment logic
+    const handleAddPayment = () => {
+        if (!paymentType) {
+            alert("Please select a payment type.");
+            return;
+        }
+        if (!paymentMethod) {
+            alert("Please select a payment method.");
+            return;
+        }
+
+        const amt = Number(enteredAmount);
+
+        if (paymentType === "full") {
+            if (!enteredAmount || isNaN(amt) || amt <= 0) {
+                alert("Enter a valid amount greater than 0.");
+                return;
+            }
+            if (amt > balance) {
+                alert(`Entered amount (${amt}) cannot exceed remaining balance (${balance}).`);
+                return;
+            }
+
+            const newRow = {
+                qty: 1,
+                description: `Partial Payment`,
+                amount: amt
+            };
+            setInvoiceRows(prev => {
+                const withoutMethod = prev.filter(r => !r._isMethodRow);
+                return [...withoutMethod, newRow, { _isMethodRow: true }];
+            });
+        } else if (paymentType === "advance") {
+            const balanceAmt = balance;
+            if (isNaN(balanceAmt) || balanceAmt <= 0) {
+                alert("No remaining balance to pay.");
+                return;
+            }
+
+            const newRow = {
+                qty: 1,
+                description: `Balance Payment`,
+                amount: balanceAmt
+            };
+            setInvoiceRows(prev => {
+                const withoutMethod = prev.filter(r => !r._isMethodRow);
+                return [...withoutMethod, newRow, { _isMethodRow: true }];
+            });
+        }
+
+        if (paymentType === "full") setEnteredAmount("");
+    };
+
+    // Compute total paid
+    const totalPaid = invoiceRows
+        .filter(r => !r._isMethodRow)
+        .reduce((sum, r) => sum + Number(r.amount || 0), 0);
+
+    // Search + pagination
     const searchFilteredUsers = allUsers.filter((user) =>
         Object.values(user).some((value) =>
             value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
         )
     );
-
     const allIndexLast = allPage * allPerPage;
     const allIndexFirst = allIndexLast - allPerPage;
     const paginatedAllUsers = searchFilteredUsers.slice(allIndexFirst, allIndexLast);
-    const allTotalPages = Math.ceil(searchFilteredUsers.length / allPerPage);
-
-    const handleUserClick = (user) => {
-        setSelectedUser(user);
-        axios.get(`http://localhost:2776/api/root/complate/${user.ci_id}`)
-            .then((res) => setTableDetails(res.data))
-            .catch((err) => console.log(err));
-    };
+    const allTotalPages = Math.max(1, Math.ceil(searchFilteredUsers.length / allPerPage));
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+        if (isNaN(date)) return "N/A";
+        return date.toISOString().split("T")[0];
     };
 
-    console.log(allUsers)
 
+    function generateInvoiceNumber(lastInvoiceNo) {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
 
-    const updateTabele = () => {
-        setIsEditing(false)
-        tableDetals.map((t) => {
-            const ob = {
-                edited_price: t.price
-            }
-            console.log(ob)
-            axios.put(`http://localhost:2776/api/root/cashier/${t.ciit_id}`, ob).then((res) => {
-                console.log(res.data)
-            }).catch((err) => {
-                console.log(err)
-            })
-        })
-
-        const ob2 = {
-            edited_date: formatDate(selectedUser.date)
+        // Financial year start (April)
+        const financialYearStartMonth = 4;
+        let financialYear;
+        if (now.getMonth() + 1 >= financialYearStartMonth) {
+            financialYear = year;
+        } else {
+            financialYear = year - 1;
         }
 
-        axios.put(`http://localhost:2776/api/root/cashier/date/${tableDetals[0].ci_id}`, ob2).then((res) => {
-            console.log(res.data)
-        }).catch((err) => {
-            console.log(err)
-        })
+        let serial = 1;
+
+        if (lastInvoiceNo) {
+            // Match invoice format: YYYY/MM/INVxxxxx
+            const match = lastInvoiceNo.match(/(\d{4})\/\d{2}\/INV(\d{5})/);
+            if (match) {
+                const lastYear = parseInt(match[1]);
+                const lastSerial = parseInt(match[2]);
+
+                if (lastYear === financialYear) {
+                    serial = lastSerial + 1;
+                }
+            }
+        }
+
+        const serialFormatted = String(serial).padStart(5, "0");
+        return `${year}/${month}/INV${serialFormatted}`;
     }
 
+    // Function to call backend
+    const handleSaveReceipt = async () => {
+        try {
+            if (paymentType === "advance") {
+                const payload = {
+                    ci_id: selectedUser.ci_id,  // make sure you have invoice id in state
+                    amount: totalPaid,
+                    pay_type: "Balance",
+                    payment_method: paymentMethod,
+                    recepit_Id: invoiceNo,
+                    date: formatDate(today)
+                };
+
+                axios.post('http://localhost:2776/api/order/cashier/recipt', payload).then((res) => {
+                    console.log(res.data);
+                    axios.put(`http://localhost:2776/api/order/cashier/${selectedUser.cmd_id}`).then((res) => {
+                        toast.success('Receipt Updated!')
+                    }).catch((err) => {
+                        toast.error("Error in updating receipt!")
+                    })
+                }).catch((err) => {
+                    toast.error("Error in updating receipt!")
+                })
+            } else if (paymentType === "full") {
+                const payload = {
+                    ci_id: selectedUser.ci_id,  // make sure you have invoice id in state
+                    amount: totalPaid,
+                    pay_type: "Partial",
+                    payment_method: paymentMethod,
+                    recepit_Id: invoiceNo,
+                    date: formatDate(today)
+                };
+                axios.post('http://localhost:2776/api/order/cashier/recipt', payload).then((res) => {
+                    console.log(res.data);
+                    toast.success('Receipt Updated!')
+                }).catch((err) => {
+                    toast.error("Error in updating receipt!")
+                })
+            }
+
+        } catch (err) {
+            console.error("Error saving receipt:", err);
+            alert("Something went wrong");
+        }
+    };
 
     const handlePrint = () => {
         const printContents = invoiceRef.current.innerHTML;
@@ -167,7 +312,7 @@ const CashierHistory = () => {
                                 <Row>
                                     <Col>
                                         <Card.Title as="h5" style={{ fontWeight: 'bold' }}>
-                                            Full Invoices
+                                            Receipt Invoices
                                         </Card.Title>
                                     </Col>
                                 </Row>
@@ -240,20 +385,101 @@ const CashierHistory = () => {
                 </Col>
 
                 {selectedUser && (
+                    <Row className="mt-3">
+                        <Col>
+                            <Card className="shadow-sm border-0 rounded-3">
+                                <Card.Body>
+                                    <div className="d-flex justify-content-around text-center">
+                                        <div>
+                                            <h6 className="text-muted mb-1">Total Amount</h6>
+                                            <h4 className="fw-bold text-primary">
+                                                {Number(selectedUser.total_amount || 0).toFixed(2)}
+                                            </h4>
+                                        </div>
+                                        <div>
+                                            <h6 className="text-muted mb-1">Advance Paid</h6>
+                                            <h4 className="fw-bold text-success">
+                                                {Number(selectedUser.paeid_amount || 0).toFixed(2)}
+                                            </h4>
+                                        </div>
+                                        <div>
+                                            <h6 className="text-muted mb-1">Partial Paid</h6>
+                                            <h4 className="fw-bold text-info">
+                                                {Number(partialPayAmount || 0).toFixed(2)}
+                                            </h4>
+                                        </div>
+                                        <div>
+                                            <h6 className="text-muted mb-1">Remaining</h6>
+                                            <h4 className="fw-bold text-danger">
+                                                {Number(balance).toFixed(2)}
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
+                )}
+
+                {/* Payment controls */}
+                {selectedUser && (
+                    <div className="d-flex gap-3 flex-wrap align-items-end mt-3">
+                        <Form.Group style={{ minWidth: "200px" }}>
+                            <Form.Label>Payment Type</Form.Label>
+                            <Form.Select
+                                value={paymentType}
+                                onChange={(e) => setPaymentType(e.target.value)}
+                            >
+                                <option value="">-- Select Payment Type --</option>
+                                <option value="full">Partial payment</option>
+                                <option value="advance">Balance payment</option>
+                            </Form.Select>
+                        </Form.Group>
+
+                        <Form.Group style={{ minWidth: "200px" }}>
+                            <Form.Label>Payment Method</Form.Label>
+                            <Form.Select
+                                value={paymentMethod}
+                                onChange={(e) => setPaymentMethod(e.target.value)}
+                            >
+                                <option value="">-- Select Method --</option>
+                                <option value="cash">Cash</option>
+                                <option value="visa">Visa</option>
+                            </Form.Select>
+                        </Form.Group>
+
+                        {paymentType && (
+                            <Form.Group style={{ minWidth: "200px" }}>
+                                <Form.Label>Amount</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    value={enteredAmount}
+                                    onChange={(e) => setEnteredAmount(e.target.value)}
+                                    placeholder={paymentType === "advance" ? String(Number(balance).toFixed(2)) : "Enter amount"}
+                                    readOnly={paymentType === "advance"}
+                                />
+                            </Form.Group>
+                        )}
+
+                        <Button variant="primary" onClick={handleAddPayment}>
+                            Add Payment
+                        </Button>
+                    </div>
+                )}
+
+                {selectedUser && (
                     <Col md={12} className="mt-4">
                         <Card className="shadow p-4">
-
-
                             <div ref={invoiceRef} id="invoice-print">
-                                <div className="header-row mb-3 d-flex">
-                                    <div className="logo me-3">
+                                <div className="header-row mb-3 d-flex align-items-center">
+                                    <div className="logo">
                                         <img src={LOGO} width={100} alt="Logo" />
                                     </div>
-                                    <div className="header-text" style={{ textAlign: 'center' }}>
-                                        <h5 className="fw-bold mb-0" style={{ fontSize: 30 }}>A. A. Samarasinghe Optometrists (Pvt) Ltd.</h5>
-                                        <p className="fw-bold" style={{ fontSize: 20, color: '#0F0B85' }}>Optometrists & Specialist in Contact Lenses</p>
-                                        <p className="text-muted mb-0" style={{ fontSize: 15 }}>N H Building Yatinuwara Street, Kandy</p>
-                                        <p className="text-muted" style={{ fontSize: 15 }}>Phone: 011-1234567</p>
+                                    <div className="header-text text-center flex-grow-1">
+                                        <h5 className="fw-bold mb-0">A. A. Samarasinghe Optometrists (Pvt) Ltd.</h5>
+                                        <p className="fw-bold" style={{ color: '#0F0B85' }}>Optometrists & Specialist in Contact Lenses</p>
+                                        <p className="text-muted mb-0">N H Building Yatinuwara Street, Kandy</p>
+                                        <p className="text-muted">Phone: 011-1234567</p>
                                     </div>
                                 </div>
 
@@ -272,37 +498,16 @@ const CashierHistory = () => {
                                             <table className="table table-bordered table-sm w-auto ms-auto">
                                                 <thead className="table-light">
                                                     <tr>
-                                                        <th>Invoice No</th>
+                                                        <th>Job No</th>
                                                         <th>Date</th>
+                                                        <th>Invoice No</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
                                                         <td>{selectedUser.cmd_id}</td>
-                                                        <td>
-                                                            {isEditing ? (
-                                                                <Form.Control
-                                                                    type="date"
-                                                                    value={ediedVersion
-                                                                        ? formatDate(selectedUser.edited_date || selectedUser.date)
-                                                                        : formatDate(selectedUser.date)}
-                                                                    onChange={(e) =>
-                                                                        setSelectedUser((prev) => ({
-                                                                            ...prev,
-                                                                            ...(ediedVersion
-                                                                                ? { edited_date: e.target.value } // update edited_date
-                                                                                : { date: e.target.value })       // update original date
-                                                                        }))
-                                                                    }
-                                                                    style={{ width: "150px" }}
-                                                                />
-                                                            ) : (
-                                                                ediedVersion
-                                                                    ? formatDate(selectedUser.edited_date || selectedUser.date)
-                                                                    : formatDate(selectedUser.date)
-                                                            )}
-                                                        </td>
-
+                                                        <td>{formatDate(selectedUser.date)}</td>
+                                                        <td>{selectedUser.invoice_no}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -314,92 +519,63 @@ const CashierHistory = () => {
                                     </Col>
                                 </Row>
 
-                                {/* ✅ Editable Table */}
+                                {/* Invoice Table */}
                                 <Table bordered responsive className="mb-4">
                                     <thead className="table-light">
                                         <tr>
-                                            <th>Description</th>
                                             <th>QTY</th>
-                                            <th>Price</th>
-                                            <th>Total</th>
+                                            <th>Description</th>
+                                            <th>Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {tableDetals.map((item, index) => (
-                                            <tr key={index}>
-                                                <td>{item.order_description}</td>
-                                                <td>{item.quantity}</td>
+                                        {invoiceRows.filter(r => !r._isMethodRow).length === 0 && (
+                                            <tr>
+                                                <td colSpan={3} className="text-center text-muted">No payments added yet.</td>
+                                            </tr>
+                                        )}
 
-                                                <td>
-                                                    {isEditing ? (
-                                                        <Form.Control
-                                                            type="number"
-                                                            value={ediedVersion ? item.edited_price || item.price : item.price}
-                                                            onChange={(e) => {
-                                                                const newPrice = parseFloat(e.target.value) || 0;
-                                                                setTableDetails((prev) =>
-                                                                    prev.map((p, i) =>
-                                                                        i === index
-                                                                            ? ediedVersion
-                                                                                ? { ...p, edited_price: newPrice } // editing edited_price
-                                                                                : { ...p, price: newPrice }        // editing price
-                                                                            : p
-                                                                    )
-                                                                );
-                                                            }}
-                                                            style={{ width: "100px", textAlign: "center" }}
-                                                        />
-                                                    ) : (
-                                                        `Rs.${ediedVersion ? item.edited_price || item.price : item.price}`
-                                                    )}
-                                                </td>
-
-
-                                                <td>
-                                                    Rs.{(item.quantity || 0) * (ediedVersion ? (item.edited_price || item.price || 0) : (item.price || 0))}
-                                                </td>
-
+                                        {/* Payment rows */}
+                                        {invoiceRows.filter(r => !r._isMethodRow).map((row, idx) => (
+                                            <tr key={idx}>
+                                                <td>{row.qty}</td>
+                                                <td>{row.description}</td>
+                                                <td>{Number(row.amount || 0).toFixed(2)}</td>
                                             </tr>
                                         ))}
 
-                                        <tr style={{ backgroundColor: "#E3E3E3", fontWeight: "bold" }}>
-                                            <td>Total</td>
-                                            <td>{tableDetals.reduce((sum, item) => sum + (item.quantity || 0), 0)}</td>
-                                            <td></td>
-                                            <td>
-                                                Rs.{tableDetals.reduce(
-                                                    (sum, item) =>
-                                                        sum +
-                                                        (item.quantity || 0) *
-                                                        (ediedVersion ? (item.edited_price || item.price || 0) : (item.price || 0)),
-                                                    0
-                                                )}
-                                            </td>
+                                        {/* Empty rows */}
+                                        {invoiceRows.some(r => r._isMethodRow) && (
+                                            <>
+                                                <tr><td colSpan={3}>&nbsp;</td></tr>
+                                            </>
+                                        )}
 
-                                        </tr>
-
-                                        <tr>
-                                            <td colSpan="4">
-                                                Payment Type : {selectedUser?.payment_type || "-"} / Payment Method : {selectedUser?.payment_method || "-"}
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td colSpan={3}>Paid Amount</td>
-                                            <td>Rs.{selectedUser?.paeid_amount || 0}</td>
-                                        </tr>
+                                        {/* Payment Method Row */}
+                                        {invoiceRows.some(r => r._isMethodRow) && (
+                                            <tr className="table-secondary">
+                                                <td colSpan={2} className="fw-bold text-end">
+                                                    Payment Method ({paymentMethod})
+                                                </td>
+                                                <td className="fw-bold">{totalPaid.toFixed(2)}</td>
+                                            </tr>
+                                        )}
                                     </tbody>
                                 </Table>
                             </div>
                         </Card>
                     </Col>
                 )}
-                <div className="text-end mt-4">
-                    <Button variant="outline-primary" onClick={handlePrint}>
-                        Print
-                    </Button>
-                </div>
+
             </Row>
+            <div className="mt-3 text-end">
+                <Button variant="outline-primary" onClick={handlePrint}>
+                    Print
+                </Button>
+                <button className="btn btn-success" onClick={handleSaveReceipt}>
+                    Save Receipt
+                </button>
+            </div>
         </React.Fragment>
     );
 };
