@@ -372,8 +372,8 @@ exports.updateJobStatusCon = (req, res) => {
     const nt = req.body.selectedNotifications;
     const nd = req.body.notificationDate;
     const js = req.body.selectedJobStatus;
-    console.log(rd,nt,nd,js,id)
-    NewCustomersMedDeatilsModel.updateJobStatus(rd, nt, nd,js, id, (err, result) => {
+    console.log(rd, nt, nd, js, id)
+    NewCustomersMedDeatilsModel.updateJobStatus(rd, nt, nd, js, id, (err, result) => {
         if (err) return res.status(500).json({ err: err.message });
         if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
         res.json(this.updateU)
@@ -403,5 +403,43 @@ exports.getPartialPaymentAmountCon = (req, res) => {
     NewCustomersMedDeatilsModel.getPartialPaymentAmount(id, (err, result) => {
         if (err) return res.status(500).json({ err: err.message });
         res.json(result[0]);
+    })
+}
+
+exports.getInvoiceReportCon = (req, res) => {
+    NewCustomersMedDeatilsModel.getInvoiceReport((err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.json(result);
+    })
+}
+
+exports.getInvoiceRecepitCon = (req, res) => {
+    NewCustomersMedDeatilsModel.getInvoiceRecepit((err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.json(result);
+    })
+}
+
+exports.getInvoiceByIDCon = (req, res) => {
+    const newUser = req.body;
+    NewCustomersMedDeatilsModel.getInvoiceByID(newUser.id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.json(result[0]);
+    })
+}
+
+exports.getInvoiceTableByIDCon = (req, res) => {
+    const newUser = req.body;
+    NewCustomersMedDeatilsModel.getInvoiceTableByID(newUser.id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.json(result);
+    })
+}
+
+exports.getRecepitByIDCon = (req, res) => {
+    const newUser = req.body;
+    NewCustomersMedDeatilsModel.getRecepitByID(newUser.id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.json(result);
     })
 }

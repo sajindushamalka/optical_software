@@ -319,6 +319,45 @@ const NewCustomersMedDeatils = {
             callback
         );
     },
+
+    getInvoiceReport: (callback) => {
+        db.query(
+            "select * from optical_software.cashier_invoice",
+            callback
+        );
+    },
+
+    getInvoiceRecepit: (callback) => {
+        db.query(
+            "select * from optical_software.cashier_invoice i, optical_software.cashier_recipt r where i.ci_id = r.ci_id",
+            callback
+        );
+    },
+
+    getInvoiceByID: (id, callback) => {
+        db.query(
+            "select * from optical_software.cashier_invoice where invoice_no = ? ",
+            [id],
+            callback
+        );
+    },
+
+    getInvoiceTableByID: (id, callback) => {
+        db.query(
+            "select * from optical_software.cashier_invoice_item_table where ci_id = ? ",
+            [id],
+            callback
+        );
+    },
+
+    getRecepitByID: (id, callback) => {
+        db.query(
+            "select * from optical_software.cashier_recipt where ci_id = ?",
+            [id],
+            callback
+        );
+    },
+
 };
 
 module.exports = NewCustomersMedDeatils;

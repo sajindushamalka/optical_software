@@ -46,6 +46,11 @@ router.get("/assitance/factory", NewCustomersMedDeatilsController.getCustomerFac
 router.get("/assitance/job", NewCustomersMedDeatilsController.getJobStatusDeatilsCon);
 router.post("/cashier/recipt", NewCustomersMedDeatilsController.createCashierInvoiceReciptCon);
 router.get("/cashier/recipt/:id", NewCustomersMedDeatilsController.getPartialPaymentAmountCon);
+router.get("/admin/invoices", NewCustomersMedDeatilsController.getInvoiceReportCon);
+router.get("/admin/recepits", NewCustomersMedDeatilsController.getInvoiceRecepitCon);
+router.post("/cashier/invoice", NewCustomersMedDeatilsController.getInvoiceByIDCon);
+router.post("/cashier/recepit", NewCustomersMedDeatilsController.getRecepitByIDCon);
+router.post("/cashier/invoice/table", NewCustomersMedDeatilsController.getInvoiceTableByIDCon);
 
 
 module.exports = router;
