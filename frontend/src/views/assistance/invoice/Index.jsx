@@ -30,118 +30,8 @@ const AssistanceInvoice = () => {
   const [isSelecetOne, setIsSelectOne] = useState(false);
   const [amount, setAmount] = useState(0);
   const navigate = useNavigate();
-  const [doctorEntryType, setDoctorEntryType] = useState([])
-
-
-  useEffect(() => {
-    axios
-      .get('http://localhost:2776/api/order/assitance/process')
-      .then((res) => setAllUsers(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/lense')
-      .then((res) => setLensMaterial(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/lense/type')
-      .then((res) => setLensesType(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/lense/treatment')
-      .then((res) => setLensTreatment(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/lense/colour')
-      .then((res) => setLensColour(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/lense/size')
-      .then((res) => setLensSize(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/lense/base')
-      .then((res) => setLensBase(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/lense/brand')
-      .then((res) => setLensBrand(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/lense/at')
-      .then((res) => setLensesAt(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/frame/category')
-      .then((res) => setFrameCategory(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/frame/material')
-      .then((res) => setFrameMaterial(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/frame/type')
-      .then((res) => setFrametype(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/frame/color')
-      .then((res) => setFrameColor(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/doctor')
-      .then((res) => setDoctorRx(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/test')
-      .then((res) => setTestedBy(res.data))
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:2776/api/root/enter')
-      .then((res) => setEnteredBy(res.data))
-      .catch((err) => console.log(err));
-  }, []);
-
-  const today = new Date().toLocaleDateString();
-
-  const searchFilteredUsers = allUsers.filter((user) =>
-    Object.values(user).some((value) => value?.toString().toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-
-  const now = new Date();
-  const startOfWeek = new Date(now);
-  startOfWeek.setDate(now.getDate() - now.getDay());
-  startOfWeek.setHours(0, 0, 0, 0);
-
-  const endOfWeek = new Date(startOfWeek);
-  endOfWeek.setDate(startOfWeek.getDate() + 6);
-  endOfWeek.setHours(23, 59, 59, 999);
-
-  const allIndexLast = allPage * allPerPage;
-  const allIndexFirst = allIndexLast - allPerPage;
-  const paginatedAllUsers = searchFilteredUsers.slice(allIndexFirst, allIndexLast);
-  const allTotalPages = Math.ceil(searchFilteredUsers.length / allPerPage);
+  const [doctorEntryType, setDoctorEntryType] = useState([]);
+  const [user, setUser] = useState(null);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [selectedcmd_id, setSelectedcmd_id] = useState(null);
   const [purpose_of_visit, set_purpose_of_visit] = useState('');
@@ -278,7 +168,133 @@ const AssistanceInvoice = () => {
   const [Tested_By, setTested_By] = useState('');
   const [Entered_By, setEntered_By] = useState('');
 
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
+
+  console.log(user)
+
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:2776/api/order/assitance/process')
+      .then((res) => setAllUsers(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense')
+      .then((res) => setLensMaterial(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/type')
+      .then((res) => setLensesType(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/treatment')
+      .then((res) => setLensTreatment(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/colour')
+      .then((res) => setLensColour(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/size')
+      .then((res) => setLensSize(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/base')
+      .then((res) => setLensBase(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/brand')
+      .then((res) => setLensBrand(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/lense/at')
+      .then((res) => setLensesAt(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/frame/category')
+      .then((res) => setFrameCategory(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/frame/material')
+      .then((res) => setFrameMaterial(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/frame/type')
+      .then((res) => setFrametype(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/frame/color')
+      .then((res) => setFrameColor(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/doctor')
+      .then((res) => setDoctorRx(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/test')
+      .then((res) => setTestedBy(res.data))
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:2776/api/root/enter')
+      .then((res) => setEnteredBy(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const today = new Date().toLocaleDateString();
+  const minDate = new Date().toISOString().split("T")[0];
+
+  const futureDate = new Date();
+  futureDate.setMonth(futureDate.getMonth() + 3);
+  const maxDate = futureDate.toISOString().split("T")[0];
+
+  const searchFilteredUsers = allUsers.filter((user) =>
+    Object.values(user).some((value) => value?.toString().toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const now = new Date();
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay());
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999);
+
+  const allIndexLast = allPage * allPerPage;
+  const allIndexFirst = allIndexLast - allPerPage;
+  const paginatedAllUsers = searchFilteredUsers.slice(allIndexFirst, allIndexLast);
+  const allTotalPages = Math.ceil(searchFilteredUsers.length / allPerPage);
+
   const selectedUserdetailsFetch = async (a) => {
+    setEntered_By(user.username);
     setSelectedUserId(a.c_id);
     setSelectedcmd_id(a.cmd_id);
     setIsSelectOne(true);
@@ -443,9 +459,9 @@ const AssistanceInvoice = () => {
       Doctor_Rx,
       Tested_By,
       Entered_By,
-      factory_remark:'',
-      job_status:'',
-      notification_type:''
+      factory_remark: '',
+      job_status: '',
+      notification_type: ''
     }
     await axios.post('http://localhost:2776/api/order/assitance/second', ob).then((res) => {
       console.log(res.data)
@@ -2583,6 +2599,8 @@ const AssistanceInvoice = () => {
                         <Form.Control
                           type="date"
                           value={Lens_OrderDate}
+                          min={minDate}
+                          max={maxDate}
                           onChange={(e) => setLens_OrderDate(e.target.value)}
                         />
                       </Form.Group>
@@ -2596,6 +2614,8 @@ const AssistanceInvoice = () => {
                         <Form.Control
                           type="date"
                           value={Lens_wanted_on}
+                          min={minDate}
+                          max={maxDate}
                           onChange={(e) => setLens_wanted_on(e.target.value)}
                         />
                       </Form.Group>
@@ -2911,39 +2931,13 @@ const AssistanceInvoice = () => {
             <Col md={4}>
               <Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Label>Entered By</Form.Label>
-                <Form.Select
-                  value={Entered_By}
-                  onChange={(e) => setEntered_By(e.target.value)}
-                >
-                  <option value="">-- Entered By --</option>
-                  {EnteredBy.map((remark, index) => (
-                    <option key={index} value={remark.text}>
-                      {remark.text}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-            </Col>
-
-            {/* <Col md={4}>
-              <Form.Group controlId="formBasicFloat">
                 <Form.Control
                   type="text"
-                  step="any"
-                  placeholder="Blue Cut"
-                  className="text-center"
-                  style={{
-                    border: '1px solid #ced4da',
-                    borderRadius: '0.375rem',
-                    height: '40px',
-                    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)'
-                  }}
-                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="Enter Doctor Name"
+                  value={Entered_By}
                 />
               </Form.Group>
-            </Col> */}
-
-
+            </Col>
 
             <Col md={3} style={{ marginTop: 40 }}>
               <Button variant="outline-primary" size="sm" className="px-4" onClick={submitInvocie}>

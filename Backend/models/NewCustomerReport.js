@@ -358,6 +358,22 @@ const NewCustomersMedDeatils = {
         );
     },
 
+    getCusomtwrByID: (id, callback) => {
+        db.query(
+            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c, optical_software.cashier_invoice ci where c.c_id = a.cid and ci.cmd_id = a.cmd_id and ci.cmd_id = ?;",
+            [id],
+            callback
+        );
+    },
+
+    getJobByID: (id, callback) => {
+        db.query(
+            "select * from optical_software.cashier_invoice where cmd_id = ?",
+            [id],
+            callback
+        );
+    },
+
 };
 
 module.exports = NewCustomersMedDeatils;

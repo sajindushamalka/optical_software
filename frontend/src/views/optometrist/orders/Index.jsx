@@ -662,7 +662,8 @@ const OptometristOrders = () => {
               />
 
               <Card.Body>
-                <Card.Title style={{ fontSize: '0.9rem', color: '#6c757d' }}>#Token {o.cmd_id || 'ID'}</Card.Title>
+                <Card.Title style={{ fontSize: '0.9rem', color: '#6c757d' }}>#Token {o.today_no || 'ID'}</Card.Title>
+                <Card.Title style={{ fontSize: '0.9rem', color: '#6c757d' }}>Job ID {o.cmd_id || 'ID'}</Card.Title>
                 <Card.Title style={{ fontSize: '1.1rem', fontWeight: '600' }}>{o.prefix || 'Prefix'} {o.first_name || 'FirstName'} {o.name || 'LastName'}</Card.Title>
                 <Card.Text style={{ fontSize: '0.9rem' }}>
                   {o.email || 'N/A'} <br />

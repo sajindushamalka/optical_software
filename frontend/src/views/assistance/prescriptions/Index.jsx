@@ -14,6 +14,7 @@ const AssistancePrescriptions = () => {
     const allPerPage = 5;
     const [searchTerm, setSearchTerm] = useState('');
     const [isSelecetOne, setIsSelectOne] = useState(false);
+    const [readinfTotal, setreadinfTotal] = useState('');
     const cardRef = useRef(); // Reference to the Card
 
     const handlePrint = useReactToPrint({
@@ -243,8 +244,37 @@ const AssistancePrescriptions = () => {
                     </Card>
                 </Col>
             </Row>
+
             {isSelecetOne ? (
                 <>
+                    <Row>
+                        <Col>
+                            <Form.Group className="mt-3">
+                                <Form.Label>Display Reading Total</Form.Label>
+                                <div>
+                                    <Form.Check
+                                        inline
+                                        type="radio"
+                                        label="Reading Total"
+                                        name="lensType"
+                                        value="yes"
+                                        checked={readinfTotal === "yes"}
+                                        onChange={(e) => setreadinfTotal(e.target.value)}
+                                    />
+                                     <Form.Check
+                                        inline
+                                        type="radio"
+                                        label="Remove Reading Total"
+                                        name="lensType"
+                                        value="no"
+                                        checked={readinfTotal === "no"}
+                                        onChange={(e) => setreadinfTotal(e.target.value)}
+                                    />
+                                </div>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
                     <div ref={cardRef} className="a5-card">
                         <Card>
                             <Card.Header>
@@ -658,258 +688,262 @@ const AssistancePrescriptions = () => {
                                     </Col>
                                 </Row>
 
-                                <Row>
-                                    <h6 className="mt-2 text-success" style={{ fontWeight: '600', padding: 5, marginLeft: 10 }}>
-                                        Reading Total
-                                    </h6>
-                                    <Col>
-                                        <Table bordered hover responsive className="table-sm align-middle shadow-sm">
-                                            <thead className="bg-primary text-white text-center">
-                                                <tr>
-                                                    <th colSpan={6}>OD</th>
-                                                </tr>
-                                                <tr>
-                                                    <th>SPH</th>
-                                                    <th>CYL</th>
-                                                    <th>AXIS</th>
-                                                    <th>Prism</th>
-                                                    <th>Base</th>
-                                                    <th>VA</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr className="text-center">
-                                                    <td>
-                                                        <Form.Group className="mb-0" controlId="formBasicFloat">
-                                                            <Form.Control
-                                                                type="text"
-                                                                step="any"
-                                                                style={{
-                                                                    border: 'none',
-                                                                    width: '',
-                                                                    padding: '4px 6px',
-                                                                    textAlign: 'center',
-                                                                    color: 'black'
-                                                                }}
-                                                                value={SPEC_RE_OD_SPH}
-                                                                onChange={(e) => set_SPEC_RE_OD_SPH(e.target.value)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>
-                                                        <Form.Group className="mb-0" controlId="formBasicFloat">
-                                                            <Form.Control
-                                                                type="text"
-                                                                step="any"
-                                                                style={{
-                                                                    border: 'none',
-                                                                    width: '',
-                                                                    padding: '4px 6px',
-                                                                    textAlign: 'center',
-                                                                    color: 'black'
-                                                                }}
-                                                                value={SPEC_RE_OD_CYL}
-                                                                onChange={(e) => set_SPEC_RE_OD_CYL(e.target.value)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>
-                                                        <Form.Group className="mb-0" controlId="formBasicFloat">
-                                                            <Form.Control
-                                                                type="text"
-                                                                step="any"
-                                                                style={{
-                                                                    border: 'none',
-                                                                    width: '',
-                                                                    padding: '4px 6px',
-                                                                    textAlign: 'center',
-                                                                    color: 'black'
-                                                                }}
-                                                                value={SPEC_RE_OD_AXIS}
-                                                                onChange={(e) => set_SPEC_RE_OD_AXIS(e.target.value)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>
-                                                        <Form.Group className="mb-0" controlId="formBasicFloat">
-                                                            <Form.Control
-                                                                type="text"
-                                                                step="any"
-                                                                style={{
-                                                                    border: 'none',
-                                                                    width: '',
-                                                                    padding: '4px 6px',
-                                                                    textAlign: 'center',
-                                                                    color: 'black'
-                                                                }}
-                                                                value={SPEC_RE_OD_Prism}
-                                                                onChange={(e) => set_SPEC_RE_OD_Prism(e.target.value)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>
-                                                        <Form.Group className="mb-0" controlId="formBasicFloat">
-                                                            <Form.Control
-                                                                type="text"
-                                                                step="any"
-                                                                style={{
-                                                                    border: 'none',
-                                                                    width: '',
-                                                                    padding: '4px 6px',
-                                                                    textAlign: 'center',
-                                                                    color: 'black'
-                                                                }}
-                                                                value={SPEC_RE_OD_Base}
-                                                                onChange={(e) => set_SPEC_RE_OD_Base(e.target.value)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>
-                                                        <Form.Group className="mb-0" controlId="formBasicFloat">
-                                                            <Form.Control
-                                                                type="text"
-                                                                step="any"
-                                                                style={{
-                                                                    border: 'none',
-                                                                    width: '',
-                                                                    padding: '4px 6px',
-                                                                    textAlign: 'center',
-                                                                    color: 'black'
-                                                                }}
-                                                                value={SPEC_RE_OD_VA}
-                                                                onChange={(e) => set_SPEC_RE_OD_VA(e.target.value)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </Table>
-                                    </Col>
-                                    <Col md={6}>
-                                        <Table bordered hover responsive className="table-sm align-middle shadow-sm">
-                                            <thead className="bg-primary text-white text-center">
-                                                <tr>
-                                                    <th colSpan={6}>OS</th>
-                                                </tr>
-                                                <tr>
-                                                    <th>SPH</th>
-                                                    <th>CYL</th>
-                                                    <th>AXIS</th>
-                                                    <th>Prism</th>
-                                                    <th>Base</th>
-                                                    <th>VA</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr className="text-center">
-                                                    <td>
-                                                        <Form.Group className="mb-0" controlId="formBasicFloat">
-                                                            <Form.Control
-                                                                type="text"
-                                                                step="any"
-                                                                style={{
-                                                                    border: 'none',
-                                                                    width: '',
-                                                                    padding: '4px 6px',
-                                                                    textAlign: 'center',
-                                                                    color: 'black'
-                                                                }}
-                                                                value={SPEC_RE_OS_SPH}
-                                                                onChange={(e) => set_SPEC_RE_OS_SPH(e.target.value)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>
-                                                        {' '}
-                                                        <Form.Group className="mb-0" controlId="formBasicFloat">
-                                                            <Form.Control
-                                                                type="text"
-                                                                step="any"
-                                                                style={{
-                                                                    border: 'none',
-                                                                    width: '',
-                                                                    padding: '4px 6px',
-                                                                    textAlign: 'center',
-                                                                    color: 'black'
-                                                                }}
-                                                                value={SPEC_RE_OS_CYL}
-                                                                onChange={(e) => set_SPEC_RE_OS_CYL(e.target.value)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>
-                                                        <Form.Group className="mb-0" controlId="formBasicFloat">
-                                                            <Form.Control
-                                                                type="text"
-                                                                step="any"
-                                                                style={{
-                                                                    border: 'none',
-                                                                    width: '',
-                                                                    padding: '4px 6px',
-                                                                    textAlign: 'center',
-                                                                    color: 'black'
-                                                                }}
-                                                                value={SPEC_RE_OS_AXIS}
-                                                                onChange={(e) => set_SPEC_RE_OS_AXIS(e.target.value)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>
-                                                        <Form.Group className="mb-0" controlId="formBasicFloat">
-                                                            <Form.Control
-                                                                type="text"
-                                                                step="any"
-                                                                style={{
-                                                                    border: 'none',
-                                                                    width: '',
-                                                                    padding: '4px 6px',
-                                                                    textAlign: 'center',
-                                                                    color: 'black'
-                                                                }}
-                                                                value={SPEC_RE_OS_Prism}
-                                                                onChange={(e) => set_SPEC_RE_OS_Prism(e.target.value)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>
-                                                        <Form.Group className="mb-0" controlId="formBasicFloat">
-                                                            <Form.Control
-                                                                type="text"
-                                                                step="any"
-                                                                style={{
-                                                                    border: 'none',
-                                                                    width: '',
-                                                                    padding: '4px 6px',
-                                                                    textAlign: 'center',
-                                                                    color: 'black'
-                                                                }}
-                                                                value={SPEC_RE_OS_Base}
-                                                                onChange={(e) => set_SPEC_RE_OS_Base(e.target.value)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>
-                                                        <Form.Group className="mb-0" controlId="formBasicFloat">
-                                                            <Form.Control
-                                                                type="text"
-                                                                step="any"
-                                                                style={{
-                                                                    border: 'none',
-                                                                    width: '',
-                                                                    padding: '4px 6px',
-                                                                    textAlign: 'center',
-                                                                    color: 'black'
-                                                                }}
-                                                                value={SPEC_RE_OS_VA}
-                                                                onChange={(e) => set_SPEC_RE_OS_VA(e.target.value)}
-                                                            />
-                                                        </Form.Group>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </Table>
-                                    </Col>
-                                </Row>
+                                {readinfTotal === "yes" ?
+                                    <Row>
+                                        <h6 className="mt-2 text-success" style={{ fontWeight: '600', padding: 5, marginLeft: 10 }}>
+                                            Reading Total
+                                        </h6>
+                                        <Col>
+                                            <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                                                <thead className="bg-primary text-white text-center">
+                                                    <tr>
+                                                        <th colSpan={6}>OD</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>SPH</th>
+                                                        <th>CYL</th>
+                                                        <th>AXIS</th>
+                                                        <th>Prism</th>
+                                                        <th>Base</th>
+                                                        <th>VA</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr className="text-center">
+                                                        <td>
+                                                            <Form.Group className="mb-0" controlId="formBasicFloat">
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    step="any"
+                                                                    style={{
+                                                                        border: 'none',
+                                                                        width: '',
+                                                                        padding: '4px 6px',
+                                                                        textAlign: 'center',
+                                                                        color: 'black'
+                                                                    }}
+                                                                    value={SPEC_RE_OD_SPH}
+                                                                    onChange={(e) => set_SPEC_RE_OD_SPH(e.target.value)}
+                                                                />
+                                                            </Form.Group>
+                                                        </td>
+                                                        <td>
+                                                            <Form.Group className="mb-0" controlId="formBasicFloat">
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    step="any"
+                                                                    style={{
+                                                                        border: 'none',
+                                                                        width: '',
+                                                                        padding: '4px 6px',
+                                                                        textAlign: 'center',
+                                                                        color: 'black'
+                                                                    }}
+                                                                    value={SPEC_RE_OD_CYL}
+                                                                    onChange={(e) => set_SPEC_RE_OD_CYL(e.target.value)}
+                                                                />
+                                                            </Form.Group>
+                                                        </td>
+                                                        <td>
+                                                            <Form.Group className="mb-0" controlId="formBasicFloat">
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    step="any"
+                                                                    style={{
+                                                                        border: 'none',
+                                                                        width: '',
+                                                                        padding: '4px 6px',
+                                                                        textAlign: 'center',
+                                                                        color: 'black'
+                                                                    }}
+                                                                    value={SPEC_RE_OD_AXIS}
+                                                                    onChange={(e) => set_SPEC_RE_OD_AXIS(e.target.value)}
+                                                                />
+                                                            </Form.Group>
+                                                        </td>
+                                                        <td>
+                                                            <Form.Group className="mb-0" controlId="formBasicFloat">
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    step="any"
+                                                                    style={{
+                                                                        border: 'none',
+                                                                        width: '',
+                                                                        padding: '4px 6px',
+                                                                        textAlign: 'center',
+                                                                        color: 'black'
+                                                                    }}
+                                                                    value={SPEC_RE_OD_Prism}
+                                                                    onChange={(e) => set_SPEC_RE_OD_Prism(e.target.value)}
+                                                                />
+                                                            </Form.Group>
+                                                        </td>
+                                                        <td>
+                                                            <Form.Group className="mb-0" controlId="formBasicFloat">
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    step="any"
+                                                                    style={{
+                                                                        border: 'none',
+                                                                        width: '',
+                                                                        padding: '4px 6px',
+                                                                        textAlign: 'center',
+                                                                        color: 'black'
+                                                                    }}
+                                                                    value={SPEC_RE_OD_Base}
+                                                                    onChange={(e) => set_SPEC_RE_OD_Base(e.target.value)}
+                                                                />
+                                                            </Form.Group>
+                                                        </td>
+                                                        <td>
+                                                            <Form.Group className="mb-0" controlId="formBasicFloat">
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    step="any"
+                                                                    style={{
+                                                                        border: 'none',
+                                                                        width: '',
+                                                                        padding: '4px 6px',
+                                                                        textAlign: 'center',
+                                                                        color: 'black'
+                                                                    }}
+                                                                    value={SPEC_RE_OD_VA}
+                                                                    onChange={(e) => set_SPEC_RE_OD_VA(e.target.value)}
+                                                                />
+                                                            </Form.Group>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </Table>
+                                        </Col>
+                                        <Col md={6}>
+                                            <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                                                <thead className="bg-primary text-white text-center">
+                                                    <tr>
+                                                        <th colSpan={6}>OS</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>SPH</th>
+                                                        <th>CYL</th>
+                                                        <th>AXIS</th>
+                                                        <th>Prism</th>
+                                                        <th>Base</th>
+                                                        <th>VA</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr className="text-center">
+                                                        <td>
+                                                            <Form.Group className="mb-0" controlId="formBasicFloat">
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    step="any"
+                                                                    style={{
+                                                                        border: 'none',
+                                                                        width: '',
+                                                                        padding: '4px 6px',
+                                                                        textAlign: 'center',
+                                                                        color: 'black'
+                                                                    }}
+                                                                    value={SPEC_RE_OS_SPH}
+                                                                    onChange={(e) => set_SPEC_RE_OS_SPH(e.target.value)}
+                                                                />
+                                                            </Form.Group>
+                                                        </td>
+                                                        <td>
+                                                            {' '}
+                                                            <Form.Group className="mb-0" controlId="formBasicFloat">
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    step="any"
+                                                                    style={{
+                                                                        border: 'none',
+                                                                        width: '',
+                                                                        padding: '4px 6px',
+                                                                        textAlign: 'center',
+                                                                        color: 'black'
+                                                                    }}
+                                                                    value={SPEC_RE_OS_CYL}
+                                                                    onChange={(e) => set_SPEC_RE_OS_CYL(e.target.value)}
+                                                                />
+                                                            </Form.Group>
+                                                        </td>
+                                                        <td>
+                                                            <Form.Group className="mb-0" controlId="formBasicFloat">
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    step="any"
+                                                                    style={{
+                                                                        border: 'none',
+                                                                        width: '',
+                                                                        padding: '4px 6px',
+                                                                        textAlign: 'center',
+                                                                        color: 'black'
+                                                                    }}
+                                                                    value={SPEC_RE_OS_AXIS}
+                                                                    onChange={(e) => set_SPEC_RE_OS_AXIS(e.target.value)}
+                                                                />
+                                                            </Form.Group>
+                                                        </td>
+                                                        <td>
+                                                            <Form.Group className="mb-0" controlId="formBasicFloat">
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    step="any"
+                                                                    style={{
+                                                                        border: 'none',
+                                                                        width: '',
+                                                                        padding: '4px 6px',
+                                                                        textAlign: 'center',
+                                                                        color: 'black'
+                                                                    }}
+                                                                    value={SPEC_RE_OS_Prism}
+                                                                    onChange={(e) => set_SPEC_RE_OS_Prism(e.target.value)}
+                                                                />
+                                                            </Form.Group>
+                                                        </td>
+                                                        <td>
+                                                            <Form.Group className="mb-0" controlId="formBasicFloat">
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    step="any"
+                                                                    style={{
+                                                                        border: 'none',
+                                                                        width: '',
+                                                                        padding: '4px 6px',
+                                                                        textAlign: 'center',
+                                                                        color: 'black'
+                                                                    }}
+                                                                    value={SPEC_RE_OS_Base}
+                                                                    onChange={(e) => set_SPEC_RE_OS_Base(e.target.value)}
+                                                                />
+                                                            </Form.Group>
+                                                        </td>
+                                                        <td>
+                                                            <Form.Group className="mb-0" controlId="formBasicFloat">
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    step="any"
+                                                                    style={{
+                                                                        border: 'none',
+                                                                        width: '',
+                                                                        padding: '4px 6px',
+                                                                        textAlign: 'center',
+                                                                        color: 'black'
+                                                                    }}
+                                                                    value={SPEC_RE_OS_VA}
+                                                                    onChange={(e) => set_SPEC_RE_OS_VA(e.target.value)}
+                                                                />
+                                                            </Form.Group>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </Table>
+                                        </Col>
+                                    </Row>
+                                    : null}
+
+
                                 <Row>
                                     <h6 className="mt-2 text-success" style={{ fontWeight: '600', padding: 5, marginLeft: 10 }}>
                                         Lens Description
@@ -992,10 +1026,6 @@ const AssistancePrescriptions = () => {
                     <Button variant="primary" onClick={handlePrint}>
                         Print
                     </Button>
-
-                    {/* <Button variant="info" onClick={movetoFactory}>
-                        Send
-                    </Button> */}
                 </>
             ) : null}
         </React.Fragment>

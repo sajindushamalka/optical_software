@@ -443,3 +443,19 @@ exports.getRecepitByIDCon = (req, res) => {
         res.json(result);
     })
 }
+
+exports.getCusomtwrByIDCon = (req, res) => {
+    const newUser = req.body;
+    NewCustomersMedDeatilsModel.getCusomtwrByID(newUser.id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.json(result[0]);
+    })
+}
+
+exports.getJobByIDCon = (req, res) => {
+    const newUser = req.body;
+    NewCustomersMedDeatilsModel.getJobByID(newUser.id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.json(result[0]);
+    })
+}

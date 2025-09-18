@@ -32,13 +32,53 @@ const AssistanceFactory = () => {
 
     const today = new Date().toLocaleDateString();
 
+    // const searchFilteredUsers = allUsers.filter((user) => {
+    //     const matchesSearch = Object.values(user).some((value) =>
+    //         value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    //     );
+
+    //     console.log(selectedDate, user.Lens_OrderDate)
+
+    //     const matchesDate = selectedDate
+    //         ? new Date(user.Lens_OrderDate).toISOString().split('T')[0] === selectedDate
+    //         : true; // if no date selected, show all
+
+    //     const matchesLensShop = selectedLensesAt
+    //         ? user.Lenses_At === selectedLensesAt
+    //         : true; // if no shop selected, show all
+
+    //     return matchesSearch && matchesDate && matchesLensShop;
+    // });
+
     const searchFilteredUsers = allUsers.filter((user) => {
         const matchesSearch = Object.values(user).some((value) =>
             value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
         );
 
+        let normalizedDate = null;
+
+        if (user.Lens_OrderDate) {
+            const userDateObj = new Date(user.Lens_OrderDate);
+
+            if (!isNaN(userDateObj)) {
+                // If it's day 30 or 31 → move to next month's 1st
+                if (userDateObj.getDate() >= 30) {
+                    userDateObj.setMonth(userDateObj.getMonth() + 1);
+                    userDateObj.setDate(1);
+                }
+
+                // ✅ Always add one day
+                userDateObj.setDate(userDateObj.getDate() + 1);
+
+                // Convert to yyyy-mm-dd
+                normalizedDate = userDateObj.toISOString().split("T")[0];
+            }
+        }
+
+        console.log("Selected:", selectedDate, "User:", normalizedDate);
+
         const matchesDate = selectedDate
-            ? new Date(user.date).toISOString().split('T')[0] === selectedDate
+            ? normalizedDate === selectedDate
             : true; // if no date selected, show all
 
         const matchesLensShop = selectedLensesAt
@@ -47,6 +87,7 @@ const AssistanceFactory = () => {
 
         return matchesSearch && matchesDate && matchesLensShop;
     });
+
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -81,14 +122,6 @@ const AssistanceFactory = () => {
     };
 
     const handlePass = (a, b) => {
-        // axios.put(`http://localhost:2776/api/order/factory/process/${a}`).then((res) => {
-        //     console.log(res.data)
-        // }).catch((err) => {
-        //     console.log(err)
-        //     toast.error('Error in passing to factory')
-        // })
-        // console.log(b)
-
         if (factory_remark != '') {
             const ob = {
                 factory_remark
