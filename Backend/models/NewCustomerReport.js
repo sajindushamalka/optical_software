@@ -374,6 +374,14 @@ const NewCustomersMedDeatils = {
         );
     },
 
+    createReorderMessage: (customermeddeatils, callback) => {
+        db.query(
+            "Insert into optical_software.reorder_orders SET ?",
+            customermeddeatils,
+            callback
+        );
+    },
+
 };
 
 module.exports = NewCustomersMedDeatils;

@@ -459,3 +459,11 @@ exports.getJobByIDCon = (req, res) => {
         res.json(result[0]);
     })
 }
+
+exports.createReorderMessageCon = (req, res) => {
+    const newUser = req.body;
+    NewCustomersMedDeatilsModel.createReorderMessage(newUser, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.status(201).json({ message: "Order Created", id: result.insertId });
+    });
+};

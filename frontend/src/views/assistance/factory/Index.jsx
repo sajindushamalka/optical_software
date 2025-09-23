@@ -6,17 +6,27 @@ import avatar3 from '../../../assets/images/user/avatar-3.jpg';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+const reOrderList = [{ id: 0, text: "Fixed Error" }, { id: 1, text: "Mistake" }]
+
 const AssistanceFactory = () => {
     const [allUsers, setAllUsers] = useState(['']);
     const [allPage, setAllPage] = useState(1);
     const allPerPage = 5;
     const [searchTerm, setSearchTerm] = useState('');
-    const [isSelecetOne, setIsSelectOne] = useState(false);
     const [selectedDate, setSelectedDate] = useState('');
     const [LensesAt, setLensesAt] = useState(['']);
     const [selectedLensesAt, setSelectedLensesAt] = useState('');
     const [factory_remark, setfactory_remark] = useState('');
+    const [reorderDetails, setreorderDetails] = useState('');
+    const [selectedCmd_ID, setselectedCmd_ID] = useState('');
 
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = (id) => {
+        setShow(true);
+        setselectedCmd_ID(id)
+    };
 
     useEffect(() => {
         axios
@@ -32,24 +42,6 @@ const AssistanceFactory = () => {
 
     const today = new Date().toLocaleDateString();
 
-    // const searchFilteredUsers = allUsers.filter((user) => {
-    //     const matchesSearch = Object.values(user).some((value) =>
-    //         value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    //     );
-
-    //     console.log(selectedDate, user.Lens_OrderDate)
-
-    //     const matchesDate = selectedDate
-    //         ? new Date(user.Lens_OrderDate).toISOString().split('T')[0] === selectedDate
-    //         : true; // if no date selected, show all
-
-    //     const matchesLensShop = selectedLensesAt
-    //         ? user.Lenses_At === selectedLensesAt
-    //         : true; // if no shop selected, show all
-
-    //     return matchesSearch && matchesDate && matchesLensShop;
-    // });
-
     const searchFilteredUsers = allUsers.filter((user) => {
         const matchesSearch = Object.values(user).some((value) =>
             value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
@@ -61,22 +53,17 @@ const AssistanceFactory = () => {
             const userDateObj = new Date(user.Lens_OrderDate);
 
             if (!isNaN(userDateObj)) {
-                // If it's day 30 or 31 → move to next month's 1st
                 if (userDateObj.getDate() >= 30) {
                     userDateObj.setMonth(userDateObj.getMonth() + 1);
                     userDateObj.setDate(1);
                 }
 
-                // ✅ Always add one day
                 userDateObj.setDate(userDateObj.getDate() + 1);
 
-                // Convert to yyyy-mm-dd
                 normalizedDate = userDateObj.toISOString().split("T")[0];
             }
         }
-
         console.log("Selected:", selectedDate, "User:", normalizedDate);
-
         const matchesDate = selectedDate
             ? normalizedDate === selectedDate
             : true; // if no date selected, show all
@@ -109,17 +96,6 @@ const AssistanceFactory = () => {
     const allIndexLast = allPage * allPerPage;
     const allIndexFirst = allIndexLast - allPerPage;
     const paginatedAllUsers = searchFilteredUsers.slice(allIndexFirst, allIndexLast);
-    const allTotalPages = Math.ceil(searchFilteredUsers.length / allPerPage);
-    const [selectedUserId, setSelectedUserId] = useState(null);
-    const [selectedcmd_id, setSelectedcmd_id] = useState(null);
-    const [myDetails, setMyDetails] = useState('');
-
-    const selectedUserdetailsFetch = async (a) => {
-        setSelectedUserId(a.c_id);
-        setSelectedcmd_id(a.cmd_id);
-        setIsSelectOne(true);
-        setMyDetails(a)
-    };
 
     const handlePass = (a, b) => {
         if (factory_remark != '') {
@@ -135,6 +111,20 @@ const AssistanceFactory = () => {
             })
         }
         toast.success('Order sent to factory & updated')
+    }
+
+    const ReOrder = () => {
+        const ob = {
+            date: formatDate(today),
+            cmd_id: selectedCmd_ID,
+            message: reorderDetails
+        }
+
+        axios.post('http://localhost:2776/api/order/factory/reorder', ob).then((res) => {
+            console.log(res.data)
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     console.log(paginatedAllUsers)
@@ -311,12 +301,56 @@ const AssistanceFactory = () => {
                                 <Button variant="primary" onClick={() => handlePass(r.cmd_id, r.coaldid)}>
                                     Order
                                 </Button>
+
+                                <Button variant="primary" onClick={() => handleShow(r.cmd_id)}>
+                                    Re-Order
+                                </Button>
                             </Row>
                         </Container>
 
                     ))}
                 </Card.Body>
             </Card>
+
+            <Modal show={show} onHide={handleClose} size="lg">
+                <Modal.Header closeButton>
+                    <Modal.Title>Reorder Orders</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Container>
+                            <Row>
+                                <Col xs={12} md={12}>
+                                    <Form.Group className="mb-3" controlId="formGender">
+                                        <Form.Label>Titles</Form.Label>
+                                        <div>
+                                            {reOrderList.map((r) => (
+                                                <Form.Check
+                                                    key={r.id}
+                                                    type="radio"
+                                                    label={r.text}
+                                                    name="titles" // group name so only one can be selected
+                                                    value={r.text}
+                                                    onChange={(e) => setreorderDetails(e.target.value)}
+                                                    inline // keeps them in a row
+                                                />
+                                            ))}
+                                        </div>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={ReOrder}>
+                        Save
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </React.Fragment>
     );
 };

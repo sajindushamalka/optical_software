@@ -53,6 +53,7 @@ router.post("/cashier/recepit", NewCustomersMedDeatilsController.getRecepitByIDC
 router.post("/cashier/customer", NewCustomersMedDeatilsController.getCusomtwrByIDCon);
 router.post("/cashier/invoice/table", NewCustomersMedDeatilsController.getInvoiceTableByIDCon);
 router.post("/cashier/jobid", NewCustomersMedDeatilsController.getJobByIDCon);
+router.post("/factory/reorder", NewCustomersMedDeatilsController.createReorderMessageCon);
 
 
 module.exports = router;
