@@ -44,6 +44,33 @@ const AssistanceOrder = () => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
+
+  const formatDate2 = (date) => {
+    return date.toISOString().split("T")[0]; // YYYY-MM-DD
+  };
+
+  const today2 = new Date();
+
+  const [todayNo2, setTodayNo2] = useState(1);
+
+  useEffect(() => {
+    // Get stored date + counter
+    const storedDate = localStorage.getItem("todayDate");
+    const storedNo = localStorage.getItem("todayNo");
+
+    const currentDate = formatDate2(today2);
+
+    if (storedDate === currentDate && storedNo) {
+      setTodayNo2(parseInt(storedNo, 10)); // continue sequence
+    } else {
+      // Reset for new day
+      localStorage.setItem("todayDate", currentDate);
+      localStorage.setItem("todayNo", 1);
+      setTodayNo2(1);
+    }
+  }, []);
+
+
   const today = new Date().toLocaleDateString();
   const todayDate = formatDate(today);
 
@@ -58,18 +85,18 @@ const AssistanceOrder = () => {
     //   .then((res) => setPrevOrders(res.data))
     //   .catch((err) => console.log(err));
 
-    const savedDate = localStorage.getItem("lastDate");
-    const savedCount = localStorage.getItem("todayNo");
+    // const savedDate = localStorage.getItem("lastDate");
+    // const savedCount = localStorage.getItem("todayNo");
 
-    if (savedDate === todayDate) {
-      setTodayNo(Number(savedCount) + 1);
-    } else {
-      setTodayNo(1);
-    }
+    // if (savedDate === todayDate) {
+    //   setTodayNo(Number(savedCount) + 1);
+    // } else {
+    //   setTodayNo(1);
+    // }
 
-    // Save on mount
-    localStorage.setItem("lastDate", todayDate);
-    localStorage.setItem("todayNo", 1);
+    // // Save on mount
+    // localStorage.setItem("lastDate", todayDate);
+    // localStorage.setItem("todayNo", 1);
 
     axios.get('http://localhost:2776/api/root/purposeov').then((res) => {
       setpurposeofvisit(res.data)
@@ -147,7 +174,7 @@ const AssistanceOrder = () => {
   const [occupation, setoccupation] = useState('NULL');
   const [mobile2, setmobile2] = useState(0);
   const [lanMobile, setlanMobile] = useState(0);
-  const [nic, setnic] = useState('NULL');
+  const [nic, setnic] = useState('');
   const [gender, setgender] = useState('NULL');
   const [titles, settitles] = useState('NULL');
   const [reg_date, setreg_date] = useState(today);
@@ -573,149 +600,324 @@ const AssistanceOrder = () => {
     })
   };
 
+  const [buttonvalue, setbuttonvalue] = useState(false);
 
+  const deatilsPickup = () => {
+    setbuttonvalue(true)
+    toast.success("Details Saved!");
+  }
   const resetSelectedValues = (user) => {
-    set_Date('')
-    set_Button_Show_Status(true)
-    set_purpose_of_visit('')
-    set_purpose_of_visit_remark('')
-    set_occular_health('')
-    set_occular_health_remark('')
-    set_general_health('')
-    set_general_health_medication('')
-    set_general_health_allergies('')
-    set_general_health_remark('')
-    set_symptoms('')
-    set_symptoms_remark('')
-    set_type_of_lenses_used('')
-    set_report_status('')
-    set_HABI_OD_SPH('')
-    set_HABI_OD_CYL('')
-    set_HABI_OD_AXIS('')
-    set_HABI_OD_Prim('')
-    set_HABI_OD_Prim('')
-    set_HABI_OD_Base('')
-    set_HABI_OD_VA('')
-    set_HABI_OD_type_near_full('')
-    set_HABI_OD_type_near_va('')
-    set_HABI_OS_SPH('')
-    set_HABI_OS_CYL('')
-    set_HABI_OS_AXIS('')
-    set_HABI_OS_Prim('')
-    set_HABI_OS_Base('')
-    set_HABI_OS_VA('')
-    set_HABI_OS_type_near_full('')
-    set_HABI_OS_type_near_va('')
-    set_SPEC_OD_SPH('')
-    set_SPEC_OD_CYL('')
-    set_SPEC_OD_AXIS('')
-    set_SPEC_OD_Prim('')
-    set_SPEC_OD_Base('')
-    set_SPEC_OD_VA('')
-    set_SPEC_OD_type_near_full('')
-    set_SPEC_OD_type_near_va('')
-    set_SPEC_OS_SPH('')
-    set_SPEC_OS_CYL('')
-    set_SPEC_OS_AXIS('')
-    set_SPEC_OS_Prim('')
-    set_SPEC_OS_Base('')
-    set_SPEC_OS_VA('')
-    set_SPEC_OS_type_near_full('')
-    set_SPEC_OS_type_near_va('')
-    set_SPEC_Pro_Add('')
-    set_SPEC_RE_OD_SPH('')
-    set_SPEC_RE_OD_CYL('')
-    set_SPEC_RE_OD_AXIS('')
-    set_SPEC_RE_OD_Prism('')
-    set_SPEC_RE_OD_Base('')
-    set_SPEC_RE_OD_VA('')
-    set_SPEC_RE_OS_SPH('')
-    set_SPEC_RE_OS_CYL('')
-    set_SPEC_RE_OS_AXIS('')
-    set_SPEC_RE_OS_Prism('')
-    set_SPEC_RE_OS_Base('')
-    set_SPEC_RE_OS_VA('')
-    set_SPEC_UNA_DIS_OD('')
-    set_SPEC_UNA_NEAR_OD('')
-    set_SPEC_UNA_DIS_OS('')
-    set_SPEC_UNA_NEAR_OS('')
-    set_SPEC_Pin_OD('')
-    set_SPEC_Pin_OS('')
-    set_SPEC_IOP_OD('')
-    set_SPEC_IOP_OS('')
-    set_SPEC_RED_OD_O('')
-    set_SPEC_RED_OD_T('')
-    set_SPEC_RED_OS_O('')
-    set_SPEC_RED_OS_T('')
-    set_SPEC_Type_Of_lenses_Used('')
-    set_SPEC_Time_Period('')
-    set_SPEC_Time_More('')
-    set_SPEC_remark('')
-    set_SPECOB_OD_SPH('')
-    set_SPECOB_OD_CYL('')
-    set_SPECOB_OD_AXIS('')
-    set_SPECOB_OD_Prim('')
-    set_SPECOB_OD_Base('')
-    set_SPECOB_OD_VA('')
-    set_SPECOB_OD_type_near_full('')
-    set_SPECOB_OD_type_near_va('')
-    set_SPECOB_OS_SPH('')
-    set_SPECOB_OS_CYL('')
-    set_SPECOB_OD_SPH('')
-    set_SPECOB_OS_AXIS('')
-    set_SPECOB_OS_Prim('')
-    set_SPECOB_OS_Base('')
-    set_SPECOB_OS_VA('')
-    set_SPECOB_OS_type_near_full('')
-    set_SPECOB_OS_type_near_va('')
-    set_SPECOB_remark('')
-    set_SPECCON_OD_SPH('')
-    set_SPECCON_OD_CYL('')
-    set_SPECCON_OD_AXIS('')
-    set_SPECCON_OD_VA('')
-    set_SPECCON_OD_B_Curve('')
-    set_SPECCON_OD_Diam('')
-    set_SPECCON_OD_Design('')
-    set_SPECCON_OS_SPH('')
-    set_SPECCON_OS_CYL('')
-    set_SPECCON_OD_SPH('')
-    set_SPECCON_OS_AXIS('')
-    set_SPECCON_OS_VA('')
-    set_SPECCON_OS_B_Curve('')
-    set_SPECCON_OS_Diam('')
-    set_SPECCON_OS_Design('')
-    set_SPECCON_Remark('')
-    set_Oprimistic_Filed3('')
-    set_Oprimistic_Filed2('')
-    set_Oprimistic_Filed('')
-    setLens_Material('')
-    setLenses_Type('')
-    setLens_Treatment('')
-    setLens_Colour('')
-    setLens_Size('')
-    setLens_Base('')
-    setLens_Price('')
-    setLens_OrderDate('')
-    setLens_wanted_on('')
-    setFrame_Category('')
-    setFrame_Material('')
-    setFrame_type('')
-    setFrame_Brand('')
-    setModel_number('')
-    setColour('')
-    setFront_size('')
-    setBridge_size('')
-    setArm_Size('')
-    setPD('')
-    setSEG('')
-    setLense_Description('')
-    setFreame_Description('')
-    setDoctor_Rx('')
-    setTested_By('')
-    setEntered_By('')
-    set_Oprimistic_Filed4('')
-    set_Oprimistic_Filed2('')
-    set_Oprimistic_Filed('')
+    if (buttonvalue == true) {
+      set_Date('')
+      set_Button_Show_Status(true)
+      set_purpose_of_visit('')
+      set_purpose_of_visit_remark('')
+      set_occular_health('')
+      set_occular_health_remark('')
+      set_general_health('')
+      set_general_health_medication('')
+      set_general_health_allergies('')
+      set_general_health_remark('')
+      set_symptoms('')
+      set_symptoms_remark('')
+      set_type_of_lenses_used('')
+      set_report_status('')
+      set_HABI_OD_SPH('')
+      set_HABI_OD_CYL('')
+      set_HABI_OD_AXIS('')
+      set_HABI_OD_Prim('')
+      set_HABI_OD_Prim('')
+      set_HABI_OD_Base('')
+      set_HABI_OD_VA('')
+      set_HABI_OD_type_near_full('')
+      set_HABI_OD_type_near_va('')
+      set_HABI_OS_SPH('')
+      set_HABI_OS_CYL('')
+      set_HABI_OS_AXIS('')
+      set_HABI_OS_Prim('')
+      set_HABI_OS_Base('')
+      set_HABI_OS_VA('')
+      set_HABI_OS_type_near_full('')
+      set_HABI_OS_type_near_va('')
+      set_HABI_OD_SPH(SPEC_OD_SPH)
+      set_HABI_OD_CYL(SPEC_OD_CYL)
+      set_HABI_OD_AXIS(SPEC_OD_AXIS)
+      set_HABI_OD_Prim(SPEC_OD_Prism)
+      set_HABI_OD_Base(SPEC_OD_Base)
+      set_HABI_OD_VA(SPEC_OD_VA)
+      set_HABI_OD_type_near_full(SPEC_OD_near_full)
+      set_HABI_OD_type_near_va(SPEC_OD_near_va)
+      set_HABI_OS_SPH(SPEC_OS_SPH)
+      set_HABI_OS_CYL(SPEC_OS_CYL)
+      set_HABI_OS_AXIS(SPEC_OS_AXIS)
+      set_HABI_OS_Prim(SPEC_OS_Prism)
+      set_HABI_OS_Base(SPEC_OS_Base)
+      set_HABI_OS_VA(SPEC_OS_VA)
+      set_HABI_OS_type_near_full(SPEC_OS_near_full)
+      set_HABI_OS_type_near_va(SPEC_OS_near_va)
+      set_SPEC_Pro_Add('')
+      set_SPEC_RE_OD_SPH('')
+      set_SPEC_RE_OD_CYL('')
+      set_SPEC_RE_OD_AXIS('')
+      set_SPEC_RE_OD_Prism('')
+      set_SPEC_RE_OD_Base('')
+      set_SPEC_RE_OD_VA('')
+      set_SPEC_RE_OS_SPH('')
+      set_SPEC_RE_OS_CYL('')
+      set_SPEC_RE_OS_AXIS('')
+      set_SPEC_RE_OS_Prism('')
+      set_SPEC_RE_OS_Base('')
+      set_SPEC_RE_OS_VA('')
+      set_SPEC_UNA_DIS_OD('')
+      set_SPEC_UNA_NEAR_OD('')
+      set_SPEC_UNA_DIS_OS('')
+      set_SPEC_UNA_NEAR_OS('')
+      set_SPEC_Pin_OD('')
+      set_SPEC_Pin_OS('')
+      set_SPEC_IOP_OD('')
+      set_SPEC_IOP_OS('')
+      set_SPEC_RED_OD_O('')
+      set_SPEC_RED_OD_T('')
+      set_SPEC_RED_OS_O('')
+      set_SPEC_RED_OS_T('')
+      set_SPEC_Type_Of_lenses_Used('')
+      set_SPEC_Time_Period('')
+      set_SPEC_Time_More('')
+      set_SPEC_remark('')
+      set_SPECOB_OD_SPH('')
+      set_SPECOB_OD_CYL('')
+      set_SPECOB_OD_AXIS('')
+      set_SPECOB_OD_Prim('')
+      set_SPECOB_OD_Base('')
+      set_SPECOB_OD_VA('')
+      set_SPECOB_OD_type_near_full('')
+      set_SPECOB_OD_type_near_va('')
+      set_SPECOB_OS_SPH('')
+      set_SPECOB_OS_CYL('')
+      set_SPECOB_OD_SPH('')
+      set_SPECOB_OS_AXIS('')
+      set_SPECOB_OS_Prim('')
+      set_SPECOB_OS_Base('')
+      set_SPECOB_OS_VA('')
+      set_SPECOB_OS_type_near_full('')
+      set_SPECOB_OS_type_near_va('')
+      set_SPECOB_remark('')
+      set_SPECCON_OD_SPH('')
+      set_SPECCON_OD_CYL('')
+      set_SPECCON_OD_AXIS('')
+      set_SPECCON_OD_VA('')
+      set_SPECCON_OD_B_Curve('')
+      set_SPECCON_OD_Diam('')
+      set_SPECCON_OD_Design('')
+      set_SPECCON_OS_SPH('')
+      set_SPECCON_OS_CYL('')
+      set_SPECCON_OD_SPH('')
+      set_SPECCON_OS_AXIS('')
+      set_SPECCON_OS_VA('')
+      set_SPECCON_OS_B_Curve('')
+      set_SPECCON_OS_Diam('')
+      set_SPECCON_OS_Design('')
+      set_SPECCON_Remark('')
+      set_Oprimistic_Filed3('')
+      set_Oprimistic_Filed2('')
+      set_Oprimistic_Filed('')
+      setLens_Material('')
+      setLenses_Type('')
+      setLens_Treatment('')
+      setLens_Colour('')
+      setLens_Size('')
+      setLens_Base('')
+      setLens_Price('')
+      setLens_OrderDate('')
+      setLens_wanted_on('')
+      setFrame_Category('')
+      setFrame_Material('')
+      setFrame_type('')
+      setFrame_Brand('')
+      setModel_number('')
+      setColour('')
+      setFront_size('')
+      setBridge_size('')
+      setArm_Size('')
+      setPD('')
+      setSEG('')
+      setLense_Description('')
+      setFreame_Description('')
+      setDoctor_Rx('')
+      setTested_By('')
+      setEntered_By('')
+      set_Oprimistic_Filed4('')
+      set_Oprimistic_Filed2('')
+      set_Oprimistic_Filed('')
+      setbuttonvalue(false)
+    } else {
+      set_Date('')
+      set_Button_Show_Status(true)
+      set_purpose_of_visit('')
+      set_purpose_of_visit_remark('')
+      set_occular_health('')
+      set_occular_health_remark('')
+      set_general_health('')
+      set_general_health_medication('')
+      set_general_health_allergies('')
+      set_general_health_remark('')
+      set_symptoms('')
+      set_symptoms_remark('')
+      set_type_of_lenses_used('')
+      set_report_status('')
+      set_HABI_OD_SPH('')
+      set_HABI_OD_CYL('')
+      set_HABI_OD_AXIS('')
+      set_HABI_OD_Prim('')
+      set_HABI_OD_Prim('')
+      set_HABI_OD_Base('')
+      set_HABI_OD_VA('')
+      set_HABI_OD_type_near_full('')
+      set_HABI_OD_type_near_va('')
+      set_HABI_OS_SPH('')
+      set_HABI_OS_CYL('')
+      set_HABI_OS_AXIS('')
+      set_HABI_OS_Prim('')
+      set_HABI_OS_Base('')
+      set_HABI_OS_VA('')
+      set_HABI_OS_type_near_full('')
+      set_HABI_OS_type_near_va('')
+      set_SPEC_OD_SPH('')
+      set_SPEC_OD_CYL('')
+      set_SPEC_OD_AXIS('')
+      set_SPEC_OD_Prim('')
+      set_SPEC_OD_Base('')
+      set_SPEC_OD_VA('')
+      set_SPEC_OD_type_near_full('')
+      set_SPEC_OD_type_near_va('')
+      set_SPEC_OS_SPH('')
+      set_SPEC_OS_CYL('')
+      set_SPEC_OS_AXIS('')
+      set_SPEC_OS_Prim('')
+      set_SPEC_OS_Base('')
+      set_SPEC_OS_VA('')
+      set_SPEC_OS_type_near_full('')
+      set_SPEC_OS_type_near_va('')
+      set_SPEC_Pro_Add('')
+      set_SPEC_RE_OD_SPH('')
+      set_SPEC_RE_OD_CYL('')
+      set_SPEC_RE_OD_AXIS('')
+      set_SPEC_RE_OD_Prism('')
+      set_SPEC_RE_OD_Base('')
+      set_SPEC_RE_OD_VA('')
+      set_SPEC_RE_OS_SPH('')
+      set_SPEC_RE_OS_CYL('')
+      set_SPEC_RE_OS_AXIS('')
+      set_SPEC_RE_OS_Prism('')
+      set_SPEC_RE_OS_Base('')
+      set_SPEC_RE_OS_VA('')
+      set_SPEC_UNA_DIS_OD('')
+      set_SPEC_UNA_NEAR_OD('')
+      set_SPEC_UNA_DIS_OS('')
+      set_SPEC_UNA_NEAR_OS('')
+      set_SPEC_Pin_OD('')
+      set_SPEC_Pin_OS('')
+      set_SPEC_IOP_OD('')
+      set_SPEC_IOP_OS('')
+      set_SPEC_RED_OD_O('')
+      set_SPEC_RED_OD_T('')
+      set_SPEC_RED_OS_O('')
+      set_SPEC_RED_OS_T('')
+      set_SPEC_Type_Of_lenses_Used('')
+      set_SPEC_Time_Period('')
+      set_SPEC_Time_More('')
+      set_SPEC_remark('')
+      set_SPECOB_OD_SPH('')
+      set_SPECOB_OD_CYL('')
+      set_SPECOB_OD_AXIS('')
+      set_SPECOB_OD_Prim('')
+      set_SPECOB_OD_Base('')
+      set_SPECOB_OD_VA('')
+      set_SPECOB_OD_type_near_full('')
+      set_SPECOB_OD_type_near_va('')
+      set_SPECOB_OS_SPH('')
+      set_SPECOB_OS_CYL('')
+      set_SPECOB_OD_SPH('')
+      set_SPECOB_OS_AXIS('')
+      set_SPECOB_OS_Prim('')
+      set_SPECOB_OS_Base('')
+      set_SPECOB_OS_VA('')
+      set_SPECOB_OS_type_near_full('')
+      set_SPECOB_OS_type_near_va('')
+      set_SPECOB_remark('')
+      set_SPECCON_OD_SPH('')
+      set_SPECCON_OD_CYL('')
+      set_SPECCON_OD_AXIS('')
+      set_SPECCON_OD_VA('')
+      set_SPECCON_OD_B_Curve('')
+      set_SPECCON_OD_Diam('')
+      set_SPECCON_OD_Design('')
+      set_SPECCON_OS_SPH('')
+      set_SPECCON_OS_CYL('')
+      set_SPECCON_OD_SPH('')
+      set_SPECCON_OS_AXIS('')
+      set_SPECCON_OS_VA('')
+      set_SPECCON_OS_B_Curve('')
+      set_SPECCON_OS_Diam('')
+      set_SPECCON_OS_Design('')
+      set_SPECCON_Remark('')
+      set_Oprimistic_Filed3('')
+      set_Oprimistic_Filed2('')
+      set_Oprimistic_Filed('')
+      setLens_Material('')
+      setLenses_Type('')
+      setLens_Treatment('')
+      setLens_Colour('')
+      setLens_Size('')
+      setLens_Base('')
+      setLens_Price('')
+      setLens_OrderDate('')
+      setLens_wanted_on('')
+      setFrame_Category('')
+      setFrame_Material('')
+      setFrame_type('')
+      setFrame_Brand('')
+      setModel_number('')
+      setColour('')
+      setFront_size('')
+      setBridge_size('')
+      setArm_Size('')
+      setPD('')
+      setSEG('')
+      setLense_Description('')
+      setFreame_Description('')
+      setDoctor_Rx('')
+      setTested_By('')
+      setEntered_By('')
+      set_Oprimistic_Filed4('')
+      set_Oprimistic_Filed2('')
+      set_Oprimistic_Filed('')
+    }
+  };
+
+
+
+  const valueSaveForNextStep = () => {
+
+  };
+
+  const [nicError, setNicError] = useState("");
+
+  const handleNicChange = (e) => {
+    let value = e.target.value.replace(/\D/g, ""); // keep only digits
+
+    if (value.length > 12) {
+      value = value.slice(0, 12); // block extra digits
+    }
+
+    setnic(value);
+
+    // validation
+    if (value.length > 0 && value.length < 12) {
+      setNicError("NIC must be 12 digits");
+    } else {
+      setNicError("");
+    }
   };
 
   const handleDobChange = (e) => {
@@ -731,38 +933,100 @@ const AssistanceOrder = () => {
     }
     setAge(calculatedAge);
   };
+  const cleanValue = (val) => {
+    if (!val || val.trim() === "-" || val.trim() === "") return null;
+    return val;
+  };
+
+
+  const handlePhoneChange = (e) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, "");
+    if (value.length > 3) {
+      value = `(${value.slice(0, 3)}) ${value.slice(3, 10)}`;
+    } else if (value.length > 0) {
+      value = `(${value}`;
+    }
+    settelephone(value);
+  };
+
+  const getPhoneError = (number) => {
+    if (!number) return "";
+    const digits = number.replace(/\D/g, "");
+    return digits.length !== 10 ? "Phone number must be 10 digits" : "";
+  };
+
+  const handlePhoneChange2 = (e) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, "");
+    if (value.length > 3) {
+      value = `(${value.slice(0, 3)}) ${value.slice(3, 10)}`;
+    } else if (value.length > 0) {
+      value = `(${value}`;
+    }
+    setmobile2(value);
+  };
+
+  const getPhoneError2 = (number) => {
+    if (!number) return "";
+    const digits = number.replace(/\D/g, "");
+    return digits.length !== 10 ? "Phone number must be 10 digits" : "";
+  };
+
+
+  const handlePhoneChange3 = (e) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, "");
+    if (value.length > 3) {
+      value = `(${value.slice(0, 3)}) ${value.slice(3, 10)}`;
+    } else if (value.length > 0) {
+      value = `(${value}`;
+    }
+    setlanMobile(value);
+  };
+
+  const getPhoneError3 = (number) => {
+    if (!number) return "";
+    const digits = number.replace(/\D/g, "");
+    return digits.length !== 10 ? "Phone number must be 10 digits" : "";
+  };
 
   const submitNewCustomer = () => {
-    const ob = {
-      first_name: firstName,
-      name,
-      email,
-      telephone,
-      mobile2,
-      lan_phone: lanMobile,
-      town: city,
-      prefix: titles,
-      address,
-      occupation,
-      dob: formatDate(dob1),
-      age,
-      nic,
-      gender,
-      reg_date: formatDate(reg_date)
-    };
-    console.log(ob);
-    axios
-      .post('http://localhost:2776/api/customer', ob)
-      .then((res) => {
-        console.log(res.data);
-        toast('New Customer Created!');
-        handleClose();
-        navigate('/assistance/order');
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error('Submission failed. Email is Required, Please try again.');
-      });
+    if (nic) {
+      const ob = {
+        first_name: firstName,
+        name,
+        email: cleanValue(email),
+        telephone: cleanValue(telephone),
+        mobile2: cleanValue(mobile2),
+        lan_phone: cleanValue(lanMobile),
+        town: city,
+        prefix: titles,
+        address,
+        occupation,
+        dob: formatDate(dob1),
+        age,
+        nic,
+        gender,
+        reg_date: formatDate(reg_date)
+      };
+      console.log(ob);
+      axios
+        .post('http://localhost:2776/api/customer', ob)
+        .then((res) => {
+          console.log(res.data);
+          toast('New Customer Created!');
+          handleClose();
+          navigate('/assistance/order');
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error('Submission failed.');
+        });
+    } else {
+      toast.error('NIC Required!.');
+    }
+
   };
 
 
@@ -811,14 +1075,16 @@ const AssistanceOrder = () => {
       HABI_OS_type_near_va,
       date: formatDate(today),
       cid: selectedUserId,
-      today_no: todayNo
+      today_no: todayNo2
     }
 
     axios.post('http://localhost:2776/api/order', ob).then((res) => {
       console.log(res.data)
       toast('New Order Created!');
-      setTodayNo(todayNo + 1);
-      localStorage.setItem("todayNo", todayNo + 1);
+      // Increment and save for today
+      const newNo = todayNo2 + 1;
+      setTodayNo2(newNo);
+      localStorage.setItem("todayNo", newNo);
     }).catch((err) => {
       console.log(err)
     })
@@ -1703,6 +1969,14 @@ const AssistanceOrder = () => {
                       <Tab eventKey="home" title="Subjective">
                         <h6 className="fw-bold mb-3">Rx For Spectacles </h6>
                         <Row>
+                          <Col md={3}>
+                            <Button variant="outline-danger" onClick={deatilsPickup}>
+                              Pick This Values
+                            </Button>
+                          </Col>
+                        </Row>
+                        <Row>
+
                           <Col md={6}>
                             <Table bordered hover responsive className="table-sm align-middle shadow-sm">
                               <thead className="bg-primary text-white text-center">
@@ -3765,7 +4039,7 @@ const AssistanceOrder = () => {
       ) : null}
 
       {/* New Customer Registration Form */}
-      <Modal show={show} onHide={handleClose} size="lg">
+      <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Register New Customer</Modal.Title>
         </Modal.Header>
@@ -3773,29 +4047,23 @@ const AssistanceOrder = () => {
           <Form>
             <Container>
               <Row>
-                <Col xs={12} md={2}>
-                  <Form.Group className="mb-3" controlId="formGender">
-                    <Form.Label>Titles</Form.Label>
-                    <Form.Control type="text" value={titles} />
-                  </Form.Group>
-                </Col>
-                <Col xs={12} md={5}>
-                  <Form.Group className="mb-3">
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-1">
                     <Form.Label>First Name</Form.Label>
                     <Form.Control type="text" placeholder="Customer Name" onChange={(e) => setfirstName(e.target.value)} />
                   </Form.Group>
                 </Col>
-                <Col xs={12} md={5}>
-                  <Form.Group className="mb-3">
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-1">
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control type="text" placeholder="Customer Name" onChange={(e) => setname(e.target.value)} />
                   </Form.Group>
                 </Col>
                 <Col xs={12} md={12}>
-                  <Form.Group className="mb-3" controlId="formGender">
+                  <Form.Group className="mb-1" controlId="formGender">
                     <Form.Label>Titles</Form.Label>
                     <div>
-                      {["Mr.", "Mrs.", "Miss.", "Ms.", "Dr.", "Prof.", "Sir / Dame"].map((title, i) => (
+                      {["Mr.", "Mrs.", "Master.", "Miss./Ms", "Dr.", "Prof.", "Rev."].map((title, i) => (
                         <Form.Check
                           key={i}
                           type="radio"
@@ -3810,76 +4078,55 @@ const AssistanceOrder = () => {
                     </div>
                   </Form.Group>
                 </Col>
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="abc@gmail.com" onChange={(e) => setemail(e.target.value)} />
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Mobile 1</Form.Label>
-                    <Form.Control type="tel" placeholder="011 2 300 300" onChange={(e) => settelephone(e.target.value)} />
-                  </Form.Group>
-                </Col>
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Mobile 2</Form.Label>
-                    <Form.Control type="tel" placeholder="072 222 2222" onChange={(e) => setmobile2(e.target.value)} />
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Landline</Form.Label>
-                    <Form.Control type="tel" placeholder="011 222 2222" onChange={(e) => setlanMobile(e.target.value)} />
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                <Col xs={12} md={8}>
+                  <Form.Group className="mb-1" controlId="exampleForm.ControlTextarea1">
                     <Form.Label>Address</Form.Label>
-                    <Form.Control as="textarea" rows="3" onChange={(e) => setaddress(e.target.value)} />
+                    <Form.Control type="text" placeholder="Address" onChange={(e) => setaddress(e.target.value)} />
                   </Form.Group>
                 </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                    <Form.Label>Occupation</Form.Label>
-                    <Form.Control as="textarea" rows="3" onChange={(e) => setoccupation(e.target.value)} />
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3">
+                <Col xs={12} md={4}>
+                  <Form.Group className="mb-1">
                     <Form.Label>City</Form.Label>
                     <Form.Control type="text" placeholder="City" onChange={(e) => setcity(e.target.value)} />
                   </Form.Group>
                 </Col>
 
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3" controlId="dob">
+                <Col xs={12} md={2}>
+                  <Form.Group className="mb-1" controlId="dob">
                     <Form.Label>Date of Birth</Form.Label>
                     <Form.Control type="date" value={dob} onChange={handleDobChange} />
                   </Form.Group>
                 </Col>
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3" controlId="age">
+
+                <Col xs={12} md={2}>
+                  <Form.Group className="mb-1" controlId="age">
                     <Form.Label>Age</Form.Label>
                     <Form.Control type="number" value={age} readOnly />
                     <Form.Text className="text-muted">This&apos;s automatically genorated.</Form.Text>
                   </Form.Group>
                 </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3">
+                {/* 
+                <Col xs={12} md={4}>
+                  <Form.Group className="mb-1">
                     <Form.Label>NIC</Form.Label>
                     <Form.Control type="text" placeholder="1212121212112 V" onChange={(e) => setnic(e.target.value)} />
                   </Form.Group>
+                </Col> */}
+                <Col xs={12} md={4}>
+                  <Form.Group className="mb-1">
+                    <Form.Label>NIC</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="121212121211"
+                      value={nic}
+                      onChange={handleNicChange}
+                    />
+                    {nicError && <Form.Text className="text-danger">{nicError}</Form.Text>}
+                  </Form.Group>
                 </Col>
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3" controlId="formGender">
+
+                <Col xs={12} md={4}>
+                  <Form.Group className="mb-1" controlId="formGender">
                     <Form.Label>Gender</Form.Label>
                     <div>
                       {["male", "female", "other"].map((g, i) => (
@@ -3898,6 +4145,66 @@ const AssistanceOrder = () => {
                   </Form.Group>
                 </Col>
 
+                <Col xs={12} md={4}>
+                  <Form.Group className="mb-1">
+                    <Form.Label>Mobile 1</Form.Label>
+                    <Form.Control
+                      type="tel"
+                      value={telephone}
+                      onChange={handlePhoneChange}
+                    />
+                    {getPhoneError(telephone) && (
+                      <Form.Text className="text-danger">
+                        {getPhoneError(telephone)}
+                      </Form.Text>
+                    )}
+                  </Form.Group></Col>
+
+                <Col xs={12} md={4}>
+                  <Form.Group className="mb-1">
+                    <Form.Label>Mobile 2</Form.Label>
+                    <Form.Control
+                      type="tel"
+                      value={mobile2}
+                      onChange={handlePhoneChange2}
+                    />
+                    {getPhoneError2(mobile2) && (
+                      <Form.Text className="text-danger">
+                        {getPhoneError2(mobile2)}
+                      </Form.Text>
+                    )}
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={4}>
+                  <Form.Group className="mb-1">
+                    <Form.Label>Landline</Form.Label>
+                    <Form.Control
+                      type="tel"
+                      value={lanMobile}
+                      onChange={handlePhoneChange3}
+                    />
+                    {getPhoneError3(lanMobile) && (
+                      <Form.Text className="text-danger">
+                        {getPhoneError3(lanMobile)}
+                      </Form.Text>
+                    )}
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-1" controlId="formBasicPassword">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="email" placeholder="abc@gmail.com" onChange={(e) => setemail(e.target.value)} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-1" controlId="exampleForm.ControlTextarea1">
+                    <Form.Label>Occupation</Form.Label>
+                    <Form.Control type="text" placeholder="Occupation" onChange={(e) => setoccupation(e.target.value)} />
+                  </Form.Group>
+                </Col>
               </Row>
             </Container>
           </Form>
@@ -3948,7 +4255,7 @@ const AssistanceOrder = () => {
                   <Form.Group className="mb-3" controlId="formTitlesRadio">
                     <Form.Label>Titles</Form.Label>
                     <div>
-                      {["Mr.", "Mrs.", "Miss.", "Ms.", "Dr.", "Prof.", "Sir / Dame"].map((title, i) => (
+                      {["Mr.", "Mrs.", "Master.", "Miss./Ms", "Dr.", "Prof.", "Rev."].map((title, i) => (
                         <Form.Check
                           key={i}
                           type="radio"
@@ -4039,7 +4346,6 @@ const AssistanceOrder = () => {
                     </div>
                   </Form.Group>
                 </Col>
-
               </Row>
             </Container>
           </Form>

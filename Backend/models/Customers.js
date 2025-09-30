@@ -25,7 +25,7 @@ const Customers = {
     db.query("Delete from optical_software.customers where c_id = ? ", [id], callback);
   },
   getUserByUserName: (email,callback) => {
-    db.query("Select * from optical_software.customers where email = ? ",[email],callback);
+    db.query("Select * from optical_software.customers where nic = ? ",[email],callback);
   }
 };
 

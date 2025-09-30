@@ -19,17 +19,14 @@ exports.getCustomerByID = (req,res) => {
 exports.createCustomer = (req, res) => {
     const newUser = req.body;
     console.log(newUser)
-
-    Customers.getUserByUserName(newUser.email, (err, result) => {
+    Customers.getUserByUserName(newUser.nic, (err, result) => {
         if (err) return res.status(500).json({ err: err.message });
         if (result.length != 0) return res.status(400).json({ message: "Username already exists" });
-        console.log("V")
         Customers.create(newUser, (err, result) => {
             if (err) return res.status(500).json({ err: err.message });
             console.log(result)
             res.status(201).json({ message: "User Created" });
         });
-
     });
 };
 
