@@ -107,6 +107,13 @@ const RootAdminMenu = {
               icon: 'feather icon-file-text',
               url: '/rootadmin/invoice'
             },
+            {
+              id: 'contact',
+              title: 'Contact Lense',
+              type: 'item',
+              icon: 'feather icon-activity',
+              url: '/rootadmin/conactlens'
+            },
 
           ]
         }

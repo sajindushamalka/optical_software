@@ -163,6 +163,16 @@ const OptometristOrders = () => {
   const [symptoms_list, setsymptoms_list] = useState([]);
   const [occularhealth, setoccularhealth] = useState([]);
   const [typeofLense, settypeofLense] = useState([]);
+  const [WearerType, setWearerType] = useState([]);
+  const [WearerTypeValue, set_WearerTypeValue] = useState('');
+  const [LensTypeContactLense, setLensTypeContactLense] = useState([]);
+  const [LensTypeContactLenseValue, set_LensTypeContactLenseValue] = useState('');
+  const [SoftLensMaterial, setSoftLensMaterial] = useState([]);
+  const [SoftLensMaterialValue, set_SoftLensMaterialValue] = useState('');
+  const [SoftLensDesign, setSoftLensDesign] = useState([]);
+  const [SoftLensDesignValue, set_SoftLensDesignValue] = useState('');
+  const [WearerSchedule, setWearerSchedule] = useState([]);
+  const [WearerScheduleValue, set_WearerScheduleValue] = useState('');
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -210,6 +220,36 @@ const OptometristOrders = () => {
 
     axios.get('http://localhost:2776/api/root/typeoflense').then((res) => {
       settypeofLense(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    axios.get('http://localhost:2776/api/root/wearertype').then((res) => {
+      setWearerType(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    axios.get('http://localhost:2776/api/root/typecontactlensecon').then((res) => {
+      setLensTypeContactLense(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    axios.get('http://localhost:2776/api/root/softlensmaterial').then((res) => {
+      setSoftLensMaterial(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    axios.get('http://localhost:2776/api/root/softlensdesign').then((res) => {
+      setSoftLensDesign(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    axios.get('http://localhost:2776/api/root/wearerschedule').then((res) => {
+      setWearerSchedule(res.data)
     }).catch((err) => {
       console.log(err)
     })
@@ -444,7 +484,12 @@ const OptometristOrders = () => {
         SPECCON_OS_B_Curve,
         SPECCON_OS_Diam,
         SPECCON_OS_Design,
-        SPECCON_remark
+        SPECCON_remark,
+        WearerType:WearerTypeValue,
+        LensType:LensTypeContactLenseValue,
+        SoftLensMaterial:SoftLensMaterialValue,
+        SoftLensDesign:SoftLensDesignValue,
+        WearerSchedule:WearerScheduleValue
       }
 
       axios.post('http://localhost:2776/api/order/new/contact', ob).then((res) => {
@@ -2315,7 +2360,6 @@ const OptometristOrders = () => {
                             />
                           ))}
                         </Form.Group>
-
                       </Col>
                       <Col md={4}>
                         <h6 className="mt-4 fw-bold mb-4">General Recommendation</h6>
@@ -2946,6 +2990,89 @@ const OptometristOrders = () => {
                         </tr>
                       </tbody>
                     </Table>
+                    <Row>
+                      <Col md={2}>
+                        <h6 className="mt-4 fw-bold mb-4">Wearer Type</h6>
+                        <Form.Group className="mb-3">
+                          <Form.Select
+                            value={WearerTypeValue}
+                            onChange={(e) => set_WearerTypeValue(e.target.value)}
+                          >
+                            <option value="">Select Wearer Type</option>
+                            {WearerType.map((t) => (
+                              <option key={t.id} value={t.text}>
+                                {t.text}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </Form.Group>
+                      </Col>
+                      <Col md={2}>
+                        <h6 className="mt-4 fw-bold mb-4">Lens Type</h6>
+                        <Form.Group className="mb-3">
+                          <Form.Select
+                            value={LensTypeContactLenseValue}
+                            onChange={(e) => set_LensTypeContactLenseValue(e.target.value)}
+                          >
+                            <option value="">Select Lens Type</option>
+                            {LensTypeContactLense.map((t) => (
+                              <option key={t.id} value={t.text}>
+                                {t.text}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </Form.Group>
+                      </Col>
+                      <Col md={2}>
+                        <h6 className="mt-4 fw-bold mb-4">Soft Lens Material</h6>
+                        <Form.Group className="mb-3">
+                          <Form.Select
+                            value={SoftLensMaterialValue}
+                            onChange={(e) => set_SoftLensMaterialValue(e.target.value)}
+                          >
+                            <option value="">Select Soft Lens Material</option>
+                            {SoftLensMaterial.map((t) => (
+                              <option key={t.id} value={t.text}>
+                                {t.text}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </Form.Group>
+                      </Col>
+                      <Col md={3}>
+                        <h6 className="mt-4 fw-bold mb-4">Soft Lens Design</h6>
+                        <Form.Group className="mb-3">
+                          <Form.Select
+                            value={SoftLensDesignValue}
+                            onChange={(e) => set_SoftLensDesignValue(e.target.value)}
+                          >
+                            <option value="">Select Soft Lens Design</option>
+                            {SoftLensDesign.map((t) => (
+                              <option key={t.id} value={t.text}>
+                                {t.text}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </Form.Group>
+                      </Col>
+                      <Col md={3}>
+                        <h6 className="mt-4 fw-bold mb-4">Wearer Schedule</h6>
+                        <Form.Group className="mb-3">
+                          <Form.Select
+                            value={WearerScheduleValue}
+                            onChange={(e) => set_WearerScheduleValue(e.target.value)}
+                          >
+                            <option value="">Select Wearer Schedule</option>
+                            {WearerSchedule.map((t) => (
+                              <option key={t.id} value={t.text}>
+                                {t.text}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </Form.Group>
+                      </Col>
+                    </Row>
+
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                       <Form.Label>Remarks</Form.Label>
                       <Form.Control as="textarea" rows="3" value={SPECCON_remark} onChange={(e) => set_SPECCON_Remark(e.target.value)} />
@@ -3039,8 +3166,6 @@ const OptometristOrders = () => {
                       ))}
                     </div>
                   </Form.Group>
-
-
 
                   <Form.Group className="mb-4" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
                     <Form.Label>Remark</Form.Label>

@@ -800,8 +800,8 @@ exports.getchasiercomplateinvoicetableCon = (req, res) => {
 
 exports.updatecashier_invoiceTable_detailsCon = (req, res) => {
     const { id } = req.params;
-    const updateU = req.body; 
-    RootAdminModel.updatecashier_invoiceTable_details(id,updateU, (err, result) => {
+    const updateU = req.body;
+    RootAdminModel.updatecashier_invoiceTable_details(id, updateU, (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json(result);
     })
@@ -809,9 +809,185 @@ exports.updatecashier_invoiceTable_detailsCon = (req, res) => {
 
 exports.updatecashier_invoice_date_detailsCon = (req, res) => {
     const { id } = req.params;
-    const updateU = req.body; 
-    RootAdminModel.updatecashier_invoice_date_details(id,updateU, (err, result) => {
+    const updateU = req.body;
+    RootAdminModel.updatecashier_invoice_date_details(id, updateU, (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json(result);
+    })
+}
+
+
+
+exports.getAllWearerTypeCon = (req, res) => {
+    RootAdminModel.getAllWearerType((err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}
+
+exports.createdWearerTypeCon = (req, res) => {
+    const newUser = req.body;
+    RootAdminModel.createdWearerType(newUser, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.status(201).json({ message: "User Created", id: result.insertId });
+    });
+};
+
+exports.updatedWearerTypeCon = (req, res) => {
+    const { id } = req.params;
+    const updateU = req.body;
+    RootAdminModel.updatedWearerType(id, updateU, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
+exports.deletedWearerTypeCon = (req, res) => {
+    const { id } = req.params;
+    RootAdminModel.deletedWearerType(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json({ message: "User Deleted" })
+    })
+}
+
+
+exports.getAllLensTypeContactLenseCon = (req, res) => {
+    RootAdminModel.getAllLensTypeContactLense((err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}
+
+exports.createdLensTypeContactLenseCon = (req, res) => {
+    const newUser = req.body;
+    RootAdminModel.createdLensTypeContactLense(newUser, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.status(201).json({ message: "User Created", id: result.insertId });
+    });
+};
+
+exports.updatedLensTypeContactLenseCon = (req, res) => {
+    const { id } = req.params;
+    const updateU = req.body;
+    RootAdminModel.updatedLensTypeContactLense(id, updateU, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
+exports.deletedLensTypeContactLenseCon = (req, res) => {
+    const { id } = req.params;
+    RootAdminModel.deletedLensTypeContactLense(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json({ message: "User Deleted" })
+    })
+}
+
+
+exports.getAllSoftLensMaterialCon = (req, res) => {
+    RootAdminModel.getAllSoftLensMaterial((err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}
+
+exports.createdSoftLensMaterialCon = (req, res) => {
+    const newUser = req.body;
+    RootAdminModel.createdSoftLensMaterial(newUser, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.status(201).json({ message: "User Created", id: result.insertId });
+    });
+};
+
+exports.updatedSoftLensMaterialCon = (req, res) => {
+    const { id } = req.params;
+    const updateU = req.body;
+    RootAdminModel.updatedSoftLensMaterial(id, updateU, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
+exports.deletedSoftLensMaterialCon = (req, res) => {
+    const { id } = req.params;
+    RootAdminModel.deletedSoftLensMaterial(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json({ message: "User Deleted" })
+    })
+}
+
+
+exports.getAllSoftLensDesignCon = (req, res) => {
+    RootAdminModel.getAllSoftLensDesign((err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}
+
+exports.createdSoftLensDesignCon = (req, res) => {
+    const newUser = req.body;
+    RootAdminModel.createdSoftLensDesign(newUser, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.status(201).json({ message: "User Created", id: result.insertId });
+    });
+};
+
+exports.updatedSoftLensDesignCon = (req, res) => {
+    const { id } = req.params;
+    const updateU = req.body;
+    RootAdminModel.updatedSoftLensDesign(id, updateU, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
+exports.deletedSoftLensDesignCon = (req, res) => {
+    const { id } = req.params;
+    RootAdminModel.deletedSoftLensDesign(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json({ message: "User Deleted" })
+    })
+}
+
+
+exports.getAllWearerScheduleCon = (req, res) => {
+    RootAdminModel.getAllWearerSchedule((err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    })
+}
+
+exports.createdWearerScheduleCon = (req, res) => {
+    const newUser = req.body;
+    RootAdminModel.createdWearerSchedule(newUser, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.status(201).json({ message: "User Created", id: result.insertId });
+    });
+};
+
+exports.updatedWearerScheduleCon = (req, res) => {
+    const { id } = req.params;
+    const updateU = req.body;
+    RootAdminModel.updatedWearerSchedule(id, updateU, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
+exports.deletedWearerScheduleCon = (req, res) => {
+    const { id } = req.params;
+    RootAdminModel.deletedWearerSchedule(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json({ message: "User Deleted" })
     })
 }

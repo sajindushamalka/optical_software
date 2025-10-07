@@ -153,6 +153,18 @@ const root_admin_route = [
 
     ]
   },
+  {
+    path: '/rootadmin/conactlens',
+    layout: RootAdminLayout,
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: lazy(() => import('./views/root-admin/conatctLens/Index'))
+      },
+
+    ]
+  },
 ];
 
 export default root_admin_route;

@@ -118,4 +118,29 @@ router.get('/complate/:id', RootAdminCOntroller.getchasiercomplateinvoicetableCo
 router.put('/cashier/:id', RootAdminCOntroller.updatecashier_invoiceTable_detailsCon);
 router.put('/cashier/date/:id', RootAdminCOntroller.updatecashier_invoice_date_detailsCon);
 
+router.get('/wearertype', RootAdminCOntroller.getAllWearerTypeCon);
+router.post('/wearertype', RootAdminCOntroller.createdWearerTypeCon);
+router.put('/wearertype/:id', RootAdminCOntroller.updatedWearerTypeCon);
+router.delete('/wearertype/:id', RootAdminCOntroller.deletedWearerTypeCon);
+
+router.get('/typecontactlensecon', RootAdminCOntroller.getAllLensTypeContactLenseCon);
+router.post('/typecontactlensecon', RootAdminCOntroller.createdLensTypeContactLenseCon);
+router.put('/typecontactlensecon/:id', RootAdminCOntroller.updatedLensTypeContactLenseCon);
+router.delete('/typecontactlensecon/:id', RootAdminCOntroller.deletedLensTypeContactLenseCon);
+
+router.get('/softlensmaterial', RootAdminCOntroller.getAllSoftLensMaterialCon);
+router.post('/softlensmaterial', RootAdminCOntroller.createdSoftLensMaterialCon);
+router.put('/softlensmaterial/:id', RootAdminCOntroller.updatedSoftLensMaterialCon);
+router.delete('/softlensmaterial/:id', RootAdminCOntroller.deletedSoftLensMaterialCon);
+
+router.get('/softlensdesign', RootAdminCOntroller.getAllSoftLensDesignCon);
+router.post('/softlensdesign', RootAdminCOntroller.createdSoftLensDesignCon);
+router.put('/softlensdesign/:id', RootAdminCOntroller.updatedSoftLensDesignCon);
+router.delete('/softlensdesign/:id', RootAdminCOntroller.deletedSoftLensDesignCon);
+
+router.get('/wearerschedule', RootAdminCOntroller.getAllWearerScheduleCon);
+router.post('/wearerschedule', RootAdminCOntroller.createdWearerScheduleCon);
+router.put('/wearerschedule/:id', RootAdminCOntroller.updatedWearerScheduleCon);
+router.delete('/wearerschedule/:id', RootAdminCOntroller.deletedWearerScheduleCon);
+
 module.exports = router;

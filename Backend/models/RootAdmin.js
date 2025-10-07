@@ -568,11 +568,136 @@ const RootAdmin = {
         );
     },
 
-    
+
     updatecashier_invoice_date_details: (id, customer, callback) => {
         db.query(
             "Update optical_software.cashier_invoice SET ? where ci_id = ?",
             [customer, id],
+            callback
+        );
+    },
+
+    getAllWearerType: (callback) => {
+        db.query("select * from optical_software.WearerType", callback);
+    },
+    createdWearerType: (customermeddeatils, callback) => {
+        db.query(
+            "Insert into optical_software.WearerType SET ?",
+            customermeddeatils,
+            callback
+        );
+    },
+    updatedWearerType: (id, customer, callback) => {
+        db.query(
+            "Update optical_software.WearerType SET ? where wt_id = ?",
+            [customer, id],
+            callback
+        );
+    },
+    deletedWearerType: (id, callback) => {
+        db.query(
+            "Delete from optical_software.WearerType where wt_id = ? ",
+            [id],
+            callback
+        );
+    },
+
+    getAllLensTypeContactLense: (callback) => {
+        db.query("select * from optical_software.LensTypeContactLense", callback);
+    },
+    createdLensTypeContactLense: (customermeddeatils, callback) => {
+        db.query(
+            "Insert into optical_software.LensTypeContactLense SET ?",
+            customermeddeatils,
+            callback
+        );
+    },
+    updatedLensTypeContactLense: (id, customer, callback) => {
+        db.query(
+            "Update optical_software.LensTypeContactLense SET ? where ltct_id = ?",
+            [customer, id],
+            callback
+        );
+    },
+    deletedLensTypeContactLense: (id, callback) => {
+        db.query(
+            "Delete from optical_software.LensTypeContactLense where ltct_id = ? ",
+            [id],
+            callback
+        );
+    },
+
+    getAllSoftLensMaterial: (callback) => {
+        db.query("select * from optical_software.SoftLensMaterial", callback);
+    },
+    createdSoftLensMaterial: (customermeddeatils, callback) => {
+        db.query(
+            "Insert into optical_software.SoftLensMaterial SET ?",
+            customermeddeatils,
+            callback
+        );
+    },
+    updatedSoftLensMaterial: (id, customer, callback) => {
+        db.query(
+            "Update optical_software.SoftLensMaterial SET ? where slm_id = ?",
+            [customer, id],
+            callback
+        );
+    },
+    deletedSoftLensMaterial: (id, callback) => {
+        db.query(
+            "Delete from optical_software.SoftLensMaterial where slm_id = ? ",
+            [id],
+            callback
+        );
+    },
+
+    getAllSoftLensDesign: (callback) => {
+        db.query("select * from optical_software.SoftLensDesign", callback);
+    },
+    createdSoftLensDesign: (customermeddeatils, callback) => {
+        db.query(
+            "Insert into optical_software.SoftLensDesign SET ?",
+            customermeddeatils,
+            callback
+        );
+    },
+    updatedSoftLensDesign: (id, customer, callback) => {
+        db.query(
+            "Update optical_software.SoftLensDesign SET ? where sld_id = ?",
+            [customer, id],
+            callback
+        );
+    },
+    deletedSoftLensDesign: (id, callback) => {
+        db.query(
+            "Delete from optical_software.SoftLensDesign where sld_id = ? ",
+            [id],
+            callback
+        );
+    },
+
+    getAllWearerSchedule: (callback) => {
+        db.query("select * from optical_software.WearerSchedule", callback);
+    },
+    createdWearerSchedule: (customermeddeatils, callback) => {
+        db.query(
+            "Insert into optical_software.WearerSchedule SET ?",
+            customermeddeatils,
+            callback
+        );
+    },
+    updatedWearerSchedule: (id, customer, callback) => {
+        db.query(
+            "Update optical_software.WearerSchedule SET ? where ws_id = ?",
+            [customer, id],
+            callback
+        );
+    },
+    deletedWearerSchedule: (id, callback) => {
+        db.query(
+            "Delete from optical_software.WearerSchedule where ws_id = ? ",
+            [id],
             callback
         );
     },
