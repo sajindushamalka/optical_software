@@ -904,21 +904,36 @@ const AssistanceOrder = () => {
   const [nicError, setNicError] = useState("");
 
   const handleNicChange = (e) => {
-    let value = e.target.value.replace(/\D/g, ""); // keep only digits
+    let value = e.target.value.toUpperCase();
 
+    // Allow only digits and at most 1 letter (V or X) at the end
+    value = value.replace(/[^0-9VX]/gi, "");
+
+    // If letter appears in the middle, push it to the end
+    if (/[A-Z]/.test(value.slice(0, -1))) {
+      value = value.replace(/([A-Z])(.*)/, "$2$1");
+    }
+
+    // Limit length (12 digits OR 9 digits + 1 letter)
     if (value.length > 12) {
-      value = value.slice(0, 12); // block extra digits
+      value = value.slice(0, 12);
     }
 
     setnic(value);
 
-    // validation
-    if (value.length > 0 && value.length < 12) {
-      setNicError("NIC must be 12 digits");
+    // Validation rules
+    if (
+      (value.length === 12 && /^\d{12}$/.test(value)) || // 12-digit NIC
+      (value.length === 10 && /^\d{9}[VX]$/.test(value)) // old 10-char NIC (9 digits + V/X)
+    ) {
+      setNicError("");
+    } else if (value.length > 0) {
+      setNicError("NIC must be 12 digits or 9 digits + V/X");
     } else {
       setNicError("");
     }
   };
+
 
   const handleDobChange = (e) => {
     const birthDate = new Date(e.target.value);
@@ -1937,7 +1952,7 @@ const AssistanceOrder = () => {
               </Row>
               <Row>
                 <Col>
-                  <h6 className="mt-4 fw-bold mb-4">Type of Lenses Used</h6>
+                  {/* <h6 className="mt-4 fw-bold mb-4">Type of Lenses Used</h6>
                   <Form.Group className="mb-3">
                     {typeofLense.map((t) => (
                       <Form.Check
@@ -1952,7 +1967,32 @@ const AssistanceOrder = () => {
                         onChange={(e) => set_type_of_lenses_used(e.target.value)}
                       />
                     ))}
+                  </Form.Group> */}
+                  <h6 className="mt-4 fw-bold mb-4">Type of Lenses Used</h6>
+                  <Form.Group className="mb-3">
+                    {typeofLense.map((t) => (
+                      <Form.Check
+                        key={t.tol_id}
+                        inline
+                        type="radio"
+                        label={t.text}
+                        id={`radio-${t.text}`}
+                        value={t.text}
+                        className="custom-radio"
+                        checked={type_of_lenses_used === t.text}
+                        onClick={() => {
+                          // if already selected, unselect it
+                          if (type_of_lenses_used === t.text) {
+                            set_type_of_lenses_used("");
+                          } else {
+                            set_type_of_lenses_used(t.text);
+                          }
+                        }}
+                        onChange={() => { }} // avoid React warning about missing onChange
+                      />
+                    ))}
                   </Form.Group>
+
                   {Oprimistic_Filed ?
                     <div className="my-4 p-3 bg-light rounded shadow-sm">
                       <h6 className="fw-bold text-primary" style={{ textAlign: 'center', fontSize: 15 }}>
@@ -4220,7 +4260,7 @@ const AssistanceOrder = () => {
       </Modal>
 
       {/* Edit Modal */}
-      <Modal show={showEditModal2} onHide={() => setShowEditModal2(false)} centered size="lg">
+      <Modal show={showEditModal2} onHide={() => setShowEditModal2(false)} centered size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Edit Customer Details</Modal.Title>
         </Modal.Header>
@@ -4230,29 +4270,29 @@ const AssistanceOrder = () => {
           <Form>
             <Container>
               <Row>
-                <Col xs={12} md={2}>
+                {/* <Col xs={12} md={2}>
                   <Form.Group className="mb-3" controlId="formTitlesText">
                     <Form.Label>Titles</Form.Label>
                     <Form.Control type="text" name="titles" value={editData.titles || ""} onChange={handleChange2} />
                   </Form.Group>
-                </Col>
+                </Col> */}
 
-                <Col xs={12} md={5}>
-                  <Form.Group className="mb-3">
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-1">
                     <Form.Label>First Name</Form.Label>
                     <Form.Control type="text" name="first_name" value={editData.first_name || ""} onChange={handleChange2} />
                   </Form.Group>
                 </Col>
 
-                <Col xs={12} md={5}>
-                  <Form.Group className="mb-3">
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-1">
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control type="text" name="name" value={editData.name || ""} onChange={handleChange2} />
                   </Form.Group>
                 </Col>
 
                 <Col xs={12} md={12}>
-                  <Form.Group className="mb-3" controlId="formTitlesRadio">
+                  <Form.Group className="mb-1" controlId="formTitlesRadio">
                     <Form.Label>Titles</Form.Label>
                     <div>
                       {["Mr.", "Mrs.", "Master.", "Miss./Ms", "Dr.", "Prof.", "Rev."].map((title, i) => (
@@ -4271,64 +4311,30 @@ const AssistanceOrder = () => {
                   </Form.Group>
                 </Col>
 
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" name="email" value={editData.email || ""} onChange={handleChange2} />
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Mobile 1</Form.Label>
-                    <Form.Control type="tel" name="telephone" value={editData.telephone || ""} onChange={handleChange2} />
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Mobile 2</Form.Label>
-                    <Form.Control type="tel" name="mobile2" value={editData.mobile2 || ""} onChange={handleChange2} />
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Landline</Form.Label>
-                    <Form.Control type="tel" name="lan_phone" value={editData.lan_phone || ""} onChange={handleChange2} />
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3">
+                <Col xs={12} md={8}>
+                  <Form.Group className="mb-1">
                     <Form.Label>Address</Form.Label>
-                    <Form.Control as="textarea" rows="3" name="address" value={editData.address || ""} onChange={handleChange2} />
+                    <Form.Control type="text" name="address" value={editData.address || ""} onChange={handleChange2} />
                   </Form.Group>
                 </Col>
 
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Occupation</Form.Label>
-                    <Form.Control as="textarea" rows="3" name="occupation" value={editData.occupation || ""} onChange={handleChange2} />
-                  </Form.Group>
-                </Col>
-
-                <Col xs={12} md={6}>
-                  <Form.Group className="mb-3">
+                <Col xs={12} md={4}>
+                  <Form.Group className="mb-1">
                     <Form.Label>City</Form.Label>
                     <Form.Control type="text" name="town" value={editData.town || ""} onChange={handleChange2} />
                   </Form.Group>
                 </Col>
 
                 <Col xs={12} md={6}>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-1">
                     <Form.Label>NIC</Form.Label>
                     <Form.Control type="text" name="nic" value={editData.nic || ""} onChange={handleChange2} />
                   </Form.Group>
                 </Col>
 
+
                 <Col xs={12} md={6}>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-1">
                     <Form.Label>Gender</Form.Label>
                     <div>
                       {["male", "female", "other"].map((g, i) => (
@@ -4344,6 +4350,41 @@ const AssistanceOrder = () => {
                         />
                       ))}
                     </div>
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={4}>
+                  <Form.Group className="mb-1">
+                    <Form.Label>Mobile 1</Form.Label>
+                    <Form.Control type="tel" name="telephone" value={editData.telephone || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={4}>
+                  <Form.Group className="mb-1">
+                    <Form.Label>Mobile 2</Form.Label>
+                    <Form.Control type="tel" name="mobile2" value={editData.mobile2 || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={4}>
+                  <Form.Group className="mb-1">
+                    <Form.Label>Landline</Form.Label>
+                    <Form.Control type="tel" name="lan_phone" value={editData.lan_phone || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-1">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="email" name="email" value={editData.email || ""} onChange={handleChange2} />
+                  </Form.Group>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <Form.Group className="mb-1">
+                    <Form.Label>Occupation</Form.Label>
+                    <Form.Control type="text" name="occupation" value={editData.occupation || ""} onChange={handleChange2} />
                   </Form.Group>
                 </Col>
               </Row>

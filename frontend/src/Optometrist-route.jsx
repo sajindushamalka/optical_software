@@ -58,6 +58,18 @@ const optometrist_routes = [
 
     ]
   },
+   {
+    path: '/optometrist/history',
+    layout: OptometristLayout,
+    routes: [
+      {
+        exact: 'true',
+        path: '*',
+        element: lazy(() => import('./views/optometrist/history/Index'))
+      },
+
+    ]
+  },
   {
     path: '/optometrist/broken',
     layout: OptometristLayout,

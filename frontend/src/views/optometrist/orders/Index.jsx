@@ -270,6 +270,12 @@ const OptometristOrders = () => {
     setSelectedcid(order.c_id);
     console.log(order);
 
+    if (selectedCard === order.cmd_id) {
+      setSelectedCard(null);
+    } else {
+      setSelectedCard(order.cmd_id);
+    }
+
     axios.get(`http://localhost:2776/api/order/submit/${order.cmd_id}`).then((res) => {
       console.log(res.data)
       set_SPEC_OD_SPH(res.data.SPEC_OD_SPH)
@@ -614,71 +620,174 @@ const OptometristOrders = () => {
     })
   }
 
+  // helper function to check if date is today
+  const isToday = (dateStr) => {
+    if (!dateStr) return false;
+
+    const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
+
+    const orderDate = new Date(dateStr);
+    orderDate.setDate(orderDate.getDate() + 1); // shift by +1 day
+
+    const shiftedDate = orderDate.toISOString().split("T")[0];
+
+    return shiftedDate === today;
+  };
+
+
+  const [showAll, setShowAll] = useState(false);
+  // const scrollRef = useRef(null);
+
+  // const scroll = (direction) => {
+  //   if (scrollRef.current) {
+  //     scrollRef.current.scrollBy({
+  //       left: direction === "left" ? -250 : 250,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // };
+
+  // filter orders: today or all
+  const displayedOrders = showAll
+    ? allOrders
+    : allOrders.filter((o) => isToday(o.date));
+
+  const formatDate2 = (dateStr) => {
+    if (!dateStr) return "";
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("en-GB"); // gives dd/mm/yyyy
+  };
+  const [selectedCard, setSelectedCard] = useState(null); // track selected
+
+
+  // const handleCardClick = (order) => {
+  //   // toggle selection if same card clicked again
+  //   if (selectedCard === order.cmd_id) {
+  //     setSelectedCard(null);
+  //   } else {
+  //     setSelectedCard(order.cmd_id);
+  //   }
+  // };
+
+
   return (
     <>
-      <div style={{ position: 'relative' }}>
-        <Button variant="light" onClick={() => scroll('left')} style={{ position: 'absolute', left: 0, top: '40%', zIndex: 10 }}>
+      <div style={{ position: "relative" }}>
+        {/* Toggle Button */}
+        <div style={{ textAlign: "center", marginBottom: "10px" }}>
+          <Button
+            variant={showAll ? "primary" : "outline-primary"}
+            onClick={() => setShowAll((prev) => !prev)}
+          >
+            {showAll ? "Show Today Only" : "Show All Orders"}
+          </Button>
+        </div>
+
+        {/* Left Scroll Button */}
+        <Button
+          variant="light"
+          onClick={() => scroll("left")}
+          style={{
+            position: "absolute",
+            left: 0,
+            top: "50%",
+            transform: "translateY(-50%)",
+            zIndex: 10,
+          }}
+        >
           ◀
         </Button>
 
+        {/* Orders Scroll Area */}
         <div
           ref={scrollRef}
           style={{
-            display: 'flex',
-            overflowX: 'auto',
-            scrollBehavior: 'smooth',
-            gap: '1rem',
-            padding: '1rem',
-            margin: '0 2rem',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none'
+            display: "flex",
+            overflowX: "auto",
+            scrollBehavior: "smooth",
+            gap: "1rem",
+            padding: "1rem",
+            margin: "0 2rem",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
           }}
         >
-          {allOrders.map((o, index) => (
-            <Card
-              key={index}
-              onClick={() => handleCardClick(o)}
-              style={{
-                minWidth: '220px',
-                flex: '0 0 auto',
-                borderRadius: '15px',
-                boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-                marginBottom: '1rem',
-                textAlign: 'center'
-              }}
-            >
-              <Card.Img
-                variant="top"
+          {displayedOrders.length === 0 ? (
+            <p style={{ margin: "auto" }}>No orders found</p>
+          ) : (
+            displayedOrders.map((o, index) => (
+              <Card
+                key={index}
+                onClick={() => handleCardClick(o)}
                 style={{
-                  width: 70,
-                  height: 70,
-                  objectFit: 'cover',
-                  borderRadius: '50%',
-                  margin: '10px auto 0 auto',
-                  border: '2px solid #007bff',
-                  padding: '2px'
+                  minWidth: "220px",
+                  flex: "0 0 auto",
+                  borderRadius: "15px",
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                  marginBottom: "1rem",
+                  textAlign: "center",
+                  cursor: "pointer",
+                  backgroundColor:
+                    selectedCard === o.cmd_id ? "#7bb9faff" : "#fff", // 🔵 selected = blue
+                  color: selectedCard === o.cmd_id ? "#fff" : "#000", // white text on blue
+                  transform:
+                    selectedCard === o.cmd_id ? "scale(1.05)" : "scale(1)", // small zoom effect
+                  transition: "all 0.2s ease-in-out",
                 }}
-                src={o.gender === 'male' ? avatar2 : o.gender === 'female' ? avatar3 : avatar1}
-              />
+              >
+                <Card.Img
+                  variant="top"
+                  style={{
+                    width: 40,
+                    height: 40,
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                    margin: "10px auto 0 auto",
+                    border: "2px solid #007bff",
+                    padding: "2px",
+                    backgroundColor: "#fff",
+                  }}
+                  src={
+                    o.gender === "male"
+                      ? avatar2
+                      : o.gender === "female"
+                        ? avatar3
+                        : avatar1
+                  }
+                />
 
-              <Card.Body>
-                <Card.Title style={{ fontSize: '0.9rem', color: '#6c757d' }}>#Today No :  {o.today_no || 'ID'}</Card.Title>
-                <Card.Title style={{ fontSize: '0.9rem', color: '#6c757d' }}>Job ID : {o.cmd_id || 'ID'}</Card.Title>
-                <Card.Title style={{ fontSize: '1.1rem', fontWeight: '600' }}>{o.prefix || 'Prefix'} {o.first_name || 'FirstName'} {o.name || 'LastName'}</Card.Title>
-                <Card.Text style={{ fontSize: '0.9rem' }}>
-                  {o.email || 'N/A'} <br />
-                  {o.mobile2 || o.telephone || 'N/A'}
-                </Card.Text>
-              </Card.Body>
-
-              <Card.Footer style={{ fontSize: '0.8rem', backgroundColor: '#f8f9fa', borderTop: '1px solid #dee2e6' }}>
-                <small className="text-muted">🕒 {formatDate(o.date)}</small>
-              </Card.Footer>
-            </Card>
-          ))}
+                <Card.Body>
+                  <Card.Title style={{ fontSize: "0.9rem", color: "#6c757d" }}>
+                    #Today No : {o.today_no || "ID"}
+                  </Card.Title>
+                  <Card.Title style={{ fontSize: "1rem", fontWeight: "600" }}>
+                    {o.prefix || "Prefix"} {o.first_name || "FirstName"}{" "}
+                    {o.name || "LastName"}
+                  </Card.Title>
+                  <Card.Title style={{ fontSize: "0.9rem", color: "#6c757d" }}>
+                    Age : {o.age || "AGE"}
+                  </Card.Title>
+                  <Card.Title style={{ fontSize: "0.9rem", color: "#6c757d" }}>
+                    Date : {formatDate2(o.date) || "Date"}
+                  </Card.Title>
+                </Card.Body>
+              </Card>
+            ))
+          )}
         </div>
 
-        <Button variant="light" onClick={() => scroll('right')} style={{ position: 'absolute', right: 0, top: '40%', zIndex: 10 }}>
+        {/* Right Scroll Button */}
+        <Button
+          variant="light"
+          onClick={() => scroll("right")}
+          style={{
+            position: "absolute",
+            right: 0,
+            top: "50%",
+            transform: "translateY(-50%)",
+            zIndex: 10,
+          }}
+        >
           ▶
         </Button>
       </div>
@@ -718,23 +827,29 @@ const OptometristOrders = () => {
               </Col>
 
               <Col md={3} className="mb-3">
-                <small className="text-muted">Email</small>
-                <h6 className="mb-0">{selectedOrder.email || 'N/A'}</h6>
-              </Col>
-
-              <Col md={3} className="mb-3">
-                <small className="text-muted">Mobile</small>
-                <h6 className="mb-0">{selectedOrder.mobile2 || selectedOrder.telephone || 'N/A'}</h6>
-              </Col>
-
-              <Col md={3} className="mb-3">
-                <small className="text-muted">Address</small>
-                <h6 className="mb-0">{selectedOrder.address || 'N/A'}</h6>
-              </Col>
-
-               <Col md={3} className="mb-3">
                 <small className="text-muted">Age</small>
                 <h6 className="mb-0">{selectedOrder.age || 'N/A'}</h6>
+              </Col>
+
+              <Col md={6} className="mb-3">
+                <small className="text-muted">Occupation</small>
+                <h6 className="mb-0">{selectedOrder.occupation || 'N/A'}</h6>
+              </Col>
+
+              {/* <Col md={3} className="mb-3">
+                <small className="text-muted">Address</small>
+                <h6 className="mb-0">{selectedOrder.address || 'N/A'}</h6>
+              </Col> */}
+
+              {/* <Col md={3} className="mb-3">
+                <small className="text-muted">Age</small>
+                <h6 className="mb-0">{selectedOrder.age || 'N/A'}</h6>
+              </Col> */}
+            </Row>
+            <Row>
+              <Col md={12} className="mb-3">
+                <small className="text-muted">Address</small>
+                <h6 className="mb-0">{selectedOrder.address || 'N/A'}</h6>
               </Col>
             </Row>
 
@@ -748,9 +863,13 @@ const OptometristOrders = () => {
                   <small className="text-muted d-block mb-1">Purpose of Visit</small>
                   <h6 className="mb-2">{selectedOrder.purpose_of_visit || 'N/A'}</h6>
                   <small className="text-muted d-block mb-1">Remarks</small>
-                  <h6 className="mb-0">{selectedOrder.purpose_of_visit_remark || 'N/A'}</h6>
-                  <small className="text-muted d-block mt-5 mb-1">Type of Lenses used</small>
-                  <h6 className="mb-0">{selectedOrder.type_of_lenses_used || 'N/A'}</h6>
+                  <h6 className="mb-2">{selectedOrder.purpose_of_visit_remark || 'N/A'}</h6>
+                  <small className="text-muted d-block mb-1">Medication</small>
+                  <h6 className="mb-2">{selectedOrder.general_health_medication || 'N/A'}</h6>
+                  <small className="text-muted d-block mb-1">Allergies</small>
+                  <h6 className="mb-2">{selectedOrder.general_health_allergies || 'N/A'}</h6>
+                  <small className="text-muted d-block mb-1">Type of Lenses used</small>
+                  <h6 className="mb-2">{selectedOrder.type_of_lenses_used || 'N/A'}</h6>
                 </Col>
 
                 <Col md={3} className="mb-4">
@@ -758,10 +877,8 @@ const OptometristOrders = () => {
                   <h6 className="mb-2">{selectedOrder.general_health || 'N/A'}</h6>
                   <small className="text-muted d-block mb-1">Remarks</small>
                   <h6 className="mb-2">{selectedOrder.general_health_remark || 'N/A'}</h6>
-                  <small className="text-muted d-block mb-1">Allergies</small>
-                  <h6 className="mb-2">{selectedOrder.general_health_allergies || 'N/A'}</h6>
-                  <small className="text-muted d-block mb-1">Medication</small>
-                  <h6 className="mb-0">{selectedOrder.general_health_medication || 'N/A'}</h6>
+
+
                 </Col>
 
                 <Col md={3} className="mb-4">
@@ -1135,7 +1252,14 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OD_SPH}
-                                    onChange={(e) => set_SPEC_OD_SPH(e.target.value)}
+                                    onChange={(e) => {
+                                      set_SPEC_OD_SPH(e.target.value);
+                                      SPEC_OD_near_full
+                                        ? Number(SPEC_OD_near_full) > 0
+                                          ? set_SPEC_RE_OD_SPH(Number(e.target.value) + Number(SPEC_OD_near_full))
+                                          : null
+                                        : ""
+                                    }}
                                   />
                                 </Form.Group>
                               </td>
@@ -1306,7 +1430,14 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OS_SPH}
-                                    onChange={(e) => set_SPEC_OS_SPH(e.target.value)}
+                                    onChange={(e) => {
+                                      set_SPEC_OS_SPH(e.target.value);
+                                      SPEC_OS_near_full
+                                        ? Number(SPEC_OS_near_full) > 0
+                                          ? set_SPEC_RE_OS_SPH(Number(e.target.value) + Number(SPEC_OS_near_full))
+                                          : null
+                                        : ""
+                                    }}
                                   />
                                 </Form.Group>
                               </td>
@@ -1494,7 +1625,7 @@ const OptometristOrders = () => {
                                     value={
                                       SPEC_RE_OD_SPH
                                         ? Number(SPEC_RE_OD_SPH) > 0
-                                          ? `+${SPEC_RE_OD_SPH}`
+                                          ? `${SPEC_RE_OD_SPH}`
                                           : SPEC_RE_OD_SPH
                                         : ""
                                     }
@@ -1617,7 +1748,7 @@ const OptometristOrders = () => {
                                     value={
                                       SPEC_RE_OS_SPH
                                         ? Number(SPEC_RE_OS_SPH) > 0
-                                          ? `+${SPEC_RE_OS_SPH}`
+                                          ? `${SPEC_RE_OS_SPH}`
                                           : SPEC_RE_OS_SPH
                                         : ""
                                     }
@@ -1712,9 +1843,9 @@ const OptometristOrders = () => {
                         </Table>
                       </Col>
                     </Row>
-                    <Row className="mt-3">
-                      <Col md={4}>
-                        <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                    <Row className="mt-3 align-items-stretch">
+                      <Col md={4} className="d-flex">
+                        <Table bordered hover responsive className="table-sm align-middle shadow-sm flex-fill" style={{ height: '150px' }}>
                           <thead className="bg-primary text-white text-center">
                             <tr>
                               <th colSpan={3}>Unaided Vision</th>
@@ -1799,8 +1930,8 @@ const OptometristOrders = () => {
                           </tbody>
                         </Table>
                       </Col>
-                      <Col md={2}>
-                        <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                      <Col md={2} className="d-flex">
+                        <Table bordered hover responsive className="table-sm align-middle shadow-sm flex-fill" style={{ height: '150px' }}>
                           <thead className="bg-primary text-white text-center">
                             <tr>
                               <th colSpan={2}>Pinholevision</th>
@@ -1849,11 +1980,11 @@ const OptometristOrders = () => {
                           </tbody>
                         </Table>
                       </Col>
-                      <Col md={2}>
-                        <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                      <Col md={2} className="d-flex">
+                        <Table bordered hover responsive className="table-sm align-middle shadow-sm flex-fill" style={{ height: '150px' }}>
                           <thead className="bg-primary text-white text-center">
                             <tr>
-                              <th colSpan={2}>IOP</th>
+                              <th colSpan={2}>IOP (NCT)</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -1920,8 +2051,8 @@ const OptometristOrders = () => {
                           </tbody>
                         </Table>
                       </Col>
-                      <Col md={4}>
-                        <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                      <Col md={4} className="d-flex">
+                        <Table bordered hover responsive className="table-sm align-middle shadow-sm flex-fill" style={{ height: '150px' }}>
                           <thead className="bg-primary text-white text-center">
                             <tr>
                               <th colSpan={3}>K Reading</th>
@@ -1934,33 +2065,107 @@ const OptometristOrders = () => {
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
                                     type="text"
-                                    step="any"
+                                    inputMode="decimal"
                                     style={{
-                                      border: 'none',
-                                      width: '',
-                                      padding: '4px 6px',
-                                      textAlign: 'center'
+                                      border: "none",
+                                      padding: "4px 6px",
+                                      textAlign: "center",
                                     }}
                                     value={SPEC_RED_OD_O}
-                                    onChange={(e) => set_SPEC_RED_OD_O(e.target.value)}
+                                    onChange={(e) => {
+                                      let value = e.target.value;
+
+                                      // Allow numbers, dot, and '@'
+                                      value = value.replace(/[^0-9.@]/g, "");
+
+                                      // Split into before and after '@'
+                                      let [before, after] = value.split("@");
+
+                                      // --- Handle before '@' ---
+                                      if (before) {
+                                        // Only allow one dot in before part
+                                        const parts = before.split(".");
+                                        if (parts.length > 2) {
+                                          before = parts[0] + "." + parts[1]; // remove extra dots
+                                        }
+
+                                        // Limit total before '@' length to 5 (digits + dot)
+                                        before = before.slice(0, 5);
+                                      }
+
+                                      // --- Handle after '@' ---
+                                      if (after) {
+                                        after = after.replace(/\./g, ""); // remove any dots after '@'
+                                        after = after.slice(0, 3); // limit to 3 digits
+                                      }
+
+                                      // If user typed more than 5 chars before '@' but no '@', insert automatically
+                                      if (!value.includes("@") && before.length === 5) {
+                                        value = before + "@";
+                                      } else if (value.includes("@")) {
+                                        value = before + "@" + (after || "");
+                                      } else {
+                                        value = before;
+                                      }
+
+                                      set_SPEC_RED_OD_O(value);
+                                    }}
                                   />
+
                                 </Form.Group>
                               </td>
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
                                     type="text"
-                                    step="any"
+                                    inputMode="decimal"
                                     style={{
-                                      border: 'none',
-                                      width: '',
-                                      padding: '4px 6px',
-                                      textAlign: 'center'
+                                      border: "none",
+                                      padding: "4px 6px",
+                                      textAlign: "center",
                                     }}
                                     value={SPEC_RED_OD_T}
-                                    onChange={(e) => set_SPEC_RED_OD_T(e.target.value)}
+                                    onChange={(e) => {
+                                      let value = e.target.value;
+
+                                      // Allow only digits, one dot, and '@'
+                                      value = value.replace(/[^0-9.@]/g, "");
+
+                                      // Split parts around '@'
+                                      let [before, after] = value.split("@");
+
+                                      // --- Handle before '@' ---
+                                      if (before) {
+                                        // Only one dot allowed before '@'
+                                        const parts = before.split(".");
+                                        if (parts.length > 2) {
+                                          before = parts[0] + "." + parts[1];
+                                        }
+
+                                        // Limit total before '@' to 5 characters
+                                        before = before.slice(0, 5);
+                                      }
+
+                                      // --- Handle after '@' ---
+                                      if (after) {
+                                        after = after.replace(/\./g, ""); // remove any dots after '@'
+                                        after = after.slice(0, 3); // limit to 3 digits
+                                      }
+
+                                      // Auto-add '@' if 5 chars typed before and not yet added
+                                      if (!value.includes("@") && before.length === 5) {
+                                        value = before + "@";
+                                      } else if (value.includes("@")) {
+                                        value = before + "@" + (after || "");
+                                      } else {
+                                        value = before;
+                                      }
+
+                                      set_SPEC_RED_OD_T(value);
+                                    }}
                                   />
                                 </Form.Group>
+
                               </td>
                             </tr>
                             <tr>
@@ -1969,31 +2174,104 @@ const OptometristOrders = () => {
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
                                     type="text"
-                                    step="any"
+                                    inputMode="decimal"
                                     style={{
-                                      border: 'none',
-                                      width: '',
-                                      padding: '4px 6px',
-                                      textAlign: 'center'
+                                      border: "none",
+                                      padding: "4px 6px",
+                                      textAlign: "center",
                                     }}
                                     value={SPEC_RED_OS_O}
-                                    onChange={(e) => set_SPEC_RED_OS_O(e.target.value)}
+                                    onChange={(e) => {
+                                      let value = e.target.value;
+
+                                      // Allow only digits, one dot, and '@'
+                                      value = value.replace(/[^0-9.@]/g, "");
+
+                                      // Split parts around '@'
+                                      let [before, after] = value.split("@");
+
+                                      // --- Handle before '@' ---
+                                      if (before) {
+                                        // Only one dot allowed before '@'
+                                        const parts = before.split(".");
+                                        if (parts.length > 2) {
+                                          before = parts[0] + "." + parts[1];
+                                        }
+
+                                        // Limit total before '@' to 5 characters
+                                        before = before.slice(0, 5);
+                                      }
+
+                                      // --- Handle after '@' ---
+                                      if (after) {
+                                        after = after.replace(/\./g, ""); // remove any dots after '@'
+                                        after = after.slice(0, 3); // limit to 3 digits
+                                      }
+
+                                      // Auto-add '@' if 5 chars typed before and not yet added
+                                      if (!value.includes("@") && before.length === 5) {
+                                        value = before + "@";
+                                      } else if (value.includes("@")) {
+                                        value = before + "@" + (after || "");
+                                      } else {
+                                        value = before;
+                                      }
+
+                                      set_SPEC_RED_OS_O(value);
+                                    }}
                                   />
                                 </Form.Group>
+
                               </td>
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
                                     type="text"
-                                    step="any"
+                                    inputMode="decimal"
                                     style={{
-                                      border: 'none',
-                                      width: '',
-                                      padding: '4px 6px',
-                                      textAlign: 'center'
+                                      border: "none",
+                                      padding: "4px 6px",
+                                      textAlign: "center",
                                     }}
                                     value={SPEC_RED_OS_T}
-                                    onChange={(e) => set_SPEC_RED_OS_T(e.target.value)}
+                                    onChange={(e) => {
+                                      let value = e.target.value;
+
+                                      // Allow only digits, one dot, and '@'
+                                      value = value.replace(/[^0-9.@]/g, "");
+
+                                      // Split parts around '@'
+                                      let [before, after] = value.split("@");
+
+                                      // --- Handle before '@' ---
+                                      if (before) {
+                                        // Allow only one dot before '@'
+                                        const parts = before.split(".");
+                                        if (parts.length > 2) {
+                                          before = parts[0] + "." + parts[1];
+                                        }
+
+                                        // Limit before '@' to 5 characters total
+                                        before = before.slice(0, 5);
+                                      }
+
+                                      // --- Handle after '@' ---
+                                      if (after) {
+                                        after = after.replace(/\./g, ""); // remove dots after '@'
+                                        after = after.slice(0, 3); // limit to 3 digits
+                                      }
+
+                                      // Auto-add '@' if 5 chars typed and '@' not present yet
+                                      if (!value.includes("@") && before.length === 5) {
+                                        value = before + "@";
+                                      } else if (value.includes("@")) {
+                                        value = before + "@" + (after || "");
+                                      } else {
+                                        value = before;
+                                      }
+
+                                      set_SPEC_RED_OS_T(value);
+                                    }}
                                   />
                                 </Form.Group>
                               </td>
@@ -2002,9 +2280,9 @@ const OptometristOrders = () => {
                         </Table>
                       </Col>
                     </Row>
-                    <Row>
+                    <Row className="border rounded">
                       <Col md={4}>
-                        <h6 className="mt-4 fw-bold mb-4">Prescribe Spectacle</h6>
+                        <h6 className="mt-4 fw-bold mb-4">Spectacle Recommendation</h6>
                         <Form.Group className="mb-3">
                           {prescribe_spectacle.map((t) => (
                             <Form.Check
@@ -2016,24 +2294,6 @@ const OptometristOrders = () => {
                               value={t.text} // 👈 give each option its own value
                               checked={SPEC_Type_Of_lenses_Used === t.text} // 👈 keeps selection highlighted
                               onChange={(e) => set_SPEC_Type_Of_lenses_Used(e.target.value)}
-                            />
-                          ))}
-                        </Form.Group>
-
-                      </Col>
-                      <Col md={4}>
-                        <h6 className="mt-4 fw-bold mb-4"></h6>
-                        <Form.Group className="mb-3">
-                          {timepreiod.map((t) => (
-                            <Form.Check
-                              key={t.id}
-                              type="radio"
-                              label={t.text}
-                              id={`radio-${t.id}`}
-                              name="time-period" // 👈 groups radios together
-                              value={t.text}     // 👈 each option has its own value
-                              checked={SPEC_Time_Period === t.text} // 👈 highlights selected
-                              onChange={(e) => set_SPEC_Time_Period(e.target.value)} // 👈 saves to state
                             />
                           ))}
                         </Form.Group>
@@ -2052,6 +2312,24 @@ const OptometristOrders = () => {
                               value={t.text}               // 👈 set the real option value
                               checked={SPEC_Time_More === t.text} // 👈 control the selection
                               onChange={(e) => set_SPEC_Time_More(e.target.value)} // 👈 save to state
+                            />
+                          ))}
+                        </Form.Group>
+
+                      </Col>
+                      <Col md={4}>
+                        <h6 className="mt-4 fw-bold mb-4">General Recommendation</h6>
+                        <Form.Group className="mb-3">
+                          {timepreiod.map((t) => (
+                            <Form.Check
+                              key={t.id}
+                              type="radio"
+                              label={t.text}
+                              id={`radio-${t.id}`}
+                              name="time-period" // 👈 groups radios together
+                              value={t.text}     // 👈 each option has its own value
+                              checked={SPEC_Time_Period === t.text} // 👈 highlights selected
+                              onChange={(e) => set_SPEC_Time_Period(e.target.value)} // 👈 saves to state
                             />
                           ))}
                         </Form.Group>
@@ -2727,14 +3005,14 @@ const OptometristOrders = () => {
 
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Update Assistance Entered Details</Modal.Title>
+          <Modal.Title>Edit medical Card</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Container>
               <Row>
                 <Col md={6}>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" style={{ height: '220px' }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>Purpose of visit</Form.Label>
                     <div>
                       {purposeofvisit.map((p) => (
@@ -2764,7 +3042,7 @@ const OptometristOrders = () => {
 
 
 
-                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                  <Form.Group className="mb-4" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
                     <Form.Label>Remark</Form.Label>
                     <Form.Control
                       type="text"
@@ -2774,7 +3052,7 @@ const OptometristOrders = () => {
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" style={{ height: '400px' }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>Symptoms</Form.Label>
                     <div>
                       {symptoms_list.map((p, i) => (
@@ -2825,13 +3103,13 @@ const OptometristOrders = () => {
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                  {/* <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>Allergies</Form.Label>
                     <Form.Control type="text" placeholder="Allergies" value={general_health_allergies} onChange={(e) => set_general_health_allergies(e.target.value)} />
-                  </Form.Group>
+                  </Form.Group> */}
                 </Col>
                 <Col md={6}>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" style={{ height: '220px' }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>General Health</Form.Label>
                     <div>
                       {generalhealth.map((p, i) => (
@@ -2861,7 +3139,7 @@ const OptometristOrders = () => {
 
 
 
-                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                  <Form.Group className="mb-4" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
                     <Form.Label>Remark</Form.Label>
                     <Form.Control
                       type="text"
@@ -2872,7 +3150,7 @@ const OptometristOrders = () => {
                   </Form.Group>
 
 
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" style={{ height: '400px' }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>Occular Health</Form.Label>
                     <div>
                       {occularhealth.map((p, i) => (
@@ -2911,7 +3189,12 @@ const OptometristOrders = () => {
                       onChange={(e) => set_occular_health_remark(e.target.value)}
                     />
                   </Form.Group>
-                  <h6 className="mt-4 fw-bold mb-4">Type of Lenses Used</h6>
+
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Allergies</Form.Label>
+                    <Form.Control type="text" placeholder="Allergies" value={general_health_allergies} onChange={(e) => set_general_health_allergies(e.target.value)} />
+                  </Form.Group>
+                  {/* <h6 className="mt-4 fw-bold mb-4">Type of Lenses Used</h6>
                   <Form.Group className="mb-3">
                     {typeofLense.map((t) => (
                       <Form.Check
@@ -2926,8 +3209,27 @@ const OptometristOrders = () => {
                         onChange={(e) => set_type_of_lenses_used(e.target.value)}
                       />
                     ))}
-                  </Form.Group>
+                  </Form.Group> */}
                 </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Label style={{ fontWeight: 'bold' }}>Type of Lenses Used</Form.Label>
+                  <Form.Group className="mb-3">
+                    {typeofLense.map((t) => (
+                      <Form.Check
+                        key={t.tol_id}
+                        inline
+                        type="radio"
+                        label={t.text} // show each lens type
+                        id={`radio-${t.text}`}
+                        value={t.text}
+                        className="custom-radio"
+                        checked={type_of_lenses_used === t.text} // mark correct one as selected
+                        onChange={(e) => set_type_of_lenses_used(e.target.value)}
+                      />
+                    ))}
+                  </Form.Group></Col>
               </Row>
             </Container>
           </Form>

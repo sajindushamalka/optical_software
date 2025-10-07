@@ -467,3 +467,56 @@ exports.createReorderMessageCon = (req, res) => {
         res.status(201).json({ message: "Order Created", id: result.insertId });
     });
 };
+
+exports.updateOptimisticDeatilsCon = (req, res) => {
+    const { id } = req.params;
+    const updateU = req.body;
+    console.log(id, updateU)
+
+    NewCustomersMedDeatilsModel.updateOptimisticDeatils(id, updateU, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "User Not Found" });
+        res.json(this.updateU)
+    })
+}
+
+exports.updateOptimisticObjectiveDeatilsCon = (req, res) => {
+    const { id } = req.params;
+    const newUser = req.body;
+    NewCustomersMedDeatilsModel.getDeatilsByIDObj(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.length == 0)
+            return (
+                NewCustomersMedDeatilsModel.optimizer_objective_create(newUser, (err, result) => {
+                    if (err) return res.status(500).json({ err: err.message });
+                    console.log(result)
+                    res.status(201).json({ message: "User Created" });
+                }))
+        NewCustomersMedDeatilsModel.updateOptimisticObjectiveDeatils(id, newUser, (err, result) => {
+            if (err) return res.status(500).json({ err: err.message });
+            console.log(result)
+            res.status(201).json({ message: "User Updated" });
+        });
+    });
+};
+
+
+exports.updateOptimisticCOntactDeatilsCon = (req, res) => {
+    const { id } = req.params;
+    const newUser = req.body;
+    NewCustomersMedDeatilsModel.getDeatilsByIDCOntactLens(id, (err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        if (result.length == 0)
+            return (
+                NewCustomersMedDeatilsModel.optimizer_contact_lenses_create(newUser, (err, result) => {
+                    if (err) return res.status(500).json({ err: err.message });
+                    console.log(result)
+                    res.status(201).json({ message: "User Created" });
+                }))
+        NewCustomersMedDeatilsModel.updateOptimisticCOntactDeatils(id, newUser, (err, result) => {
+            if (err) return res.status(500).json({ err: err.message });
+            console.log(result)
+            res.status(201).json({ message: "User Updated" });
+        });
+    });
+};

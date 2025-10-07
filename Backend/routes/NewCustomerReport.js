@@ -54,6 +54,9 @@ router.post("/cashier/customer", NewCustomersMedDeatilsController.getCusomtwrByI
 router.post("/cashier/invoice/table", NewCustomersMedDeatilsController.getInvoiceTableByIDCon);
 router.post("/cashier/jobid", NewCustomersMedDeatilsController.getJobByIDCon);
 router.post("/factory/reorder", NewCustomersMedDeatilsController.createReorderMessageCon);
+router.put("/report/update/:id", NewCustomersMedDeatilsController.updateOptimisticDeatilsCon);
+router.put("/report/update/object/:id", NewCustomersMedDeatilsController.updateOptimisticObjectiveDeatilsCon);
+router.put("/report/update/contact/:id", NewCustomersMedDeatilsController.updateOptimisticCOntactDeatilsCon);
 
 
 module.exports = router;

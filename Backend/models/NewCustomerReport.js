@@ -382,6 +382,41 @@ const NewCustomersMedDeatils = {
         );
     },
 
+    // getAllHistoryOptOrders: (callback) => {
+    //     db.query("select * from optical_software.new_customer_order_assitance o, optical_software.customers c where c.c_id = o.cid and o.report_status = 'Pass_to_O' order by o.today_no", callback);
+    // },
+
+    updateOptimisticDeatils: (id, customer, callback) => {
+        db.query(
+            "Update optical_software.customer_order_optometrist_subjective_details SET ? where cood_id = ?",
+            [customer, id],
+            callback
+        );
+    },
+
+    updateOptimisticObjectiveDeatils: (id, customer, callback) => {
+        db.query(
+            "Update optical_software.customer_order_optometrist_objective_details SET ? where cooo_id = ?",
+            [customer, id],
+            callback
+        );
+    },
+
+    getDeatilsByIDObj: (email, callback) => {
+        db.query("Select * from optical_software.customer_order_optometrist_objective_details where cooo_id = ? ", [email], callback);
+    },
+
+    updateOptimisticCOntactDeatils: (id, customer, callback) => {
+        db.query(
+            "Update optical_software.customer_order_optometrist_contact_lenses_details SET ? where coocl_id = ?",
+            [customer, id],
+            callback
+        );
+    },
+
+    getDeatilsByIDCOntactLens: (email, callback) => {
+        db.query("Select * from optical_software.customer_order_optometrist_contact_lenses_details where coocl_id = ? ", [email], callback);
+    }
 };
 
 module.exports = NewCustomersMedDeatils;
