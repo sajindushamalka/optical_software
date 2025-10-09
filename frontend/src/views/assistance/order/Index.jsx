@@ -1448,7 +1448,7 @@ const AssistanceOrder = () => {
             <Form style={{ color: 'black', paddingTop: 20 }}>
               <Row>
                 <Col md={6}>
-                  <Form.Group className="mb-3">
+                  {/* <Form.Group className="mb-3">
                     <Form.Label style={{ fontWeight: 'bold' }}>Purpose of visit</Form.Label>
                     <div>
                       {purposeofvisit.map((p) => (
@@ -1474,6 +1474,24 @@ const AssistanceOrder = () => {
                         />
                       ))}
                     </div>
+                  </Form.Group> */}
+
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontWeight: 'bold' }}>Purpose of visit</Form.Label>
+                    <Form.Select
+                      multiple // keeps same multi-select behavior as checkboxes
+                      value={purpose_of_visit.split(", ").filter(Boolean)}
+                      onChange={(e) => {
+                        const selected = Array.from(e.target.selectedOptions, (option) => option.value);
+                        set_purpose_of_visit(selected.join(", "));
+                      }}
+                    >
+                      {purposeofvisit.map((p) => (
+                        <option key={p.pov_id} value={p.text}>
+                          {p.text}
+                        </option>
+                      ))}
+                    </Form.Select>
                   </Form.Group>
 
 
@@ -1489,7 +1507,7 @@ const AssistanceOrder = () => {
                   </Form.Group>
 
 
-                  <Form.Group className="mb-3">
+                  {/* <Form.Group className="mb-3">
                     <Form.Label style={{ fontWeight: 'bold' }}>Symptoms</Form.Label>
                     <div>
                       {symptoms_list.map((p, i) => (
@@ -1515,6 +1533,24 @@ const AssistanceOrder = () => {
                         />
                       ))}
                     </div>
+                  </Form.Group> */}
+
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontWeight: 'bold' }}>Symptoms</Form.Label>
+                    <Form.Select
+                      multiple // keeps the same multi-select behavior as checkboxes
+                      value={symptoms.split(", ").filter(Boolean)}
+                      onChange={(e) => {
+                        const selected = Array.from(e.target.selectedOptions, (option) => option.value);
+                        set_symptoms(selected.join(", "));
+                      }}
+                    >
+                      {symptoms_list.map((p, i) => (
+                        <option key={i} value={p.text}>
+                          {p.text}
+                        </option>
+                      ))}
+                    </Form.Select>
                   </Form.Group>
 
 
@@ -1546,7 +1582,7 @@ const AssistanceOrder = () => {
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group className="mb-3">
+                  {/* <Form.Group className="mb-3">
                     <Form.Label style={{ fontWeight: 'bold' }}>General Health</Form.Label>
                     <div>
                       {generalhealth.map((p, i) => (
@@ -1572,6 +1608,24 @@ const AssistanceOrder = () => {
                         />
                       ))}
                     </div>
+                  </Form.Group> */}
+
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontWeight: 'bold' }}>General Health</Form.Label>
+                    <Form.Select
+                      multiple // allows selecting multiple options (same behavior as checkboxes)
+                      value={general_health.split(", ").filter(Boolean)}
+                      onChange={(e) => {
+                        const selected = Array.from(e.target.selectedOptions, (option) => option.value);
+                        set_general_health(selected.join(", "));
+                      }}
+                    >
+                      {generalhealth.map((p, i) => (
+                        <option key={i} value={p.text}>
+                          {p.text}
+                        </option>
+                      ))}
+                    </Form.Select>
                   </Form.Group>
 
 
@@ -1587,7 +1641,7 @@ const AssistanceOrder = () => {
                   </Form.Group>
 
 
-                  <Form.Group className="mb-3">
+                  {/* <Form.Group className="mb-3">
                     <Form.Label style={{ fontWeight: 'bold' }}>Occular Health</Form.Label>
                     <div>
                       {occularhealth.map((p, i) => (
@@ -1613,7 +1667,26 @@ const AssistanceOrder = () => {
                         />
                       ))}
                     </div>
+                  </Form.Group> */}
+
+                  <Form.Group className="mb-3">
+                    <Form.Label style={{ fontWeight: 'bold' }}>Occular Health</Form.Label>
+                    <Form.Select
+                      multiple // keeps multiple-selection behavior like checkboxes
+                      value={occular_health.split(", ").filter(Boolean)}
+                      onChange={(e) => {
+                        const selected = Array.from(e.target.selectedOptions, (option) => option.value);
+                        set_occular_health(selected.join(", "));
+                      }}
+                    >
+                      {occularhealth.map((p, i) => (
+                        <option key={i} value={p.text}>
+                          {p.text}
+                        </option>
+                      ))}
+                    </Form.Select>
                   </Form.Group>
+
 
 
 
