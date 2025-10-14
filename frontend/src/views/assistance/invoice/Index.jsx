@@ -590,12 +590,12 @@ const AssistanceInvoice = () => {
             </Container>
           </Card.Header>
           <Card.Body>
-            <div className=" mt-4 rounded">
+            <div className="rounded">
               <h5 className="mb-4 text-primary" style={{ fontWeight: '600' }}>
                 🧑‍⚕️ Medical Report Information
               </h5>
 
-              <Row>
+              {/* <Row>
                 <Col md={3} className="mb-4">
                   <small className="text-muted d-block mb-1">Purpose of Visit</small>
                   <h6 className="mb-2">{purpose_of_visit || 'N/A'}</h6>
@@ -629,7 +629,81 @@ const AssistanceInvoice = () => {
                   <small className="text-muted d-block mb-1">Remarks</small>
                   <h6 className="mb-0">{symptoms_remark || 'N/A'}</h6>
                 </Col>
+              </Row> */}
+
+              <Row>
+                <Col md={3}>
+                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10, fontSize:15 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Purpose of visit</Form.Label>
+                    <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
+                      {purpose_of_visit.split(", ").filter(Boolean).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  </Form.Group>
+                </Col>
+                <Col md={3}>
+                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10, fontSize:15 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Symptoms</Form.Label>
+                    <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
+                      {symptoms.split(", ").filter(Boolean).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+
+                  </Form.Group>
+                </Col>
+                <Col md={3}>
+                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10, fontSize:15 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>General Health</Form.Label>
+                    <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
+                      {general_health.split(", ").filter(Boolean).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  </Form.Group>
+                </Col>
+                <Col md={3}>
+                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10, fontSize:15 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Occular Health</Form.Label>
+                    <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
+                      {occular_health.split(", ").filter(Boolean).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  </Form.Group>
+                </Col>
+                <Col md={12}>
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label>Remark</Form.Label>
+                    <Form.Control
+                      type="text"
+                      readOnly
+                      placeholder="Enter Purpose of Visit Remarks"
+                      value={purpose_of_visit_remark}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={12}>
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Medication</Form.Label>
+                    <Form.Control
+                      type="text"
+                      readOnly
+                      placeholder="Medication"
+                      value={general_health_medication}
+                    />
+                  </Form.Group>
+                </Col>
+
+                <Col md={12}>
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Allergies</Form.Label>
+                    <Form.Control type="text" placeholder="Allergies" value={general_health_allergies} readOnly />
+                  </Form.Group>
+                </Col>
               </Row>
+
             </div>
           </Card.Body>
 

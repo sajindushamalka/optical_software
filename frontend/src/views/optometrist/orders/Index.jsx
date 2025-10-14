@@ -7,6 +7,28 @@ import avatar3 from '../../../assets/images/user/avatar-3.jpg';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
+const boxStyle = {
+  backgroundColor: '#D0DCF5',
+  padding: 15,
+  color: '#708090',
+  borderRadius: 10,
+  fontSize: 15,
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column'
+};
+
+const labelStyle = {
+  fontWeight: 'bold',
+  marginBottom: 10
+};
+
+const ulStyle = {
+  paddingLeft: '20px',
+  marginBottom: 0,
+  flex: 1
+};
+
 
 const typeofLense = [
   { id: 1, text: 'Distance only' },
@@ -485,11 +507,11 @@ const OptometristOrders = () => {
         SPECCON_OS_Diam,
         SPECCON_OS_Design,
         SPECCON_remark,
-        WearerType:WearerTypeValue,
-        LensType:LensTypeContactLenseValue,
-        SoftLensMaterial:SoftLensMaterialValue,
-        SoftLensDesign:SoftLensDesignValue,
-        WearerSchedule:WearerScheduleValue
+        WearerType: WearerTypeValue,
+        LensType: LensTypeContactLenseValue,
+        SoftLensMaterial: SoftLensMaterialValue,
+        SoftLensDesign: SoftLensDesignValue,
+        WearerSchedule: WearerScheduleValue
       }
 
       axios.post('http://localhost:2776/api/order/new/contact', ob).then((res) => {
@@ -902,45 +924,53 @@ const OptometristOrders = () => {
               <h5 className="mb-4 text-primary" style={{ fontWeight: '600' }}>
                 🧑‍⚕️ Medical Report Information
               </h5>
-
-              <Row>
-                <Col md={3} className="mb-4">
-                  <small className="text-muted d-block mb-1">Purpose of Visit</small>
-                  <h6 className="mb-2">{selectedOrder.purpose_of_visit || 'N/A'}</h6>
-                  <small className="text-muted d-block mb-1">Remarks</small>
-                  <h6 className="mb-2">{selectedOrder.purpose_of_visit_remark || 'N/A'}</h6>
-                  <small className="text-muted d-block mb-1">Medication</small>
-                  <h6 className="mb-2">{selectedOrder.general_health_medication || 'N/A'}</h6>
-                  <small className="text-muted d-block mb-1">Allergies</small>
-                  <h6 className="mb-2">{selectedOrder.general_health_allergies || 'N/A'}</h6>
-                  <small className="text-muted d-block mb-1">Type of Lenses used</small>
-                  <h6 className="mb-2">{selectedOrder.type_of_lenses_used || 'N/A'}</h6>
+              <Row className="align-items-stretch">
+                <Col md={3}>
+                  <Form.Group className="mb-3 h-100" style={boxStyle}>
+                    <Form.Label style={labelStyle}>Purpose of visit</Form.Label>
+                    <ul style={ulStyle}>
+                      {purpose_of_visit.split(", ").filter(Boolean).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  </Form.Group>
                 </Col>
 
-                <Col md={3} className="mb-4">
-                  <small className="text-muted d-block mb-1">General Health</small>
-                  <h6 className="mb-2">{selectedOrder.general_health || 'N/A'}</h6>
-                  <small className="text-muted d-block mb-1">Remarks</small>
-                  <h6 className="mb-2">{selectedOrder.general_health_remark || 'N/A'}</h6>
-
-
+                <Col md={3}>
+                  <Form.Group className="mb-3 h-100" style={boxStyle}>
+                    <Form.Label style={labelStyle}>Symptoms</Form.Label>
+                    <ul style={ulStyle}>
+                      {symptoms.split(", ").filter(Boolean).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  </Form.Group>
                 </Col>
 
-                <Col md={3} className="mb-4">
-                  <small className="text-muted d-block mb-1">Occular Health</small>
-                  <h6 className="mb-2">{selectedOrder.occular_health || 'N/A'}</h6>
-                  <small className="text-muted d-block mb-1">Remarks</small>
-                  <h6 className="mb-0">{selectedOrder.occular_health_remark || 'N/A'}</h6>
+                <Col md={3}>
+                  <Form.Group className="mb-3 h-100" style={boxStyle}>
+                    <Form.Label style={labelStyle}>General Health</Form.Label>
+                    <ul style={ulStyle}>
+                      {general_health.split(", ").filter(Boolean).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  </Form.Group>
                 </Col>
 
-                <Col md={3} className="mb-4">
-                  <small className="text-muted d-block mb-1">Symptoms</small>
-                  <h6 className="mb-2">{selectedOrder.symptoms || 'N/A'}</h6>
-                  <small className="text-muted d-block mb-1">Remarks</small>
-                  <h6 className="mb-0">{selectedOrder.symptoms_remark || 'N/A'}</h6>
+                <Col md={3}>
+                  <Form.Group className="mb-3 h-100" style={boxStyle}>
+                    <Form.Label style={labelStyle}>Ocular Health</Form.Label>
+                    <ul style={ulStyle}>
+                      {occular_health.split(", ").filter(Boolean).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  </Form.Group>
                 </Col>
               </Row>
-              <h6 className="m-2 text-success" style={{ fontWeight: '600' }}>
+
+              <h6 className="m-2 text-success" style={{ fontWeight: '600', paddingTop:5 }}>
                 Habitual Rx
               </h6>
               <Row>

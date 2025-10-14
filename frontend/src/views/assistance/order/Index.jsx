@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Tabs, Tab, Form, Container, Button, Modal, FormControl, Table, Dropdown } from 'react-bootstrap';
+import { Row, Col, Card, Tabs, Tab, Form, Container, Button, Modal, FormControl, Table, Dropdown, ListGroup } from 'react-bootstrap';
 import avatar1 from '../../../assets/images/user/avatar-1.jpg';
 import avatar2 from '../../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../../assets/images/user/avatar-3.jpg';
@@ -1202,17 +1202,11 @@ const AssistanceOrder = () => {
                           />
                           # {a.c_id}
                         </span>
-                        <h6 className="m-0 d-inline fw-bold">Name : {a.prefix}</h6>
+                        <h6 className="m-3 d-inline fw-bold">Name : {a.prefix}</h6>
                         <h6 className="m-0 d-inline fw-bold">{a.first_name}</h6>
                         <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
-                        <h6 className="m-3 d-inline">Email : {a.email}</h6>
-                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
-                        <h6 className="m-3 d-inline">Mobile : {a.telephone || a.lan_phone || a.mobile2}</h6>
                         <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
-                        <h6 className="m-3 d-inline">DOB : {new Date(a.dob).toLocaleDateString()}</h6>
-                        <br />
-                        <h6 className="m-0 d-inline">Home Address : {a.address}</h6>
-                        <h6 className="m-3 d-inline">City : {a.town}</h6>
+                        <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
                       </div>
                     </div>
                   );
@@ -1271,17 +1265,11 @@ const AssistanceOrder = () => {
                           />
                           # {a.c_id}
                         </span>
-                        <h6 className="m-0 d-inline fw-bold">Name : {a.prefix}</h6>
+                        <h6 className="m-3 d-inline fw-bold">Name : {a.prefix}</h6>
                         <h6 className="m-0 d-inline fw-bold">{a.first_name}</h6>
                         <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
-                        <h6 className="m-3 d-inline">Email : {a.email}</h6>
-                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
-                        <h6 className="m-3 d-inline">Mobile : {a.telephone || a.lan_phone || a.mobile2}</h6>
                         <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
-                        <h6 className="m-3 d-inline">DOB : {new Date(a.dob).toLocaleDateString()}</h6>
-                        <br />
-                        <h6 className="m-0 d-inline">Home Address : {a.address}</h6>
-                        <h6 className="m-3 d-inline">City : {a.town}</h6>
+                        <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
                       </div>
                     </div>
                   );
@@ -1340,25 +1328,27 @@ const AssistanceOrder = () => {
                           />
                           # {a.c_id}
                         </span>
-                        <h6 className="m-0 d-inline fw-bold">Name : {a.prefix}</h6>
-                        <h6 className="m-0 d-inline fw-bold">{a.first_name}</h6>
-                        <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
-                        <h6 className="m-3 d-inline">Email : {a.email}</h6>
-                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
-                        <h6 className="m-3 d-inline">Mobile : {a.telephone || a.lan_phone || a.mobile2}</h6>
-                        <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
-                        <h6 className="m-3 d-inline">DOB : {new Date(a.dob).toLocaleDateString()}</h6>
-                        <br />
-                        <h6 className="m-0 d-inline">Home Address : {a.address}</h6>
-                        <h6 className="m-3 d-inline">City : {a.town}</h6>
                         <Button
                           variant="warning"
                           size="sm"
                           className="ms-3"
                           onClick={() => { setShowEditModal2(true); setEditData(a) }}
                         >
-                          ✏️ Edit
+                          ✏️
                         </Button>
+                        <h6 className="m-3 d-inline fw-bold">Name : {a.prefix}</h6>
+                        <h6 className="m-0 d-inline fw-bold">{a.first_name}</h6>
+                        <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
+
+                        {/* <h6 className="m-3 d-inline">Email : {a.email}</h6>
+                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
+                        <h6 className="m-3 d-inline">Mobile : {a.telephone || a.lan_phone || a.mobile2}</h6> */}
+                        <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
+                        <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
+                        {/* <h6 className="m-3 d-inline">DOB : {new Date(a.dob).toLocaleDateString()}</h6> */}
+                        {/* <br /> */}
+                        {/* <h6 className="m-0 d-inline">Home Address : {a.address}</h6>
+                        <h6 className="m-3 d-inline">City : {a.town}</h6> */}
                       </div>
                     </div>
                   );
@@ -1447,35 +1437,7 @@ const AssistanceOrder = () => {
             </div>
             <Form style={{ color: 'black', paddingTop: 20 }}>
               <Row>
-                <Col md={6}>
-                  {/* <Form.Group className="mb-3">
-                    <Form.Label style={{ fontWeight: 'bold' }}>Purpose of visit</Form.Label>
-                    <div>
-                      {purposeofvisit.map((p) => (
-                        <Form.Check
-                          key={p.pov_id}
-                          type="checkbox"
-                          label={p.text}
-                          value={p.text}
-                          checked={purpose_of_visit.includes(p.text)}
-                          onChange={(e) => {
-                            let updated;
-                            if (e.target.checked) {
-                              // Add value
-                              updated = [...purpose_of_visit.split(", ").filter(Boolean), p.text];
-                            } else {
-                              // Remove value
-                              updated = purpose_of_visit
-                                .split(", ")
-                                .filter((val) => val !== p.text);
-                            }
-                            set_purpose_of_visit(updated.join(", "));
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </Form.Group> */}
-
+                <Col md={3}>
                   <Form.Group className="mb-3">
                     <Form.Label style={{ fontWeight: 'bold' }}>Purpose of visit</Form.Label>
                     <Form.Select
@@ -1493,48 +1455,8 @@ const AssistanceOrder = () => {
                       ))}
                     </Form.Select>
                   </Form.Group>
-
-
-
-                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
-                    <Form.Label>Remark</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter Purpose of Visit Remarks"
-                      value={purpose_of_visit_remark}
-                      onChange={(e) => set_purpose_of_visit_remark(e.target.value)}
-                    />
-                  </Form.Group>
-
-
-                  {/* <Form.Group className="mb-3">
-                    <Form.Label style={{ fontWeight: 'bold' }}>Symptoms</Form.Label>
-                    <div>
-                      {symptoms_list.map((p, i) => (
-                        <Form.Check
-                          key={i}
-                          type="checkbox"
-                          label={p.text}
-                          value={p.text}
-                          checked={symptoms.includes(p.text)}
-                          onChange={(e) => {
-                            let updated;
-                            if (e.target.checked) {
-                              // Add selected symptom
-                              updated = [...symptoms.split(", ").filter(Boolean), p.text];
-                            } else {
-                              // Remove unselected symptom
-                              updated = symptoms
-                                .split(", ")
-                                .filter((val) => val !== p.text);
-                            }
-                            set_symptoms(updated.join(", "));
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </Form.Group> */}
-
+                </Col>
+                <Col md={3}>
                   <Form.Group className="mb-3">
                     <Form.Label style={{ fontWeight: 'bold' }}>Symptoms</Form.Label>
                     <Form.Select
@@ -1552,64 +1474,8 @@ const AssistanceOrder = () => {
                       ))}
                     </Form.Select>
                   </Form.Group>
-
-
-
-                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
-                    <Form.Label>Remark</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter Symptoms Remarks"
-                      value={symptoms_remark}
-                      onChange={(e) => set_symptoms_remark(e.target.value)}
-                    />
-                  </Form.Group>
-
-
-                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
-                    <Form.Label style={{ fontWeight: 'bold' }}>Medication</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Medication"
-                      value={general_health_medication}
-                      onChange={(e) => set_general_health_medication(e.target.value)}
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
-                    <Form.Label style={{ fontWeight: 'bold' }}>Allergies</Form.Label>
-                    <Form.Control type="text" placeholder="Allergies" value={general_health_allergies} onChange={(e) => set_general_health_allergies(e.target.value)} />
-                  </Form.Group>
                 </Col>
-                <Col md={6}>
-                  {/* <Form.Group className="mb-3">
-                    <Form.Label style={{ fontWeight: 'bold' }}>General Health</Form.Label>
-                    <div>
-                      {generalhealth.map((p, i) => (
-                        <Form.Check
-                          key={i}
-                          type="checkbox"
-                          label={p.text}
-                          value={p.text}
-                          checked={general_health.includes(p.text)}
-                          onChange={(e) => {
-                            let updated;
-                            if (e.target.checked) {
-                              // Add selected option
-                              updated = [...general_health.split(", ").filter(Boolean), p.text];
-                            } else {
-                              // Remove unselected option
-                              updated = general_health
-                                .split(", ")
-                                .filter((val) => val !== p.text);
-                            }
-                            set_general_health(updated.join(", "));
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </Form.Group> */}
-
+                <Col md={3}>
                   <Form.Group className="mb-3">
                     <Form.Label style={{ fontWeight: 'bold' }}>General Health</Form.Label>
                     <Form.Select
@@ -1627,48 +1493,8 @@ const AssistanceOrder = () => {
                       ))}
                     </Form.Select>
                   </Form.Group>
-
-
-
-                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
-                    <Form.Label>Remark</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter General Health Remarks"
-                      value={general_health_remark}
-                      onChange={(e) => set_general_health_remark(e.target.value)}
-                    />
-                  </Form.Group>
-
-
-                  {/* <Form.Group className="mb-3">
-                    <Form.Label style={{ fontWeight: 'bold' }}>Occular Health</Form.Label>
-                    <div>
-                      {occularhealth.map((p, i) => (
-                        <Form.Check
-                          key={i}
-                          type="checkbox"
-                          label={p.text}
-                          value={p.text}
-                          checked={occular_health.includes(p.text)}
-                          onChange={(e) => {
-                            let updated;
-                            if (e.target.checked) {
-                              // Add selected option
-                              updated = [...occular_health.split(", ").filter(Boolean), p.text];
-                            } else {
-                              // Remove unselected option
-                              updated = occular_health
-                                .split(", ")
-                                .filter((val) => val !== p.text);
-                            }
-                            set_occular_health(updated.join(", "));
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </Form.Group> */}
-
+                </Col>
+                <Col md={3}>
                   <Form.Group className="mb-3">
                     <Form.Label style={{ fontWeight: 'bold' }}>Occular Health</Form.Label>
                     <Form.Select
@@ -1686,22 +1512,83 @@ const AssistanceOrder = () => {
                       ))}
                     </Form.Select>
                   </Form.Group>
+                </Col>
+              </Row>
+            </Form>
+            <Form style={{ color: 'black', paddingTop: 20 }}>
+              <Row>
+                <Col md={3}>
+                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Purpose of visit</Form.Label>
+                    <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
+                      {purpose_of_visit.split(", ").filter(Boolean).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  </Form.Group>
+                </Col>
+                <Col md={3}>
+                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Symptoms</Form.Label>
+                    <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
+                      {symptoms.split(", ").filter(Boolean).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
 
-
-
-
+                  </Form.Group>
+                </Col>
+                <Col md={3}>
+                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>General Health</Form.Label>
+                    <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
+                      {general_health.split(", ").filter(Boolean).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  </Form.Group>
+                </Col>
+                <Col md={3}>
+                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Occular Health</Form.Label>
+                    <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
+                      {occular_health.split(", ").filter(Boolean).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  </Form.Group>
+                </Col>
+                <Col md={12}>
                   <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
                     <Form.Label>Remark</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Enter Occular Health Remarks"
-                      value={occular_health_remark}
-                      onChange={(e) => set_occular_health_remark(e.target.value)}
+                      placeholder="Enter Purpose of Visit Remarks"
+                      value={purpose_of_visit_remark}
+                      onChange={(e) => set_purpose_of_visit_remark(e.target.value)}
                     />
                   </Form.Group>
+                </Col>
+                <Col md={12}>
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Medication</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Medication"
+                      value={general_health_medication}
+                      onChange={(e) => set_general_health_medication(e.target.value)}
+                    />
+                  </Form.Group>
+                </Col>
 
+                <Col md={12}>
+                  <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
+                    <Form.Label style={{ fontWeight: 'bold' }}>Allergies</Form.Label>
+                    <Form.Control type="text" placeholder="Allergies" value={general_health_allergies} onChange={(e) => set_general_health_allergies(e.target.value)} />
+                  </Form.Group>
                 </Col>
               </Row>
+
               <h6 className="mt-4 fw-bold mb-3">Habitual Rx </h6>
               <Row>
                 <Col md={6}>
