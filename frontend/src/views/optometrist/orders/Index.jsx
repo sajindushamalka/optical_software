@@ -970,7 +970,7 @@ const OptometristOrders = () => {
                 </Col>
               </Row>
 
-              <h6 className="m-2 text-success" style={{ fontWeight: '600', paddingTop:5 }}>
+              <h6 className="m-2 text-success" style={{ fontWeight: '600', paddingTop: 5 }}>
                 Habitual Rx
               </h6>
               <Row>
@@ -1688,7 +1688,7 @@ const OptometristOrders = () => {
                           <tbody>
                             <tr className="text-center">
                               <td>
-                                <Form.Group className="mb-0" controlId="formBasicFloat">
+                                {/* <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
                                     type="text"
                                     style={{
@@ -1706,7 +1706,27 @@ const OptometristOrders = () => {
                                     }
                                     onChange={(e) => set_SPEC_RE_OD_SPH(e.target.value)}
                                   />
+                                </Form.Group> */}
+                                <Form.Group className="mb-0" controlId="formBasicFloat">
+                                  <Form.Control
+                                    type="text"
+                                    style={{
+                                      border: 'none',
+                                      padding: '4px 6px',
+                                      textAlign: 'center'
+                                    }}
+                                    value={
+                                      SPEC_RE_OD_SPH !== "" && SPEC_RE_OD_SPH !== null && !isNaN(SPEC_RE_OD_SPH)
+                                        ? `${Number(SPEC_RE_OD_SPH) >= 0 ? "+" : ""}${Number(SPEC_RE_OD_SPH).toFixed(2)}`
+                                        : ""
+                                    }
+                                    onChange={(e) => {
+                                      const val = e.target.value.replace(/[^\d.-]/g, ""); // Remove non-numeric characters except '.' and '-'
+                                      set_SPEC_RE_OD_SPH(val);
+                                    }}
+                                  />
                                 </Form.Group>
+
                               </td>
 
                               <td>
@@ -1816,18 +1836,18 @@ const OptometristOrders = () => {
                                     type="text"
                                     style={{
                                       border: 'none',
-                                      width: '',
                                       padding: '4px 6px',
                                       textAlign: 'center'
                                     }}
                                     value={
-                                      SPEC_RE_OS_SPH
-                                        ? Number(SPEC_RE_OS_SPH) > 0
-                                          ? `${SPEC_RE_OS_SPH}`
-                                          : SPEC_RE_OS_SPH
+                                      SPEC_RE_OS_SPH !== "" && SPEC_RE_OS_SPH !== null && !isNaN(SPEC_RE_OS_SPH)
+                                        ? `${Number(SPEC_RE_OS_SPH) >= 0 ? "+" : ""}${Number(SPEC_RE_OS_SPH).toFixed(2)}`
                                         : ""
                                     }
-                                    onChange={(e) => set_SPEC_RE_OS_SPH(e.target.value)}
+                                    onChange={(e) => {
+                                      const val = e.target.value.replace(/[^\d.-]/g, ""); // Only keep digits, decimal, and minus sign
+                                      set_SPEC_RE_OS_SPH(val);
+                                    }}
                                   />
                                 </Form.Group>
                               </td>

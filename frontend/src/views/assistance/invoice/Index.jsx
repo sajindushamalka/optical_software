@@ -6,6 +6,10 @@ import avatar3 from '../../../assets/images/user/avatar-3.jpg';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { Typeahead } from "react-bootstrap-typeahead";
+import "react-bootstrap-typeahead/css/Typeahead.css";
 
 const AssistanceInvoice = () => {
   const [allUsers, setAllUsers] = useState(['']);
@@ -427,6 +431,15 @@ const AssistanceInvoice = () => {
 
   };
 
+  const formattedLensOrderDate = Lens_OrderDate
+    ? new Date(Lens_OrderDate).toISOString().split("T")[0]
+    : null;
+
+  const formattedLensWantedOn = Lens_wanted_on
+    ? new Date(Lens_wanted_on).toISOString().split("T")[0]
+    : null;
+
+
   const submitInvocie = async () => {
     const date = formatDate(today);
     const ob = {
@@ -441,8 +454,8 @@ const AssistanceInvoice = () => {
       Lens_Brand,
       Lenses_At,
       Lens_Price,
-      Lens_OrderDate,
-      Lens_wanted_on,
+      Lens_OrderDate: formattedLensOrderDate,
+      Lens_wanted_on: formattedLensWantedOn,
       Frame_Category,
       Frame_Material,
       Frame_type,
@@ -478,6 +491,18 @@ const AssistanceInvoice = () => {
   };
 
   console.log(Lens_Base)
+
+  const handleChange = (e) => {
+    let value = e.target.value.replace(/\D/g, ""); // remove non-digits
+    if (value.length >= 2 && value.length <= 4)
+      value = value.slice(0, 2) + "/" + value.slice(2);
+    else if (value.length > 4)
+      value = value.slice(0, 2) + "/" + value.slice(2, 4) + "/" + value.slice(4, 8);
+
+    setLens_OrderDate(value);
+  };
+
+
 
   return (
     <React.Fragment>
@@ -539,14 +564,11 @@ const AssistanceInvoice = () => {
                           />
                           # {a.c_id}
                         </span>
-                        <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
-                        <h6 className="m-3 d-inline">{a.email}</h6>
-                        <h6 className="m-3 d-inline">{a.age}</h6>
-                        <h6 className="m-3 d-inline">{a.telephone}</h6>
-                        <h6 className="m-3 d-inline">{a.nic}</h6>
-                        <h6 className="m-3 d-inline">{new Date(a.dob).toLocaleDateString()}</h6>
-                        <br />
-                        <h6 className="m-0 d-inline">{a.address}</h6>
+                        <h6 className="ml-3 d-inline fw-bold">Name : {a.prefix}</h6>
+                        <h6 className="m-0 d-inline fw-bold">{" "}{a.first_name}</h6>
+                        <h6 className="m-0 d-inline fw-bold">{" "}{a.name}</h6>
+                        <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
+                        <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
                       </div>
                     </div>
                   );
@@ -633,7 +655,7 @@ const AssistanceInvoice = () => {
 
               <Row>
                 <Col md={3}>
-                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10, fontSize:15 }}>
+                  <Form.Group className="mb-3 h-100" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10, fontSize: 15 }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>Purpose of visit</Form.Label>
                     <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
                       {purpose_of_visit.split(", ").filter(Boolean).map((item, i) => (
@@ -643,7 +665,7 @@ const AssistanceInvoice = () => {
                   </Form.Group>
                 </Col>
                 <Col md={3}>
-                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10, fontSize:15 }}>
+                  <Form.Group className="mb-3 h-100" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10, fontSize: 15 }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>Symptoms</Form.Label>
                     <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
                       {symptoms.split(", ").filter(Boolean).map((item, i) => (
@@ -654,7 +676,7 @@ const AssistanceInvoice = () => {
                   </Form.Group>
                 </Col>
                 <Col md={3}>
-                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10, fontSize:15 }}>
+                  <Form.Group className="mb-3 h-100" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10, fontSize: 15 }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>General Health</Form.Label>
                     <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
                       {general_health.split(", ").filter(Boolean).map((item, i) => (
@@ -664,7 +686,7 @@ const AssistanceInvoice = () => {
                   </Form.Group>
                 </Col>
                 <Col md={3}>
-                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10, fontSize:15 }}>
+                  <Form.Group className="mb-3 h-100" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10, fontSize: 15 }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>Occular Health</Form.Label>
                     <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
                       {occular_health.split(", ").filter(Boolean).map((item, i) => (
@@ -673,7 +695,7 @@ const AssistanceInvoice = () => {
                     </ul>
                   </Form.Group>
                 </Col>
-                <Col md={12}>
+                <Col md={12} style={{ paddingTop: 5 }}>
                   <Form.Group className="mb-3" controlId="remarksInput" style={{ color: '#708090', paddingLeft: 10 }}>
                     <Form.Label>Remark</Form.Label>
                     <Form.Control
@@ -707,10 +729,7 @@ const AssistanceInvoice = () => {
             </div>
           </Card.Body>
 
-
-          <h6 className="mt-3 text-success" style={{ fontWeight: '600', padding: 5, marginLeft: 15 }}>
-            Habitual Rx - Assistance Informations
-          </h6>
+          <h6 style={{ fontWeight: '600', marginTop: 5, marginLeft: 25 }}>Habitual Rx</h6>
           <Row style={{ padding: 15 }}>
             <Col md={6}>
               <Table bordered hover responsive className="table-sm align-middle shadow-sm">
@@ -735,7 +754,7 @@ const AssistanceInvoice = () => {
                     <td>
                       <Form.Group className="mb-0" controlId="formBasicFloat">
                         <Form.Control
-                          type="number"
+                          type="text"
                           step="any"
                           style={{
                             border: 'none',
@@ -750,7 +769,7 @@ const AssistanceInvoice = () => {
                     <td>
                       <Form.Group className="mb-0" controlId="formBasicFloat">
                         <Form.Control
-                          type="number"
+                          type="text"
                           step="any"
                           style={{
                             border: 'none',
@@ -766,7 +785,7 @@ const AssistanceInvoice = () => {
                       {' '}
                       <Form.Group className="mb-0" controlId="formBasicFloat">
                         <Form.Control
-                          type="number"
+                          type="text"
                           step="any"
                           style={{
                             border: 'none',
@@ -782,7 +801,7 @@ const AssistanceInvoice = () => {
                       {' '}
                       <Form.Group className="mb-0" controlId="formBasicFloat">
                         <Form.Control
-                          type="number"
+                          type="text"
                           step="any"
                           style={{
                             border: 'none',
@@ -798,7 +817,7 @@ const AssistanceInvoice = () => {
                       {' '}
                       <Form.Group className="mb-0" controlId="formBasicFloat">
                         <Form.Control
-                          type="number"
+                          type="text"
                           step="any"
                           style={{
                             border: 'none',
@@ -886,7 +905,7 @@ const AssistanceInvoice = () => {
                     <td>
                       <Form.Group className="mb-0" controlId="formBasicFloat">
                         <Form.Control
-                          type="number"
+                          type="text"
                           step="any"
                           style={{
                             border: 'none',
@@ -901,7 +920,7 @@ const AssistanceInvoice = () => {
                     <td>
                       <Form.Group className="mb-0" controlId="formBasicFloat">
                         <Form.Control
-                          type="number"
+                          type="text"
                           step="any"
                           style={{
                             border: 'none',
@@ -917,7 +936,7 @@ const AssistanceInvoice = () => {
                       {' '}
                       <Form.Group className="mb-0" controlId="formBasicFloat">
                         <Form.Control
-                          type="number"
+                          type="text"
                           step="any"
                           style={{
                             border: 'none',
@@ -933,7 +952,7 @@ const AssistanceInvoice = () => {
                       {' '}
                       <Form.Group className="mb-0" controlId="formBasicFloat">
                         <Form.Control
-                          type="number"
+                          type="text"
                           step="any"
                           style={{
                             border: 'none',
@@ -949,7 +968,7 @@ const AssistanceInvoice = () => {
                       {' '}
                       <Form.Group className="mb-0" controlId="formBasicFloat">
                         <Form.Control
-                          type="number"
+                          type="text"
                           step="any"
                           style={{
                             border: 'none',
@@ -1019,16 +1038,9 @@ const AssistanceInvoice = () => {
           <Tabs
             variant="pills"
             defaultActiveKey="home"
-          //   onSelect={(key) => {
-          //     if (key === 'history') {
-          //       submitHistory();
-          //     }
-          //   }}
           >
             <Tab eventKey="home" title="Subjective">
-              <h6 className="text-success" style={{ fontWeight: '600', padding: 5, marginLeft: 15 }}>
-                Rx For Spectacles - Optometrist Informations
-              </h6>
+              <h6 style={{ fontWeight: '600', marginTop: 15 }}>Rx For Spectacles</h6>
 
               <Row>
                 <Col md={6}>
@@ -1350,10 +1362,10 @@ const AssistanceInvoice = () => {
                   </Table>
                 </Col>
               </Row>
-
+              {/* 
               <h6 className="mt-2 text-success" style={{ fontWeight: '600', padding: 5, marginLeft: 15 }}>
-                Reading Total - Optometrist Informations
-              </h6>
+                Reading Total
+              </h6> */}
 
               <Row style={{ padding: 15 }}>
                 <Col md={4}>
@@ -1612,7 +1624,7 @@ const AssistanceInvoice = () => {
               </Row>
               <Row style={{ padding: 15 }}>
                 <Col md={4}>
-                  <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                  <Table bordered hover responsive className="table-sm align-middle shadow-sm" style={{ height: '150px' }}>
                     <thead className="bg-primary text-white text-center">
                       <tr>
                         <th colSpan={3}>Unaided Vision</th>
@@ -1698,7 +1710,7 @@ const AssistanceInvoice = () => {
                   </Table>
                 </Col>
                 <Col md={2}>
-                  <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                  <Table bordered hover responsive className="table-sm align-middle shadow-sm" style={{ height: '150px' }}>
                     <thead className="bg-primary text-white text-center">
                       <tr>
                         <th colSpan={2}>Pinholevision</th>
@@ -1748,7 +1760,7 @@ const AssistanceInvoice = () => {
                   </Table>
                 </Col>
                 <Col md={2}>
-                  <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                  <Table bordered hover responsive className="table-sm align-middle shadow-sm" style={{ height: '150px' }}>
                     <thead className="bg-primary text-white text-center">
                       <tr>
                         <th colSpan={2}>IOP</th>
@@ -1797,7 +1809,7 @@ const AssistanceInvoice = () => {
                   </Table>
                 </Col>
                 <Col md={4}>
-                  <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                  <Table bordered hover responsive className="table-sm align-middle shadow-sm" style={{ height: '150px' }}>
                     <thead className="bg-primary text-white text-center">
                       <tr>
                         <th colSpan={3}>Reading</th>
@@ -1881,16 +1893,17 @@ const AssistanceInvoice = () => {
               <h6 style={{ fontWeight: '600', marginTop: 15 }}>Recommendation</h6>
               <Row style={{ padding: 15, textAlign: 'center' }}>
                 <Col md={4}>
-                  <small className="text-muted d-blockmb-1">Prescribe Spectacle</small>
+                  <small className="text-muted d-blockmb-1">Spectacle Recommendation</small>
                   <h6 className="mb-0">{SPEC_Type_Of_lenses_Used || 'N/A'}</h6>
                 </Col>
+
                 <Col md={4}>
-                  <small className="text-muted d-blockmb-1">_</small>
-                  <h6 className="mb-0">{SPEC_Time_Period || 'N/A'}</h6>
+                  <small className="text-muted d-blockmb-1">Lens Recommendation</small>
+                  <h6 className="mb-0">{SPEC_Time_More || 'N/A'}</h6>
                 </Col>
                 <Col md={4}>
-                  <small className="text-muted d-blockmb-1">Lens Recommendatio</small>
-                  <h6 className="mb-0">{SPEC_Time_More || 'N/A'}</h6>
+                  <small className="text-muted d-blockmb-1">General Recommendation</small>
+                  <h6 className="mb-0">{SPEC_Time_Period || 'N/A'}</h6>
                 </Col>
               </Row>
               <Row>
@@ -2670,12 +2683,16 @@ const AssistanceInvoice = () => {
                     <td>Lens order Date</td>
                     <td>
                       <Form.Group controlId="lensOrderDate">
-                        <Form.Control
-                          type="date"
-                          value={Lens_OrderDate}
-                          min={minDate}
-                          max={maxDate}
-                          onChange={(e) => setLens_OrderDate(e.target.value)}
+                        <DatePicker
+                          selected={Lens_OrderDate}
+                          onChange={(date) => setLens_OrderDate(date)}
+                          dateFormat="dd/MM/yyyy"        // ✅ UK format
+                          placeholderText="dd/mm/yyyy"
+                          className="form-control"
+                          maxDate={maxDate}
+                          minDate={minDate}         // optional: restrict future dates
+                          showYearDropdown
+                          scrollableYearDropdown
                         />
                       </Form.Group>
                     </td>
@@ -2685,12 +2702,16 @@ const AssistanceInvoice = () => {
                     <td>Lens wanted on</td>
                     <td>
                       <Form.Group controlId="lensOrderDate">
-                        <Form.Control
-                          type="date"
-                          value={Lens_wanted_on}
-                          min={minDate}
-                          max={maxDate}
-                          onChange={(e) => setLens_wanted_on(e.target.value)}
+                        <DatePicker
+                          selected={Lens_wanted_on}
+                          onChange={(date) => setLens_wanted_on(date)}
+                          dateFormat="dd/MM/yyyy"        // ✅ UK format
+                          placeholderText="dd/mm/yyyy"
+                          className="form-control"
+                          maxDate={maxDate}
+                          minDate={minDate}         // optional: restrict future dates
+                          showYearDropdown
+                          scrollableYearDropdown
                         />
                       </Form.Group>
                     </td>
@@ -2935,11 +2956,11 @@ const AssistanceInvoice = () => {
 
             </Col>
 
-            <Col md={4}>
+            {/* <Col md={4}>
               <Form.Group controlId="doctorEntryType">
                 <Form.Label>Doctor Name</Form.Label>
 
-                {/* Toggle between typing or selecting */}
+
                 <div className="mb-2">
                   <Form.Check
                     inline
@@ -2961,7 +2982,7 @@ const AssistanceInvoice = () => {
                   />
                 </div>
 
-                {/* Conditionally render input */}
+              
                 {doctorEntryType === "select" ? (
                   <Form.Select
                     value={Doctor_Rx}
@@ -2983,8 +3004,31 @@ const AssistanceInvoice = () => {
                   />
                 )}
               </Form.Group>
-            </Col>
+            </Col> */}
 
+            <Col md={4}>
+              <Form.Group controlId="doctorEntryType">
+                <Form.Label>Doctor Name</Form.Label>
+                <Typeahead
+                  id="doctor-name-selector"
+                  labelKey="text"               // which property to display from DoctorRx
+                  options={DoctorRx}            // your list of doctors
+                  placeholder="Select or type doctor name"
+                  onChange={(selected) => {
+                    if (selected.length > 0) {
+                      setDoctor_Rx(selected[0].text || selected[0]);
+                    } else {
+                      setDoctor_Rx("");
+                    }
+                  }}
+                  onInputChange={(text) => setDoctor_Rx(text)} // handle manual typing
+                  selected={Doctor_Rx ? [{ text: Doctor_Rx }] : []}
+                  allowNew                   // ✅ allows typing names not in list
+                  newSelectionPrefix="Add new: "  // what to show for new entry
+                  className="w-100"
+                />
+              </Form.Group>
+            </Col>
 
             <Col md={4}>
               <Form.Group controlId="exampleForm.ControlSelect1">

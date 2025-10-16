@@ -350,7 +350,7 @@ const AssistancePrescriptions = () => {
 
                                 <Row>
                                     <h6 className="text-success" style={{ fontWeight: '600', padding: 5, marginLeft: 10 }}>
-                                        Rx For Spectacles - Optometrist Informations
+                                        Rx For Spectacles 
                                     </h6>
                                     <Col>
                                         <Table bordered hover responsive className="table-sm align-middle shadow-sm">

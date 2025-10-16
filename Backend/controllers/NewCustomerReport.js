@@ -210,17 +210,47 @@ exports.getByIDWithOptimisticContactLensesFilledCon = (req, res) => {
     })
 }
 
+// exports.createAssistanceSecondCon = (req, res) => {
+//     const newUser = req.body;
+//     console.log(newUser)
+//     NewCustomersMedDeatilsModel.getBycreateAssistanceSecond(newUser.cmd_id, (err, result) => {
+//         if (err) return res.status(500).json({ err: err.message });
+//         console.log(result.length);
+//         if (result.length != 0) return res.status(400).json({ message: "Username already enter data" });
+//         NewCustomersMedDeatilsModel.createAssistanceSecond(newUser, (err, result) => {
+//             if (err) return res.status(500).json({ err: err.message });
+//             res.status(201).json({ message: "Order Created", id: result.insertId });
+//         });
+//     })
+// };
 exports.createAssistanceSecondCon = (req, res) => {
     const newUser = req.body;
+    console.log("Incoming data:", newUser);
+
     NewCustomersMedDeatilsModel.getBycreateAssistanceSecond(newUser.cmd_id, (err, result) => {
-        if (err) return res.status(500).json({ err: err.message });
-        if (result.length != 0) return res.status(400).json({ message: "Username already enter data" });
+        if (err) {
+            console.error("Error in getBycreateAssistanceSecond:", err);
+            return res.status(500).json({ err: err.message });
+        }
+
+        console.log("Existing records count:", result.length);
+
+        if (result.length !== 0) {
+            return res.status(400).json({ message: "Username already enter data" });
+        }
+
         NewCustomersMedDeatilsModel.createAssistanceSecond(newUser, (err, result) => {
-            if (err) return res.status(500).json({ err: err.message });
+            if (err) {
+                console.error("Error in createAssistanceSecond:", err);
+                return res.status(500).json({ err: err.message });
+            }
+
+            console.log("Create result:", result);
             res.status(201).json({ message: "Order Created", id: result.insertId });
         });
-    })
+    });
 };
+
 
 exports.updateStatusAssistacnceSecondCon = (req, res) => {
     const { id } = req.params;

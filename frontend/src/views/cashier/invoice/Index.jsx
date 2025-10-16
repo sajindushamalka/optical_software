@@ -280,7 +280,7 @@ const CashierInvoice = () => {
                         />
                       </div>
                       <div className="flex-grow-1 ms-3">
-                        <h6 className="m-0 fw-bold">{user.name}</h6>
+                        <h6 className="m-0 fw-bold">{user.prefix} {" "} {user.first_name}  {" "} {user.name}</h6>
                         <small>
                           {user.email} | Age: {user.age} | Tel: {user.telephone}
                         </small>

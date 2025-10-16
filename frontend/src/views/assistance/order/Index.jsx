@@ -1202,9 +1202,9 @@ const AssistanceOrder = () => {
                           />
                           # {a.c_id}
                         </span>
-                        <h6 className="m-3 d-inline fw-bold">Name : {a.prefix}</h6>
-                        <h6 className="m-0 d-inline fw-bold">{a.first_name}</h6>
-                        <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
+                        <h6 className="ml-3 d-inline fw-bold">Name : {a.prefix}</h6>
+                        <h6 className="m-0 d-inline fw-bold">{" "}{a.first_name}</h6>
+                        <h6 className="m-0 d-inline fw-bold">{" "}{a.name}</h6>
                         <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
                         <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
                       </div>

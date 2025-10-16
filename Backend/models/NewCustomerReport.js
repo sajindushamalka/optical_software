@@ -237,7 +237,7 @@ const NewCustomersMedDeatils = {
 
     getCustomerRecForPrescription: (callback) => {
         db.query(
-            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c, optical_software.customer_order_assistance_last_details ca where c.c_id = a.cid and ca.cmd_id = a.cmd_id and  a.report_status IN ('Complete_Full_Payment', 'Complete_Full_Advance') ORDER BY a.date DESC;",
+            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c, optical_software.customer_order_assistance_last_details ca where c.c_id = a.cid and ca.cmd_id = a.cmd_id and  a.report_status IN ('Complete_Full_Payment', 'Complete_Full_Advance', 'Pass_to_Cash') ORDER BY a.date DESC;",
             callback
         );
     },
