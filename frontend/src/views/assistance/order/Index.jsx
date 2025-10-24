@@ -295,6 +295,12 @@ const AssistanceOrder = () => {
   const [SPECCON_remark, set_SPECCON_Remark] = useState('');
   const [Oprimistic_Filed3, set_Oprimistic_Filed3] = useState('');
 
+  const [WearerType, set_WearerType] = useState('');
+  const [WearerSchedule, set_WearerSchedule] = useState('');
+  const [SoftLensMaterial, set_SoftLensMaterial] = useState('');
+  const [SoftLensDesign, set_SoftLensDesign] = useState('');
+  const [LensType, set_LensType] = useState('');
+
   const [Lens_Material, setLens_Material] = useState('');
   const [Lenses_Type, setLenses_Type] = useState('');
   const [Lens_Treatment, setLens_Treatment] = useState('');
@@ -544,6 +550,7 @@ const AssistanceOrder = () => {
     })
 
     axios.get(`http://localhost:2776/api/order/conatct/${user.cmd_id}`).then((res) => {
+      console.log(res.data)
       set_Oprimistic_Filed3(res.data.coocl_id)
       set_SPECCON_OD_SPH(res.data.SPECCON_OD_SPH)
       set_SPECCON_OD_CYL(res.data.SPECCON_OD_CYL)
@@ -561,6 +568,11 @@ const AssistanceOrder = () => {
       set_SPECCON_OS_Diam(res.data.SPECCON_OS_Diam)
       set_SPECCON_OS_Design(res.data.SPECCON_OS_Design)
       set_SPECCON_Remark(res.data.SPECCON_remark)
+      set_WearerType(res.data.WearerType)
+      set_WearerSchedule(res.data.WearerSchedule)
+      set_SoftLensMaterial(res.data.SoftLensMaterial)
+      set_SoftLensDesign(res.data.SoftLensDesign)
+      set_LensType(res.data.LensType)
     }).catch((err) => {
       console.log(err)
     })
@@ -1032,7 +1044,8 @@ const AssistanceOrder = () => {
           console.log(res.data);
           toast('New Customer Created!');
           handleClose();
-          navigate('/assistance/order');
+          // navigate('/assistance/order');
+          window.location.reload();
         })
         .catch((err) => {
           console.log(err);
@@ -1100,6 +1113,7 @@ const AssistanceOrder = () => {
       const newNo = todayNo2 + 1;
       setTodayNo2(newNo);
       localStorage.setItem("todayNo", newNo);
+      window.location.reload();
     }).catch((err) => {
       console.log(err)
     })
@@ -1124,6 +1138,7 @@ const AssistanceOrder = () => {
 
     axios.put(`http://localhost:2776/api/order/customer/${editData.c_id}`, payload).then((res) => {
       console.log(res.data)
+      window.location.reload();
     }).catch((err) => {
       console.log(err)
     })
@@ -1205,7 +1220,7 @@ const AssistanceOrder = () => {
                         <h6 className="ml-3 d-inline fw-bold">Name : {a.prefix}</h6>
                         <h6 className="m-0 d-inline fw-bold">{" "}{a.first_name}</h6>
                         <h6 className="m-0 d-inline fw-bold">{" "}{a.name}</h6>
-                        <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
+                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
                         <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
                       </div>
                     </div>
@@ -1268,7 +1283,7 @@ const AssistanceOrder = () => {
                         <h6 className="m-3 d-inline fw-bold">Name : {a.prefix}</h6>
                         <h6 className="m-0 d-inline fw-bold">{a.first_name}</h6>
                         <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
-                        <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
+                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
                         <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
                       </div>
                     </div>
@@ -1343,7 +1358,7 @@ const AssistanceOrder = () => {
                         {/* <h6 className="m-3 d-inline">Email : {a.email}</h6>
                         <h6 className="m-3 d-inline">Age : {a.age}</h6>
                         <h6 className="m-3 d-inline">Mobile : {a.telephone || a.lan_phone || a.mobile2}</h6> */}
-                        <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
+                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
                         <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
                         {/* <h6 className="m-3 d-inline">DOB : {new Date(a.dob).toLocaleDateString()}</h6> */}
                         {/* <br /> */}
@@ -1518,7 +1533,7 @@ const AssistanceOrder = () => {
             <Form style={{ color: 'black', paddingTop: 20 }}>
               <Row>
                 <Col md={3}>
-                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
+                  <Form.Group className="mb-3 h-100" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>Purpose of visit</Form.Label>
                     <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
                       {purpose_of_visit.split(", ").filter(Boolean).map((item, i) => (
@@ -1528,7 +1543,7 @@ const AssistanceOrder = () => {
                   </Form.Group>
                 </Col>
                 <Col md={3}>
-                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
+                  <Form.Group className="mb-3 h-100" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>Symptoms</Form.Label>
                     <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
                       {symptoms.split(", ").filter(Boolean).map((item, i) => (
@@ -1539,7 +1554,7 @@ const AssistanceOrder = () => {
                   </Form.Group>
                 </Col>
                 <Col md={3}>
-                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
+                  <Form.Group className="mb-3 h-100" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>General Health</Form.Label>
                     <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
                       {general_health.split(", ").filter(Boolean).map((item, i) => (
@@ -1549,7 +1564,7 @@ const AssistanceOrder = () => {
                   </Form.Group>
                 </Col>
                 <Col md={3}>
-                  <Form.Group className="mb-3" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
+                  <Form.Group className="mb-3 h-100" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
                     <Form.Label style={{ fontWeight: 'bold' }}>Occular Health</Form.Label>
                     <ul style={{ paddingLeft: "20px", marginBottom: 0 }}>
                       {occular_health.split(", ").filter(Boolean).map((item, i) => (
@@ -3470,7 +3485,94 @@ const AssistanceOrder = () => {
                               </tr>
                             </tbody>
                           </Table>
-                          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                          <Row>
+                            <Col md={2}>
+                              <Form.Group className="mb-0" controlId="formBasicFloat">
+                                <Form.Label className="fw-semibold text-dark me-2 mb-0">Wearer Type</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  step="any"
+                                  readOnly
+                                  style={{
+                                    border: 'none',
+                                    width: '',
+                                    padding: '4px 6px',
+                                    textAlign: 'center'
+                                  }}
+                                  value={WearerType}
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col md={2}>
+                              <Form.Group className="mb-0" controlId="formBasicFloat">
+                                <Form.Label className="fw-semibold text-dark me-2 mb-0">Lens Type</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  step="any"
+                                  readOnly
+                                  style={{
+                                    border: 'none',
+                                    width: '',
+                                    padding: '4px 6px',
+                                    textAlign: 'center'
+                                  }}
+                                  value={LensType}
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col md={2}>
+                              <Form.Group className="mb-0" controlId="formBasicFloat">
+                                <Form.Label className="fw-semibold text-dark me-2 mb-0">Soft Lens Material</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  step="any"
+                                  readOnly
+                                  style={{
+                                    border: 'none',
+                                    width: '',
+                                    padding: '4px 6px',
+                                    textAlign: 'center'
+                                  }}
+                                  value={SoftLensMaterial}
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col md={3}>
+                              <Form.Group className="mb-0" controlId="formBasicFloat">
+                                <Form.Label className="fw-semibold text-dark me-2 mb-0">Soft Lens Design</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  step="any"
+                                  readOnly
+                                  style={{
+                                    border: 'none',
+                                    width: '',
+                                    padding: '4px 6px',
+                                    textAlign: 'center'
+                                  }}
+                                  value={SoftLensDesign}
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col md={3}>
+                              <Form.Group className="mb-0" controlId="formBasicFloat">
+                                <Form.Label className="fw-semibold text-dark me-2 mb-0">Wearer Schedule</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  step="any"
+                                  readOnly
+                                  style={{
+                                    border: 'none',
+                                    width: '',
+                                    padding: '4px 6px',
+                                    textAlign: 'center'
+                                  }}
+                                  value={WearerSchedule}
+                                />
+                              </Form.Group>
+                            </Col>
+                          </Row>
+                          <Form.Group className="mb-3 mt-3" controlId="exampleForm.ControlTextarea1">
                             <Form.Label>Remarks</Form.Label>
                             <Form.Control readOnly as="textarea" rows="3" value={SPECCON_remark} onChange={(e) => set_SPECCON_Remark(e.target.value)} />
                           </Form.Group>

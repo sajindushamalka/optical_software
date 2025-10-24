@@ -476,6 +476,7 @@ const OptometristOrders = () => {
 
         toast('Order Completed!');
         navigate('/optometrist/orders/');
+        window.location.reload();
       }).catch((err) => {
         console.log(err)
       })

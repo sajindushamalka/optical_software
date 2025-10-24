@@ -172,6 +172,7 @@ const AssistanceJobStatus = () => {
             </Row>
 
             {/* Users Table */}
+            {searchCmdID ? 
             <Row className="mt-1">
                 <Col>
                     <Tabs defaultActiveKey="all" id="job-status-tabs">
@@ -181,7 +182,7 @@ const AssistanceJobStatus = () => {
                                     <tr>
                                         <th>Job No</th>
                                         <th>Date</th>
-                                        <th>First Name</th>
+                                        <th>Name</th>
                                         <th>Email</th>
                                         <th>Mobile</th>
                                         <th>Age</th>
@@ -204,7 +205,7 @@ const AssistanceJobStatus = () => {
                                                 >
                                                     <td>{a.cmd_id}</td>
                                                     <td>{formatDate(a.date)}</td>
-                                                    <td>{a.name}</td>
+                                                    <td>{a.prefix} {" "} {a.first_name} {" "} {a.name}</td>
                                                     <td>{a.email}</td>
                                                     <td>{a.telephone}</td>
                                                     <td>{a.age}</td>
@@ -254,209 +255,230 @@ const AssistanceJobStatus = () => {
                 </Col>
             </Row>
 
-            {/* Job Details */}
-            <Card className="mt-3">
-                <Card.Header>
-                    <Container>
-                        <Row>
+            : null}
+
+            <Card className="mt-4 shadow-sm border-0 rounded-3">
+                <Card.Header className="text-white rounded-top-1">
+                    <Container fluid>
+                        <Row className="align-items-center">
                             <Col>
-                                <Card.Title as="h5" style={{ fontWeight: 'bold' }}>
+                                <Card.Title as="h5" className="fw-bold mb-0">
                                     Job Details
                                 </Card.Title>
                             </Col>
                         </Row>
                     </Container>
                 </Card.Header>
-                <Card.Body>
+
+                <Card.Body className="bg-light" style={{ fontSize: 13 }}>
                     {selectedUserId ? (
                         <>
-                            <Row className="mb-3">
-                                <Col md={6}></Col>
-                                <Col md={1}></Col>
-                                <Col
-                                    md={3}
-                                    className="border rounded shadow-sm py-2"
-                                    style={{ textAlign: "center", fontWeight: "600", color: "black", backgroundColor: "#f8f9fa" }}
-                                >
-                                    Reference Number : {myselectDetails.cmd_id}
+                            {/* Reference Info */}
+                            <Row className="m-1">
+                                <Col md={{ span: 3, offset: 6 }}>
+                                    <div className="bg-white border shadow-sm  px-3 py-2 fw-semibold text-dark">
+                                        Reference Number : {myselectDetails.cmd_id}
+                                    </div>
                                 </Col>
-                                <Col
-                                    md={2}
-                                    className="border rounded shadow-sm py-2"
-                                    style={{ textAlign: "center", fontWeight: "600", color: "black", backgroundColor: "#f8f9fa" }}
-                                >
-                                    Date : {formatDate(today)}
+                                <Col md={3}>
+                                    <div className="bg-white border shadow-sm  px-3 py-2 fw-semibold text-dark">
+                                        Date : {formatDate(today)}
+                                    </div>
                                 </Col>
                             </Row>
 
-                            <Row className="mb-3">
-                                <Col md={1} className="py-2 fw-semibold" style={{ color: "black" }}>
+                            {/* Basic Info */}
+                            <Row className="align-items-center m-1 pt-3">
+                                <Col md={1} className="fw-semibold text-dark">
                                     Name
                                 </Col>
-                                <Col md={4} className="border rounded py-2" style={{ color: "black", backgroundColor: "#ffffff" }}>
+                                <Col md={4} className="border bg-white rounded-2 py-2 text-dark">
                                     {myselectDetails.prefix} {myselectDetails.first_name} {myselectDetails.name}
                                 </Col>
+
                                 <Col md={1}></Col>
-                                <Col md={3} className="border rounded py-2 fw-semibold text-center" style={{ backgroundColor: "#f8f9fa", color: "black" }}>
+
+                                <Col md={3} className="text-center fw-semibold text-dark bg-primary-subtle border  py-2">
                                     Lens
                                 </Col>
-                                <Col md={3} className="border rounded py-2 fw-semibold text-center" style={{ backgroundColor: "#f8f9fa", color: "black" }}>
+                                <Col md={3} className="text-center fw-semibold text-dark bg-primary-subtle border  py-2">
                                     Frame
                                 </Col>
                             </Row>
 
-                            <Row className="mb-3">
-                                <Col md={1} className="py-2 fw-semibold" style={{ color: "black" }}>
-                                    City
-                                </Col>
-                                <Col md={4} className="border rounded py-2" style={{ color: "black", backgroundColor: "#ffffff" }}>
-                                    {myselectDetails.town}
-                                </Col>
+                            <Row className="align-items-center m-1">
+                                <Col md={1} className="fw-semibold text-dark">City</Col>
+                                <Col md={4} className="border bg-white rounded-2 py-2 text-dark">{myselectDetails.town}</Col>
+
                                 <Col md={1}></Col>
-                                <Col md={1} className="border rounded py-2 fw-semibold" style={{ backgroundColor: "#f8f9fa", color: "black" }}>
+
+                                <Col md={1} className="fw-semibold text-dark bg-primary-subtle border  py-2 text-center">
                                     Type
                                 </Col>
-                                <Col md={2} className="border rounded py-2" style={{ backgroundColor: "#ffffff", color: "black" }}>
+                                <Col md={2} className="border bg-white py-2 text-dark text-center">
                                     {myselectDetails.Lenses_Type}
                                 </Col>
-                                <Col md={1} className="border rounded py-2 fw-semibold" style={{ backgroundColor: "#f8f9fa", color: "black" }}>
+
+                                <Col md={1} className="fw-semibold text-dark bg-primary-subtle border  py-2 text-center">
                                     Category
                                 </Col>
-                                <Col md={2} className="border rounded py-2" style={{ backgroundColor: "#ffffff", color: "black" }}>
+                                <Col md={2} className="border bg-white  py-2 text-dark text-center">
                                     {myselectDetails.Frame_Category}
                                 </Col>
                             </Row>
 
-                            <Row className="mb-3">
-                                <Col md={1} className="py-2 fw-semibold" style={{ color: "black" }}>
-                                    Mobile
-                                </Col>
-                                <Col md={4} className="border rounded py-2" style={{ backgroundColor: "#ffffff", color: "black" }}>
-                                    {myselectDetails.telephone}
-                                </Col>
+                            <Row className="align-items-center m-1">
+                                <Col md={1} className="fw-semibold text-dark">Mobile</Col>
+                                <Col md={4} className="border bg-white rounded-2 py-2 text-dark">{myselectDetails.telephone}</Col>
+
                                 <Col md={1}></Col>
-                                <Col md={1} className="border rounded py-2 fw-semibold" style={{ backgroundColor: "#f8f9fa", color: "black" }}>
+
+                                <Col md={1} className="fw-semibold text-dark bg-primary-subtle border  py-2 text-center">
                                     Lens At
                                 </Col>
-                                <Col md={2} className="border rounded py-2" style={{ backgroundColor: "#ffffff", color: "black" }}>
-                                    {myselectDetails.Lenses_At}
-                                </Col>
-                                <Col md={1} className="border rounded py-2 fw-semibold" style={{ backgroundColor: "#f8f9fa", color: "black" }}>
+                                <Col md={2} className="border bg-white  py-2 text-dark text-center">{myselectDetails.Lenses_At}</Col>
+
+                                <Col md={1} className="fw-semibold text-dark bg-primary-subtle border  py-2 text-center">
                                     Type
                                 </Col>
-                                <Col md={2} className="border rounded py-2" style={{ backgroundColor: "#ffffff", color: "black" }}>
-                                    {myselectDetails.Frame_type}
-                                </Col>
+                                <Col md={2} className="border bg-white  py-2 text-dark text-center">{myselectDetails.Frame_type}</Col>
                             </Row>
 
-                            <Row className="mb-3">
-                                <Col md={1} className="py-2 fw-semibold" style={{ color: "black" }}>
-                                    Mobile 2
-                                </Col>
-                                <Col md={4} className="border rounded py-2" style={{ backgroundColor: "#ffffff", color: "black" }}>
-                                    {myselectDetails.mobile2}
-                                </Col>
+                            <Row className="align-items-center m-1 ">
+                                <Col md={1} className="fw-semibold text-dark">Mobile 2</Col>
+                                <Col md={4} className="border bg-white rounded-2 py-2 text-dark">{myselectDetails.mobile2}</Col>
+
                                 <Col md={1}></Col>
-                                <Col md={3} className="border rounded py-2 fw-semibold text-center" style={{ backgroundColor: "#f8f9fa", color: "black" }}>
+
+                                <Col md={3} className="fw-semibold text-dark bg-primary-subtle border py-2 text-center">
                                     Lens Reorder Date
                                 </Col>
-                                <Col md={3} className="border rounded py-2 text-center" style={{ backgroundColor: "#ffffff", color: "black" }}>
+                                <Col md={3} className="border bg-white py-2 text-dark text-center">
                                     {formatDate(myselectDetails.Lens_OrderDate)}
                                 </Col>
                             </Row>
 
-
-                            {/* ... other fields omitted for brevity, unchanged ... */}
-
-                            {/* Job Status + Notification */}
-                            <Row style={{ paddingTop: 40 }}>
-                                {/* Job Status */}
-                                <Col md={5}>
-                                    <Container style={{ backgroundColor: "#fdfdfd" }}>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label className="fw-bold fs-5 text-dark">Job Status</Form.Label>
-
-                                            <div className="d-flex flex-column gap-2 mt-2">
-                                                {jobstatustype.map((p) => (
-                                                    <Form.Check
-                                                        key={p.id}
-                                                        type="checkbox"
-                                                        label={<span className="d-flex align-items-center gap-2 text-dark">{p.text}</span>}
-                                                        value={p.text}
-                                                        checked={selectedJobStatus.includes(p.text)}
-                                                        onChange={() => toggleJobStatus(p.text)}
-                                                    />
-                                                ))}
-
-                                                {/* Removed Date */}
-                                                <Row className="align-items-center mt-3">
-                                                    <Col xs="auto">
-                                                        <Form.Label className="fw-semibold text-dark me-3">Removed Date</Form.Label>
-                                                    </Col>
-                                                    <Col>
-                                                        {/* Controlled input bound to removeDate */}
-                                                        <Form.Control
-                                                            type="date"
-                                                            value={removeDate || ''}
-                                                            onChange={(e) => setRemoveDate(e.target.value)}
+                            {/* Job Status + Notifications */}
+                            <Row className="mt-4 mb-3">
+                                {/* <Col md={6} >
+                                    <Card className="border-0 shadow-sm rounded-3 h-100">
+                                        <Card.Body>
+                                            <Form.Group>
+                                                <Form.Label className="fw-bold text-dark mb-4">Job Status</Form.Label>
+                                                <div className="d-flex flex-wrap gap-3">
+                                                    {jobstatustype.map((p) => (
+                                                        <Form.Check
+                                                            key={p.id}
+                                                            type="checkbox"
+                                                            label={<span className="text-dark">{p.text}</span>}
+                                                            checked={selectedJobStatus.includes(p.text)}
+                                                            onChange={() => toggleJobStatus(p.text)}
                                                         />
-                                                    </Col>
-                                                </Row>
-                                            </div>
-                                        </Form.Group>
-                                    </Container>
+                                                    ))}
+                                                </div>
+                                            </Form.Group>
+                                        </Card.Body>
+                                    </Card>
+                                </Col> */}
+
+                                <Col md={6}>
+                                    <Card className="border-0 shadow-sm rounded-3 h-100">
+                                        <Card.Body>
+                                            <Form.Group>
+                                                <Form.Label className="fw-bold text-dark mb-4">Job Status</Form.Label>
+                                                <div className="d-flex flex-wrap gap-3">
+                                                    {jobstatustype.map((p, index) => (
+                                                        <Form.Check
+                                                            key={p.id}
+                                                            type="radio"
+                                                            name="jobStatus" // radio group name
+                                                            label={p.text}
+                                                            value={p.text}
+                                                            checked={selectedJobStatus[0] === p.text} // only one selection
+                                                            onChange={() => setSelectedJobStatus([p.text])}
+                                                            disabled={index > selectedJobStatus.length}
+                                                        // disables next options until previous selected
+                                                        />
+                                                    ))}
+                                                </div>
+                                            </Form.Group>
+                                        </Card.Body>
+                                    </Card>
                                 </Col>
 
-                                <Col md={2}></Col>
-
-                                {/* Customer Notification */}
-                                <Col md={5}>
-                                    <Container style={{ backgroundColor: "#fdfdfd" }}>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label className="fw-bold fs-5 text-dark">Customer Notification</Form.Label>
-
-                                            <div className="d-flex flex-column gap-2 mt-2">
-                                                {notificationOptions.map((opt) => (
-                                                    <Form.Check
-                                                        key={opt.id}
-                                                        type="checkbox"
-                                                        id={`notif-${opt.id}`}
-                                                        label={<span className="d-flex align-items-center gap-2 text-dark">{opt.icon} {opt.text}</span>}
-                                                        checked={selectedNotifications.includes(opt.text)}
-                                                        onChange={() => toggleNotification(opt.text)}
-                                                    />
-                                                ))}
-
-                                                {/* Sent Date */}
-                                                <Row className="align-items-center mt-3">
-                                                    <Col xs="auto">
-                                                        <Form.Label className="fw-semibold text-dark me-3">Sent Date</Form.Label>
-                                                    </Col>
-                                                    <Col>
-                                                        {/* Controlled input bound to notificationDate */}
-                                                        <Form.Control
-                                                            type="date"
-                                                            value={notificationDate || ''}
-                                                            onChange={(e) => setNotificationDate(e.target.value)}
+                                <Col md={6}>
+                                    <Card className="border-0 shadow-sm rounded-3 h-100" >
+                                        <Card.Body>
+                                            <Form.Group>
+                                                <Form.Label className="fw-bold text-dark mb-4">Customer Notification</Form.Label>
+                                                <div className="d-flex flex-wrap gap-3">
+                                                    {notificationOptions.map((opt) => (
+                                                        <Form.Check
+                                                            key={opt.id}
+                                                            type="checkbox"
+                                                            id={`notif-${opt.id}`}
+                                                            label={
+                                                                <span className="d-flex align-items-center gap-2 text-dark">
+                                                                    {opt.icon} {opt.text}
+                                                                </span>
+                                                            }
+                                                            checked={selectedNotifications.includes(opt.text)}
+                                                            onChange={() => toggleNotification(opt.text)}
                                                         />
-                                                    </Col>
-                                                </Row>
-                                            </div>
-                                        </Form.Group>
-                                    </Container>
+                                                    ))}
+                                                </div>
+                                            </Form.Group>
+                                        </Card.Body>
+                                    </Card>
                                 </Col>
                             </Row>
 
-                            <Row style={{ paddingTop: 20 }}>
-                                <Button variant="primary" onClick={() => updateStatus(myselectDetails.coaldid)}>
-                                    Update
-                                </Button>
+                            {/* Date Fields */}
+                            <Row className="mt-3">
+                                <Col md={6}>
+                                    <Form.Group className="d-flex align-items-center gap-3">
+                                        <Form.Label className="fw-semibold text-dark mb-0">Removed Date:</Form.Label>
+                                        <Form.Control
+                                            type="date"
+                                            size="sm"
+                                            value={removeDate || ""}
+                                            onChange={(e) => setRemoveDate(e.target.value)}
+                                            style={{ maxWidth: "250px" }}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col md={6}>
+                                    <Form.Group className="d-flex align-items-center gap-3">
+                                        <Form.Label className="fw-semibold text-dark mb-0">Sent Date:</Form.Label>
+                                        <Form.Control
+                                            type="date"
+                                            size="sm"
+                                            value={notificationDate || ""}
+                                            onChange={(e) => setNotificationDate(e.target.value)}
+                                            style={{ maxWidth: "250px" }}
+                                        />
+                                    </Form.Group>
+                                </Col>
                             </Row>
 
-                            <Row style={{ paddingTop: 20 }}>
-                                <Button variant="success" onClick={() => complateOrder(myselectDetails.cmd_id)}>
-                                    Complete Order
-                                </Button>
+                            {/* Buttons */}
+                            <Row className="mt-4">
+                                <Col className="d-flex justify-content-between">
+                                    <Button
+                                        variant="primary"
+                                        onClick={() => updateStatus(myselectDetails.coaldid)}
+                                        className="px-4 fw-semibold"
+                                    >
+                                        Update
+                                    </Button>
+                                    <Button
+                                        variant="success"
+                                        onClick={() => complateOrder(myselectDetails.cmd_id)}
+                                        className="px-4 fw-semibold"
+                                    >
+                                        Complete Order
+                                    </Button>
+                                </Col>
                             </Row>
                         </>
                     ) : (
@@ -464,6 +486,7 @@ const AssistanceJobStatus = () => {
                     )}
                 </Card.Body>
             </Card>
+
         </React.Fragment>
     );
 };

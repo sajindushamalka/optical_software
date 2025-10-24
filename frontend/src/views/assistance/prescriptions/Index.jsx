@@ -7,6 +7,9 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useReactToPrint } from "react-to-print";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+
 
 const AssistancePrescriptions = () => {
     const [allUsers, setAllUsers] = useState(['']);
@@ -17,10 +20,32 @@ const AssistancePrescriptions = () => {
     const [readinfTotal, setreadinfTotal] = useState('');
     const cardRef = useRef(); // Reference to the Card
 
-    const handlePrint = useReactToPrint({
-        contentRef: cardRef,
-        documentTitle: "Prescription"
-    });
+    const handlePrintNext = async () => {
+        const element = cardRef.current;
+
+        // Use html2canvas to capture the div
+        const canvas = await html2canvas(element, {
+            scale: 2, // Higher quality
+            useCORS: true,
+            backgroundColor: "#ffffff",
+        });
+
+        const imgData = canvas.toDataURL("image/png");
+
+        // A5 page size (in mm)
+        const pdf = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a5",
+        });
+
+        // Convert canvas size to A5 scale
+        const pdfWidth = 148;
+        const pdfHeight = 210;
+
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save("Prescription.pdf"); // ✅ Download PDF
+    };
 
     useEffect(() => {
         axios
@@ -207,14 +232,11 @@ const AssistancePrescriptions = () => {
                                                     />
                                                     # {a.c_id}
                                                 </span>
-                                                <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
-                                                <h6 className="m-3 d-inline">{a.email}</h6>
-                                                <h6 className="m-3 d-inline">{a.age}</h6>
-                                                <h6 className="m-3 d-inline">{a.telephone}</h6>
-                                                <h6 className="m-3 d-inline">{a.nic}</h6>
-                                                <h6 className="m-3 d-inline">{new Date(a.dob).toLocaleDateString()}</h6>
-                                                <br />
-                                                <h6 className="m-0 d-inline">{a.address}</h6>
+                                                <h6 className="ml-3 d-inline fw-bold">Name : {a.prefix}</h6>
+                                                <h6 className="m-0 d-inline fw-bold">{" "}{a.first_name}</h6>
+                                                <h6 className="m-0 d-inline fw-bold">{" "}{a.name}</h6>
+                                                <h6 className="m-3 d-inline">Age : {a.age}</h6>
+                                                <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
                                             </div>
                                         </div>
                                     );
@@ -261,7 +283,7 @@ const AssistancePrescriptions = () => {
                                         checked={readinfTotal === "yes"}
                                         onChange={(e) => setreadinfTotal(e.target.value)}
                                     />
-                                     <Form.Check
+                                    <Form.Check
                                         inline
                                         type="radio"
                                         label="Remove Reading Total"
@@ -275,7 +297,7 @@ const AssistancePrescriptions = () => {
                         </Col>
                     </Row>
 
-                    <div ref={cardRef} className="a5-card">
+                    <div>
                         <Card>
                             <Card.Header>
                                 <Container>
@@ -350,7 +372,7 @@ const AssistancePrescriptions = () => {
 
                                 <Row>
                                     <h6 className="text-success" style={{ fontWeight: '600', padding: 5, marginLeft: 10 }}>
-                                        Rx For Spectacles 
+                                        Rx For Spectacles
                                     </h6>
                                     <Col>
                                         <Table bordered hover responsive className="table-sm align-middle shadow-sm">
@@ -1023,8 +1045,360 @@ const AssistancePrescriptions = () => {
                         </Card>
                     </div>
 
-                    <Button variant="primary" onClick={handlePrint}>
-                        Print
+                    <div ref={cardRef}
+                        className="a5-card"
+                        style={{
+                            width: "148mm",
+                            height: "210mm",
+                            margin: "0 auto",
+                            padding: "1mm",
+                            backgroundColor: "#fff",
+                            border: "1px solid #ccc",
+                            overflow: "hidden",
+                            boxSizing: "border-box",
+                        }}>
+                        <Card style={{ fontSize: 8 }}>
+                            <Card.Header>
+                                <Container>
+                                    <Row>
+                                        <Col>
+                                            <Card.Title as="h5" style={{ fontWeight: 'bold' }}>
+                                                The Prescription
+                                            </Card.Title>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Card.Header>
+                            <Card.Body style={{ color: 'black' }}>
+                                <Row>
+                                    <Col md={9}>
+                                        <Row>
+                                            <Col md={3} className="border p-1 fw-bold">
+                                                Name
+                                            </Col>
+                                            <Col md={9} className="border p-1">
+                                                {selectUser.prefix} {selectUser.first_name} {selectUser.name}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col md={3} className="border p-1 fw-bold">
+                                                Address
+                                            </Col>
+                                            <Col md={6} className="border p-1">
+                                                {selectUser.address}
+                                            </Col>
+                                            <Col md={1} className="border p-1 fw-bold">
+                                                City
+                                            </Col>
+                                            <Col md={2} className="border p-1">
+                                                {selectUser.town}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col md={2} className="border p-1 fw-bold">
+                                                Age
+                                            </Col>
+                                            <Col md={2} className="border p-1">
+                                                {selectUser.age}
+                                            </Col>
+                                            <Col md={2} className="border p-1 fw-bold">
+                                                Mobile 1
+                                            </Col>
+                                            <Col md={2} className="border p-1">
+                                                {selectUser.telephone}
+                                            </Col>
+                                            <Col md={2} className="border p-1 fw-bold">
+                                                Mobile 2
+                                            </Col>
+                                            <Col md={2} className="border p-1">
+                                                {selectUser.mobile2}
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                    <Col md={1}></Col>
+                                    <Col md={2}>
+                                        <div className="border p-1 text-center">
+                                            <div className="fw-bold">Date</div>
+                                            <div className="text-muted">{formatDate(today)}</div>
+                                        </div>
+                                        <div className="border p-1 text-center">
+                                            <div className="fw-bold">Reference Number</div>
+                                            <div className="text-muted">{formatDate(today)}</div>
+                                        </div>
+                                    </Col>
+                                </Row>
+
+
+                                <Row>
+                                    <h6 className="text-success" style={{ fontWeight: '600', fontSize: 8, padding: 5, marginLeft: 10 }}>
+                                        Rx For Spectacles
+                                    </h6>
+                                    <Col md={6}>
+                                        <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                                            <thead className="bg-primary text-white text-center">
+                                                <tr>
+                                                    <th></th>
+                                                    <th colSpan="6">OD</th>
+                                                </tr>
+                                                <tr className="bg-light text-dark">
+                                                    <th></th>
+                                                    <th>SPH</th>
+                                                    <th>CYL</th>
+                                                    <th>AXIS</th>
+                                                    <th>Prism</th>
+                                                    <th>Base</th>
+                                                    <th>VA</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr className="text-center">
+                                                    <td className="fw-bold">Distance</td>
+                                                    <td> {SPEC_OD_SPH}</td>
+                                                    <td>{SPEC_OD_CYL}</td>
+                                                    <td>{SPEC_OD_AXIS}</td>
+                                                    <td>{SPEC_OD_Prism}</td>
+                                                    <td>{SPEC_OD_Base}</td>
+                                                    <td>{SPEC_OD_VA}</td>
+                                                </tr>
+                                                <tr className="text-center">
+                                                    <td className="fw-bold">Near</td>
+                                                    <td colSpan="5" className="bg-light">{SPEC_OD_near_full}</td>
+                                                    <td>{SPEC_OD_near_va}</td>
+                                                </tr>
+                                            </tbody>
+                                        </Table>
+                                    </Col>
+                                    <Col md={6}>
+                                        <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                                            <thead className="bg-primary text-white text-center">
+                                                <tr>
+                                                    <th></th>
+                                                    <th colSpan="6">OS</th>
+                                                </tr>
+                                                <tr className="bg-light text-dark">
+                                                    <th></th>
+                                                    <th>SPH</th>
+                                                    <th>CYL</th>
+                                                    <th>AXIS</th>
+                                                    <th>Prism</th>
+                                                    <th>Base</th>
+                                                    <th>VA</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr className="text-center">
+                                                    <td className="fw-bold">Distance</td>
+                                                    <td>{SPEC_OS_SPH}</td>
+                                                    <td>{SPEC_OS_CYL}</td>
+                                                    <td>{SPEC_OS_AXIS}</td>
+                                                    <td>{SPEC_OS_Prism}</td>
+                                                    <td>{SPEC_OS_Base}</td>
+                                                    <td>{SPEC_OS_VA}</td>
+                                                </tr>
+                                                <tr className="text-center">
+                                                    <td className="fw-bold">Near</td>
+                                                    <td colSpan="5" className="bg-light">{SPEC_OS_near_full} </td>
+                                                    <td>{SPEC_OS_near_va}</td>
+                                                </tr>
+                                            </tbody>
+                                        </Table>
+                                    </Col>
+                                </Row>
+
+                                {readinfTotal === "yes" ?
+                                    <Row>
+                                        <h6 className="mt-2 text-success" style={{ fontWeight: '600', padding: 5, fontSize: 8, marginLeft: 10 }}>
+                                            Reading Total
+                                        </h6>
+                                        <Col>
+                                            <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                                                <thead className="bg-primary text-white text-center">
+                                                    <tr>
+                                                        <th colSpan={6}>OD</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>SPH</th>
+                                                        <th>CYL</th>
+                                                        <th>AXIS</th>
+                                                        <th>Prism</th>
+                                                        <th>Base</th>
+                                                        <th>VA</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr className="text-center">
+                                                        <td style={{ fontSize: 5 }}>{SPEC_RE_OD_SPH}</td>
+                                                        <td>{SPEC_RE_OD_CYL}</td>
+                                                        <td>{SPEC_RE_OD_AXIS}</td>
+                                                        <td>{SPEC_RE_OD_Prism}</td>
+                                                        <td>{SPEC_RE_OD_Base}</td>
+                                                        <td>{SPEC_RE_OD_VA}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </Table>
+                                        </Col>
+                                        <Col md={6}>
+                                            <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                                                <thead className="bg-primary text-white text-center">
+                                                    <tr>
+                                                        <th colSpan={6}>OS</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>SPH</th>
+                                                        <th>CYL</th>
+                                                        <th>AXIS</th>
+                                                        <th>Prism</th>
+                                                        <th>Base</th>
+                                                        <th>VA</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr className="text-center">
+                                                        <td>{SPEC_RE_OS_SPH}</td>
+                                                        <td>{SPEC_RE_OS_CYL}</td>
+                                                        <td>{SPEC_RE_OS_AXIS}</td>
+                                                        <td>{SPEC_RE_OS_Prism}</td>
+                                                        <td>{SPEC_RE_OS_Base}</td>
+                                                        <td>{SPEC_RE_OS_VA}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </Table>
+                                        </Col>
+                                    </Row>
+                                    : null}
+
+
+                                <Row>
+                                    <h6 className="mt-2 text-success" style={{ fontWeight: '600', fontSize: 8, padding: 5, marginLeft: 10 }}>
+                                        Lens Description
+                                    </h6>
+                                    <Col>
+                                        <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                                            <thead className="text-center" style={{ color: 'black' }}>
+                                                <th>Lens Material</th>
+                                                <th>Lens type</th>
+                                                <th>Lens treatment</th>
+                                                <th>Lens Colour</th>
+                                                <th>Size</th>
+                                                <th>Base</th>
+                                                <th>Brand</th>
+                                                <th>Lens At</th>
+                                                <th>Order date</th>
+                                            </thead>
+                                            <tbody style={{ color: 'black' }}>
+                                                <td>{selectUser.Lens_Material}</td>
+                                                <td>{selectUser.Lenses_Type}</td>
+                                                <td>{selectUser.Lens_Treatment}</td>
+                                                <td>{selectUser.Lens_Colour}</td>
+                                                <td>{selectUser.Lens_Size}</td>
+                                                <td>{selectUser.Lens_Base}</td>
+                                                <td>{selectUser.Lens_Brand}</td>
+                                                <td>{selectUser.Lenses_At}</td>
+                                                <td>{formatDate(selectUser.Lens_OrderDate)}</td>
+                                            </tbody>
+                                        </Table>
+                                    </Col>
+                                </Row>
+
+                                <Row>
+                                    <h6 className="mt-2 text-success" style={{ fontWeight: '600', fontSize: 8, padding: 5, marginLeft: 10 }}>
+                                        Frame Description
+                                    </h6>
+                                    <Col>
+                                        <Table bordered hover responsive className="table-sm align-middle shadow-sm">
+                                            <thead className="text-center" style={{ color: 'black' }}>
+                                                <th>Frame category</th>
+                                                <th>Material</th>
+                                                <th>Type</th>
+                                                <th>Brand</th>
+                                                <th>Model No</th>
+                                                <th>Colour</th>
+                                                <th>Brand</th>
+                                                <th>B Size</th>
+                                                <th>PD</th>
+                                                <th>SEG</th>
+                                            </thead>
+                                            <tbody style={{ color: 'black' }}>
+                                                <td>{selectUser.Frame_Category}</td>
+                                                <td>{selectUser.Frame_Material}</td>
+                                                <td>{selectUser.Frame_type}</td>
+                                                <td>{selectUser.Frame_Brand}</td>
+                                                <td>{selectUser.Model_number}</td>
+                                                <td>{selectUser.Colour}</td>
+                                                <td>{selectUser.Bridge_size}</td>
+                                                <td>{selectUser.Lens_Material}</td>
+                                                <td>{selectUser.PD}</td>
+                                                <td>{selectUser.SEG}</td>
+                                            </tbody>
+                                        </Table>
+                                    </Col>
+                                </Row>
+                                <Row style={{ padding: 10 }}>
+                                    <Col md={1} className="border p-1 fw-bold">Due Date</Col>
+                                    <Col md={2} className="border p-1">{selectUser.Frame_Category}</Col>
+                                    <Col md={1} className="border p-1 fw-bold">Doctor Rx</Col>
+                                    <Col md={2} className="border p-1">{selectUser.Doctor_Rx}</Col>
+                                    <Col md={1} className="border p-1 fw-bold">Tested By</Col>
+                                    <Col md={2} className="border p-1">{selectUser.Tested_By}</Col>
+                                    <Col md={1} className="border p-1 fw-bold">Entered By</Col>
+                                    <Col md={2} className="border p-1">{selectUser.Entered_By}</Col>
+                                </Row>
+                            </Card.Body>
+                        </Card>
+                    </div>
+
+                    <style>
+                        {`
+        @media print {
+          body * {
+            visibility: hidden !important;
+          }
+          .a5-card, .a5-card * {
+            visibility: visible !important;
+          }
+          .a5-card {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 148mm;
+            height: 210mm;
+            padding: 2mm;
+            background: white;
+            box-sizing: border-box;
+            overflow: hidden;
+          }
+          .patient-grid {
+            display: grid;
+            grid-template-columns: 25% 25% 25% 25%;
+            gap: 1mm;
+            font-size: 7pt;
+            margin-bottom: 2mm;
+          }
+          .patient-grid .label {
+            font-weight: bold;
+          }
+          .print-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 7pt;
+            page-break-inside: avoid;
+          }
+          .print-table th, .print-table td {
+            border: 1px solid black;
+            padding: 2px;
+            text-align: center;
+          }
+          h6.section-title {
+            font-weight: 600;
+            font-size: 8pt;
+            color: green;
+            margin: 3mm 0 1mm 0;
+          }
+        }
+      `}
+                    </style>
+                    <Button onClick={handlePrintNext} variant="primary" className="mb-3">
+                        Print / Save Prescription
                     </Button>
                 </>
             ) : null}

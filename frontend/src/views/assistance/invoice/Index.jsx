@@ -171,6 +171,11 @@ const AssistanceInvoice = () => {
   const [Doctor_Rx, setDoctor_Rx] = useState('');
   const [Tested_By, setTested_By] = useState('');
   const [Entered_By, setEntered_By] = useState('');
+  const [WearerType, set_WearerType] = useState('');
+  const [WearerSchedule, set_WearerSchedule] = useState('');
+  const [SoftLensMaterial, set_SoftLensMaterial] = useState('');
+  const [SoftLensDesign, set_SoftLensDesign] = useState('');
+  const [LensType, set_LensType] = useState('');
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
@@ -425,6 +430,11 @@ const AssistanceInvoice = () => {
       set_SPECCON_OS_Diam(res.data.SPECCON_OS_Diam)
       set_SPECCON_OS_Design(res.data.SPECCON_OS_Design)
       set_SPECCON_Remark(res.data.SPECCON_remark)
+      set_WearerType(res.data.WearerType)
+      set_WearerSchedule(res.data.WearerSchedule)
+      set_SoftLensMaterial(res.data.SoftLensMaterial)
+      set_SoftLensDesign(res.data.SoftLensDesign)
+      set_LensType(res.data.LensType)
     }).catch((err) => {
       console.log(err)
     })
@@ -567,7 +577,7 @@ const AssistanceInvoice = () => {
                         <h6 className="ml-3 d-inline fw-bold">Name : {a.prefix}</h6>
                         <h6 className="m-0 d-inline fw-bold">{" "}{a.first_name}</h6>
                         <h6 className="m-0 d-inline fw-bold">{" "}{a.name}</h6>
-                        <h6 className="m-3 d-inline">NIC : {a.nic}</h6>
+                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
                         <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
                       </div>
                     </div>
@@ -2489,7 +2499,95 @@ const AssistanceInvoice = () => {
                   </tr>
                 </tbody>
               </Table>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Row>
+                <Col md={2}>
+                  <Form.Group className="mb-0" controlId="formBasicFloat">
+                    <Form.Label className="fw-semibold text-dark me-2 mb-0">Wearer Type</Form.Label>
+                    <Form.Control
+                      type="text"
+                      step="any"
+                      readOnly
+                      style={{
+                        border: 'none',
+                        width: '',
+                        padding: '4px 6px',
+                        textAlign: 'center'
+                      }}
+                      value={WearerType}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={2}>
+                  <Form.Group className="mb-0" controlId="formBasicFloat">
+                    <Form.Label className="fw-semibold text-dark me-2 mb-0">Lens Type</Form.Label>
+                    <Form.Control
+                      type="text"
+                      step="any"
+                      readOnly
+                      style={{
+                        border: 'none',
+                        width: '',
+                        padding: '4px 6px',
+                        textAlign: 'center'
+                      }}
+                      value={LensType}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={2}>
+                  <Form.Group className="mb-0" controlId="formBasicFloat">
+                    <Form.Label className="fw-semibold text-dark me-2 mb-0">Soft Lens Material</Form.Label>
+                    <Form.Control
+                      type="text"
+                      step="any"
+                      readOnly
+                      style={{
+                        border: 'none',
+                        width: '',
+                        padding: '4px 6px',
+                        textAlign: 'center'
+                      }}
+                      value={SoftLensMaterial}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={3}>
+                  <Form.Group className="mb-0" controlId="formBasicFloat">
+                    <Form.Label className="fw-semibold text-dark me-2 mb-0">Soft Lens Design</Form.Label>
+                    <Form.Control
+                      type="text"
+                      step="any"
+                      readOnly
+                      style={{
+                        border: 'none',
+                        width: '',
+                        padding: '4px 6px',
+                        textAlign: 'center'
+                      }}
+                      value={SoftLensDesign}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={3}>
+                  <Form.Group className="mb-0" controlId="formBasicFloat">
+                    <Form.Label className="fw-semibold text-dark me-2 mb-0">Wearer Schedule</Form.Label>
+                    <Form.Control
+                      type="text"
+                      step="any"
+                      readOnly
+                      style={{
+                        border: 'none',
+                        width: '',
+                        padding: '4px 6px',
+                        textAlign: 'center'
+                      }}
+                      value={WearerSchedule}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Form.Group className="mb-3 mt-3" controlId="exampleForm.ControlTextarea1">
                 <Form.Label>Remarks</Form.Label>
                 <Form.Control as="textarea" rows="3" value={SPECCON_remark} />
               </Form.Group>

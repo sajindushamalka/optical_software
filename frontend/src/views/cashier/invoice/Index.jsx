@@ -118,7 +118,7 @@ const CashierInvoice = () => {
       discount: discountPercent,
       vat: vatPercent,
       invoice_no: invoiceNo,
-      total_amount:grandTotal
+      total_amount: grandTotal
     };
 
     if (paymentType === "full" || paymentType === "advance") {
@@ -315,79 +315,140 @@ const CashierInvoice = () => {
           </Card>
         </Col>
 
-        {/* Right Side Invoice */}
-        <Col>
-          <Form.Group className="mb-3 d-flex">
-            <Form.Select
-              onChange={(e) => {
-                const selectedId = e.target.value;
-                const item = invoiceItems.find((i) => i.cid_id === parseInt(selectedId));
-                if (item) {
-                  setSelectedItems((prev) => {
-                    const exists = prev.find((p) => p.cid_id === item.cid_id);
-                    if (exists) {
-                      return prev.map((p) =>
-                        p.cid_id === item.cid_id ? { ...p, qty: p.qty + 1 } : p
-                      );
-                    } else {
-                      return [...prev, { ...item, qty: 1 }];
-                    }
-                  });
-                }
-                e.target.value = "";
-              }}
-            >
-              <option value="">-- Select Item --</option>
-              {invoiceItems.map((item) => (
-                <option key={item.cid_id} value={item.cid_id}>
-                  {item.title} - Rs.{item.price}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
-
-          {/* Payment Options + VAT/Discount */}
-          {selectedItems.length > 0 && (
-            <>
-              <div className="mb-3 d-flex gap-3 flex-wrap">
-                <Form.Group style={{ minWidth: "200px" }}>
-                  <Form.Label>Payment Type</Form.Label>
+        {/* {selectedUser && (
+          <>
+            <Row>
+              <Col md={3}>
+                <Form.Group className="mb-3 d-flex">
                   <Form.Select
-                    value={paymentType}
-                    onChange={(e) => setPaymentType(e.target.value)}
+                    onChange={(e) => {
+                      const selectedId = e.target.value;
+                      const item = invoiceItems.find((i) => i.cid_id === parseInt(selectedId));
+                      if (item) {
+                        setSelectedItems((prev) => {
+                          const exists = prev.find((p) => p.cid_id === item.cid_id);
+                          if (exists) {
+                            return prev.map((p) =>
+                              p.cid_id === item.cid_id ? { ...p, qty: p.qty + 1 } : p
+                            );
+                          } else {
+                            return [...prev, { ...item, qty: 1 }];
+                          }
+                        });
+                      }
+                      e.target.value = "";
+                    }}
                   >
-                    <option value="">-- Select Payment Type --</option>
-                    <option value="full">Full Payment</option>
-                    <option value="advance">Advance Payment</option>
+                    <option value="">-- Select Item --</option>
+                    {invoiceItems.map((item) => (
+                      <option key={item.cid_id} value={item.cid_id}>
+                        {item.title} - Rs.{item.price}
+                      </option>
+                    ))}
                   </Form.Select>
                 </Form.Group>
-
-                <Form.Group style={{ minWidth: "200px" }}>
-                  <Form.Label>Payment Method</Form.Label>
-                  <Form.Select
-                    value={paymentMethod}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                  >
-                    <option value="">-- Select Method --</option>
-                    <option value="cash">Cash</option>
-                    <option value="visa">Visa</option>
-                  </Form.Select>
-                </Form.Group>
-
-                {/* Advance / Full Paid */}
-                {paymentType && (
-                  <Form.Group style={{ minWidth: "150px" }}>
-                    <Form.Label>{paymentType === "advance" ? "Advance Amount" : "Paid Amount"}</Form.Label>
-                    <Form.Control
-                      type="number"
-                      min="0"
-                      value={advanceAmount}
-                      onChange={(e) => setAdvanceAmount(parseFloat(e.target.value) || 0)}
-                    />
-                  </Form.Group>
+              </Col>
+              <Col md={3}></Col>
+              <Col md={3}></Col>
+              <Col md={3}></Col>
+            </Row>
+            <Row>
+              <Col>
+                <div className="mb-3">
+                  <h6>Selected Items:</h6>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                    {selectedItems.map((item) => (
+                      <div
+                        key={item.cid_id}
+                        style={{
+                          border: "1px solid #ddd",
+                          borderRadius: "6px",
+                          padding: "4px 10px",
+                          background: "#f8f9fa",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                        }}
+                      >
+                        <span>{item.title} (x{item.qty})</span>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          onClick={() =>
+                            setSelectedItems((prev) =>
+                              prev.filter((p) => p.cid_id !== item.cid_id)
+                            )
+                          }
+                        >
+                          ✖
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={2}>
+                {selectedItems.length > 0 && (
+                  <>
+                    <div className="mb-3 d-flex gap-3 flex-wrap">
+                      <Form.Group style={{ minWidth: "200px" }}>
+                        <Form.Label>Payment Type</Form.Label>
+                        <Form.Select
+                          value={paymentType}
+                          onChange={(e) => setPaymentType(e.target.value)}
+                        >
+                          <option value="">-- Select Payment Type --</option>
+                          <option value="full">Full Payment</option>
+                          <option value="advance">Advance Payment</option>
+                        </Form.Select>
+                      </Form.Group>
+                    </div>
+                  </>
                 )}
-
-                {/* VAT */}
+              </Col>
+              <Col md={2}>
+                {selectedItems.length > 0 && (
+                  <>
+                    <div className="mb-3 d-flex gap-3 flex-wrap">
+                      <Form.Group style={{ minWidth: "200px" }}>
+                        <Form.Label>Payment Method</Form.Label>
+                        <Form.Select
+                          value={paymentMethod}
+                          onChange={(e) => setPaymentMethod(e.target.value)}
+                        >
+                          <option value="">-- Select Method --</option>
+                          <option value="cash">Cash</option>
+                          <option value="visa">Visa</option>
+                        </Form.Select>
+                      </Form.Group>
+                    </div>
+                  </>
+                )}
+              </Col>
+              <Col md={2}>
+                {selectedItems.length > 0 && (
+                  <>
+                    <div className="mb-3 d-flex gap-3 flex-wrap">
+             
+                      {paymentType && (
+                        <Form.Group style={{ minWidth: "150px" }}>
+                          <Form.Label>{paymentType === "advance" ? "Advance Amount" : "Paid Amount"}</Form.Label>
+                          <Form.Control
+                            type="number"
+                            min="0"
+                            value={advanceAmount}
+                            onChange={(e) => setAdvanceAmount(parseFloat(e.target.value) || 0)}
+                          />
+                        </Form.Group>
+                      )}
+                    </div>
+                  </>
+                )}
+              </Col>
+              <Col md={2}>
+               {selectedItems.length > 0 && (
                 <Form.Group style={{ minWidth: "150px" }}>
                   <Form.Check
                     type="checkbox"
@@ -406,8 +467,11 @@ const CashierInvoice = () => {
                     />
                   )}
                 </Form.Group>
-
-                {/* Discount */}
+               )}
+              </Col>
+              <Col md={2}>
+           
+                 {selectedItems.length > 0 && (
                 <Form.Group style={{ minWidth: "150px" }}>
                   <Form.Check
                     type="checkbox"
@@ -426,43 +490,288 @@ const CashierInvoice = () => {
                     />
                   )}
                 </Form.Group>
-              </div>
-            </>
-          )}
-        </Col>
+                 )}
+              </Col>
+              <Col md={2}></Col>
+            </Row>
+          </>
+        )} */}
 
-        <div className="mb-3">
-          <h6>Selected Items:</h6>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-            {selectedItems.map((item) => (
-              <div
-                key={item.cid_id}
-                style={{
-                  border: "1px solid #ddd",
-                  borderRadius: "6px",
-                  padding: "4px 10px",
-                  background: "#f8f9fa",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                }}
-              >
-                <span>{item.title} (x{item.qty})</span>
-                <Button
-                  variant="outline-danger"
-                  size="sm"
-                  onClick={() =>
-                    setSelectedItems((prev) =>
-                      prev.filter((p) => p.cid_id !== item.cid_id)
-                    )
-                  }
-                >
-                  ✖
-                </Button>
-              </div>
-            ))}
-          </div>
-        </div>
+        {selectedUser && (
+          <>
+            {/* --- Item Selection --- */}
+            <Row className="align-items-center mb-4">
+              <Col md={4}>
+                <Form.Group>
+                  <Form.Label className="fw-semibold">Select Item</Form.Label>
+                  <Form.Select
+                    className="shadow-sm"
+                    onChange={(e) => {
+                      const selectedId = e.target.value;
+                      const item = invoiceItems.find(
+                        (i) => i.cid_id === parseInt(selectedId)
+                      );
+                      if (item) {
+                        setSelectedItems((prev) => {
+                          const exists = prev.find((p) => p.cid_id === item.cid_id);
+                          return exists
+                            ? prev.map((p) =>
+                              p.cid_id === item.cid_id
+                                ? { ...p, qty: p.qty + 1 }
+                                : p
+                            )
+                            : [...prev, { ...item, qty: 1 }];
+                        });
+                      }
+                      e.target.value = "";
+                    }}
+                  >
+                    <option value="">-- Select Item --</option>
+                    {invoiceItems.map((item) => (
+                      <option key={item.cid_id} value={item.cid_id}>
+                        {item.title} - Rs.{item.price}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            </Row>
+
+            {/* --- Selected Items --- */}
+            {selectedItems.length > 0 && (
+              <>
+                <Row className="mb-2">
+                  <Col>
+                    <h6 className="fw-semibold mb-2">Selected Items</h6>
+                    <div
+                      className="p-3 border rounded bg-light"
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: "10px",
+                        minHeight: "50px",
+                      }}
+                    >
+                      {selectedItems.map((item) => (
+                        <div
+                          key={item.cid_id}
+                          className="d-flex align-items-center border rounded px-3 py-2 bg-white shadow-sm"
+                          style={{
+                            gap: "8px",
+                          }}
+                        >
+                          <span className="text-dark fw-semibold">
+                            {item.title} (x{item.qty})
+                          </span>
+                          <Button
+                            variant="outline-danger"
+                            size="sm"
+                            className="py-0 px-2"
+                            onClick={() =>
+                              setSelectedItems((prev) =>
+                                prev.filter((p) => p.cid_id !== item.cid_id)
+                              )
+                            }
+                          >
+                            ✖
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </Col>
+                </Row>
+
+                {/* --- Payment Section --- */}
+                <Row className="gy-3">
+                  <Col md={2}>
+                    <Form.Group>
+                      <Form.Label className="fw-semibold">Payment Type</Form.Label>
+                      <Form.Select
+                        value={paymentType}
+                        onChange={(e) => setPaymentType(e.target.value)}
+                      >
+                        <option value="">-- Select --</option>
+                        <option value="full">Full Payment</option>
+                        <option value="advance">Advance Payment</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+
+                  <Col md={2}>
+                    <Form.Group>
+                      <Form.Label className="fw-semibold">Payment Method</Form.Label>
+                      <Form.Select
+                        value={paymentMethod}
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                      >
+                        <option value="">-- Select --</option>
+                        <option value="Cash">Cash</option>
+                        <option value="VISA">VISA</option>
+                        <option value="Cash/VISA">Cash/VISA</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+
+                  <Col md={2}>
+                    {paymentType && (
+                      // <Form.Group>
+                      //   <Form.Label className="fw-semibold">
+                      //     {paymentType === "advance"
+                      //       ? "Advance Amount"
+                      //       : "Paid Amount"}
+                      //   </Form.Label>
+                      //   <Form.Control
+                      //     type="number"
+                      //     min="0"
+                      //     value={advanceAmount}
+                      //     onChange={(e) =>
+                      //       setAdvanceAmount(parseFloat(e.target.value) || 0)
+                      //     }
+                      //   />
+                      // </Form.Group>
+                      <Form.Group>
+                        <Form.Label className="fw-semibold">
+                          {paymentType === "advance" ? "Advance Amount" : "Paid Amount"}
+                        </Form.Label>
+                        <Form.Control
+                          type="number"
+                          inputMode="decimal"
+                          min="0"
+                          value={advanceAmount === 0 ? "" : advanceAmount} // removes 0 display
+                          onChange={(e) =>
+                            setAdvanceAmount(
+                              e.target.value === "" ? 0 : parseFloat(e.target.value)
+                            )
+                          }
+                          style={{
+                            appearance: "textfield",
+                            MozAppearance: "textfield",
+                            WebkitAppearance: "none",
+                          }}
+                          onWheel={(e) => e.target.blur()} // prevent scroll changing number
+                        />
+                      </Form.Group>
+
+                    )}
+                  </Col>
+
+                  {/* --- VAT Section --- */}
+                  <Col md={2}>
+                    {/* <Form.Group>
+                      <Form.Check
+                        type="checkbox"
+                        label="Enable VAT"
+                        checked={enableVAT}
+                        onChange={(e) => setEnableVAT(e.target.checked)}
+                      />
+                      {enableVAT && (
+                        <Form.Control
+                          type="number"
+                          min="0"
+                          max="100"
+                          className="mt-2"
+                          value={vatPercent}
+                          placeholder="VAT %"
+                          onChange={(e) =>
+                            setVatPercent(parseFloat(e.target.value) || 0)
+                          }
+                        />
+                      )}
+                    </Form.Group> */}
+                    <Form.Group>
+                      <Form.Check
+                        type="checkbox"
+                        label="Enable VAT"
+                        checked={enableVAT}
+                        onChange={(e) => setEnableVAT(e.target.checked)}
+                      />
+
+                      {enableVAT && (
+                        <Form.Control
+                          type="number"
+                          inputMode="decimal"
+                          min="0"
+                          max="100"
+                          className="mt-2"
+                          value={vatPercent === 0 ? "" : vatPercent} // remove default 0
+                          placeholder="VAT %"
+                          onChange={(e) =>
+                            setVatPercent(e.target.value === "" ? 0 : parseFloat(e.target.value))
+                          }
+                          style={{
+                            appearance: "textfield",
+                            WebkitAppearance: "none",
+                            MozAppearance: "textfield",
+                          }}
+                          onWheel={(e) => e.target.blur()} // disable scroll value change
+                        />
+                      )}
+                    </Form.Group>
+
+                  </Col>
+
+                  {/* --- Discount Section --- */}
+                  <Col md={2}>
+                    {/* <Form.Group>
+                      <Form.Check
+                        type="checkbox"
+                        label="Enable Discount"
+                        checked={enableDiscount}
+                        onChange={(e) => setEnableDiscount(e.target.checked)}
+                      />
+                      {enableDiscount && (
+                        <Form.Control
+                          type="number"
+                          min="0"
+                          max="100"
+                          className="mt-2"
+                          value={discountPercent}
+                          placeholder="Discount %"
+                          onChange={(e) =>
+                            setDiscountPercent(parseFloat(e.target.value) || 0)
+                          }
+                        />
+                      )}
+                    </Form.Group> */}
+                    <Form.Group>
+                      <Form.Check
+                        type="checkbox"
+                        label="Enable Discount"
+                        checked={enableDiscount}
+                        onChange={(e) => setEnableDiscount(e.target.checked)}
+                      />
+
+                      {enableDiscount && (
+                        <Form.Control
+                          type="number"
+                          inputMode="decimal"
+                          min="0"
+                          max="100"
+                          className="mt-2"
+                          value={discountPercent === 0 ? "" : discountPercent} // remove 0 display
+                          placeholder="Discount %"
+                          onChange={(e) =>
+                            setDiscountPercent(
+                              e.target.value === "" ? 0 : parseFloat(e.target.value)
+                            )
+                          }
+                          style={{
+                            appearance: "textfield",
+                            WebkitAppearance: "none",
+                            MozAppearance: "textfield",
+                          }}
+                          onWheel={(e) => e.target.blur()} // prevent scroll number change
+                        />
+                      )}
+                    </Form.Group>
+
+                  </Col>
+                </Row>
+              </>
+            )}
+          </>
+        )}
+
 
         {/* Invoice Preview */}
         {selectedUser && (
@@ -635,7 +944,7 @@ const CashierInvoice = () => {
           </Col>
         )}
       </Row>
-    </React.Fragment>
+    </React.Fragment >
   );
 };
 

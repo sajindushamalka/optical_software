@@ -254,3 +254,132 @@ td {
     }
   }
 }
+// @media print {
+//   /* Hide everything except the print section */
+//   body * {
+//     visibility: hidden !important;
+//   }
+
+//   /* Show only the A5 print card */
+//   .a5-card,
+//   .a5-card * {
+//     visibility: visible !important;
+//   }
+
+//   /* Proper A5 layout */
+//   .a5-card {
+//     position: fixed;
+//     left: 0;
+//     top: 0;
+//     width: 148mm;   /* exact A5 width */
+//     height: 210mm;  /* exact A5 height */
+//     padding: 10mm;  /* internal margin */
+//     box-sizing: border-box;
+//     background: white;
+//     overflow: hidden;
+//   }
+
+//   @page {
+//     size: A5 portrait;  /* or A5 landscape */
+//     margin: 5mm;
+//   }
+// }
+
+// @media print {
+//   body * {
+//     visibility: hidden;
+//   }
+
+//   .print-area, .print-area * {
+//     visibility: visible;
+//   }
+
+//   .print-area {
+//     position: absolute;
+//     left: 0;
+//     top: 0;
+//     width: 210mm; /* A4 width */
+//     height: 297mm;
+//   }
+// }
+
+
+// @media print {
+//   /* Keep bootstrap row/col layout in print */
+//   .row {
+//     display: flex !important;
+//     flex-wrap: nowrap !important; /* prevent columns from stacking */
+//   }
+
+//   .col,
+//   [class*="col-"] {
+//     flex: 1 0 0% !important;
+//     max-width: 100% !important;
+//   }
+
+//   /* Optional: avoid page breaks inside rows */
+//   .row {
+//     page-break-inside: avoid;
+//   }
+
+//   /* If some content still wraps, enforce inline-block fallback */
+//   .a5-card .row > div {
+//     display: inline-block !important;
+//     vertical-align: top;
+//   }
+// }
+
+
+@media print {
+
+  table,
+  th,
+  td {
+    border: 1px solid black !important;
+    border-collapse: collapse !important;
+    color: black !important;
+    background-color: white !important;
+    font-size: 8pt !important; /* adjust to fit A5 */
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group !important; /* repeat header if table breaks */
+  }
+
+  tbody {
+    display: table-row-group !important;
+  }
+
+  table {
+    width: 100% !important;
+    table-layout: fixed !important; /* prevent columns from stretching */
+  }
+
+  /* Remove responsive overflow for print */
+  .table-responsive {
+    overflow: visible !important;
+  }
+
+  .row {
+    display: flex !important;
+    flex-wrap: nowrap !important; /* prevent columns from stacking */
+  }
+
+  .col,
+  [class*="col-"] {
+    flex: 1 0 0% !important;
+    max-width: 100% !important;
+  }
+
+  /* Optional: avoid page breaks inside rows */
+  .row {
+    page-break-inside: avoid;
+  }
+
+  /* If some content still wraps, enforce inline-block fallback */
+  .a5-card .row > div {
+    display: inline-block !important;
+    vertical-align: top;
+  }
+}

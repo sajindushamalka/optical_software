@@ -20,6 +20,9 @@ const AssistanceFactory = () => {
     const [reorderDetails, setreorderDetails] = useState('');
     const [selectedCmd_ID, setselectedCmd_ID] = useState('');
 
+    const [file, setFile] = useState(null);
+    const [to, setTo] = useState('94717767117'); // recipient
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -128,6 +131,25 @@ const AssistanceFactory = () => {
     }
 
     console.log(paginatedAllUsers)
+
+    const handleSubmitWhatsApp = async (e) => {
+        e.preventDefault();
+        if (!file) return alert('Select PDF');
+        const form = new FormData();
+        form.append('pdf', file);
+        form.append('to', to);
+        form.append('caption', 'Here is your invoice');
+
+        try {
+            const resp = await axios.post('http://localhost:2776/api/whatsapp/send-pdf', form, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            alert('Sent: ' + JSON.stringify(resp.data));
+        } catch (err) {
+            console.error(err);
+            alert('Error: ' + (err.response?.data?.error || err.message));
+        }
+    };
     return (
         <React.Fragment>
             <Row>
@@ -206,107 +228,143 @@ const AssistanceFactory = () => {
                         <Row>
                             <Col>
                                 <Card.Title as="h5" style={{ fontWeight: 'bold' }}>
-                                    Report Deatils
+                                    Orders
                                 </Card.Title>
                             </Col>
                         </Row>
                     </Container>
                 </Card.Header>
                 <Card.Body>
-                    <div className="rounded">
+                    {/* <div className="rounded">
                         <h5 className="mb-4 text-primary" style={{ fontWeight: '600' }}>
                             Orders
                         </h5>
-                    </div>
+                    </div> */}
 
                     {paginatedAllUsers.map((r, index) => (
-                        <Container style={{ padding: 5 }}>
-                            No :  {index}
-                            <Row>
-                                <Col md={2} className="border p-1">Job No</Col>
-                                <Col md={2} className="border p-1">{r.cmd_id}</Col>
-                                <Col md={2} className="border p-1">Wanted On</Col>
-                                <Col md={2} className="border p-1">{formatDate(r.Lens_wanted_on)}</Col>
-                                <Col md={1}></Col>
-                                <Col md={2} className="border p-1">Lens Size</Col>
-                                <Col md={1} className="border p-1">{r.Lens_Size}</Col>
-                            </Row>
-                            <Row>
-                                <Col md={2} className="border p-1"></Col>
-                                <Col md={1} className="border p-1">SPH</Col>
-                                <Col md={1} className="border p-1">CYL</Col>
-                                <Col md={1} className="border p-1">AXIS</Col>
-                                <Col md={1} className="border p-1">PRISM</Col>
-                                <Col md={1} className="border p-1">P.Base</Col>
-                                <Col md={1} className="border p-1">ADD</Col>
-                                <Col md={1}></Col>
-                                <Col md={2} className="border p-1">Lens Base</Col>
-                                <Col md={1} className="border p-1">{r.Lens_Base}</Col>
-                            </Row>
-                            <Row>
-                                <Col md={2} className="border p-1">Right (OD)</Col>
-                                <Col md={1} className="border p-1">{r.SPEC_OD_SPH}</Col>
-                                <Col md={1} className="border p-1">{r.SPEC_OD_CYL}</Col>
-                                <Col md={1} className="border p-1">{r.SPEC_OD_AXIS}</Col>
-                                <Col md={1} className="border p-1">{r.SPEC_OD_Prism}</Col>
-                                <Col md={1} className="border p-1">{r.SPEC_OD_Base}</Col>
-                                <Col md={1} className="border p-1">{r.SPEC_OD_near_full}</Col>
-                                <Col md={1}></Col>
-                                <Col md={2} className="border p-1">Lens Type</Col>
-                                <Col md={1} className="border p-1">{r.Lenses_Type}</Col>
-                            </Row>
-                            <Row>
-                                <Col md={2} className="border p-1">Left (OS)</Col>
-                                <Col md={1} className="border p-1">{r.SPEC_OS_SPH}</Col>
-                                <Col md={1} className="border p-1">{r.SPEC_OS_CYL}</Col>
-                                <Col md={1} className="border p-1">{r.SPEC_OS_AXIS}</Col>
-                                <Col md={1} className="border p-1">{r.SPEC_OS_Prism}</Col>
-                                <Col md={1} className="border p-1">{r.SPEC_OS_Base}</Col>
-                                <Col md={1} className="border p-1">{r.SPEC_OS_near_full}</Col>
-                                <Col md={1}></Col>
-                                <Col md={2} className="border p-1">Lens Material</Col>
-                                <Col md={1} className="border p-1">{r.Lens_Material}</Col>
-                            </Row>
-                            <Row>
-                                <Col md={2} className="border p-1">Pro. Add</Col>
-                                <Col md={2} className="border p-1">{r.SPEC_Pro_Add}</Col>
-                                <Col md={5}></Col>
-                                <Col md={2} className="border p-1">Lens Treatment</Col>
-                                <Col md={1} className="border p-1">{r.Lens_Treatment}</Col>
-                            </Row>
-                            <Row>
-                                <Col md={2} className="border p-1">Frame type</Col>
-                                <Col md={2} className="border p-1">{r.Frame_type}</Col>
-                                <Col md={1}></Col>
-                                <Col md={1} className="border p-1">PD</Col>
-                                <Col md={1} className="border p-1">{r.PD}</Col>
-                                <Col md={1}></Col>
-                                <Col md={1}></Col>
-                                <Col md={3} className="border p-1">
-                                    <Form.Control
-                                        type="text"
-                                        step="any"
-                                        style={{
-                                            border: 'none',
-                                            width: '',
-                                            padding: '4px 6px',
-                                            textAlign: 'center'
-                                        }}
-                                        onChange={(e) => setfactory_remark(e.target.value)}
-                                    />
-                                </Col>
-                            </Row>
-
+                        <Container>
+                            <div style={{ paddingLeft: 25, paddingRight: 25 }}>
+                                {/* No :  {index} */}
+                                <Row>
+                                    <Col md={2} className="border p-1">Job No</Col>
+                                    <Col md={2} className="border p-1">{r.cmd_id}</Col>
+                                    <Col md={2} className="border p-1">Wanted On</Col>
+                                    <Col md={2} className="border p-1">{formatDate(r.Lens_wanted_on)}</Col>
+                                    <Col md={1}></Col>
+                                    <Col md={2} className="border p-1">Lens Size</Col>
+                                    <Col md={1} className="border p-1">{r.Lens_Size}</Col>
+                                </Row>
+                                <Row>
+                                    <Col md={2} className="border p-1"></Col>
+                                    <Col md={1} className="border p-1">SPH</Col>
+                                    <Col md={1} className="border p-1">CYL</Col>
+                                    <Col md={1} className="border p-1">AXIS</Col>
+                                    <Col md={1} className="border p-1">PRISM</Col>
+                                    <Col md={1} className="border p-1">P.Base</Col>
+                                    <Col md={1} className="border p-1">ADD</Col>
+                                    <Col md={1}></Col>
+                                    <Col md={2} className="border p-1">Lens Base</Col>
+                                    <Col md={1} className="border p-1">{r.Lens_Base}</Col>
+                                </Row>
+                                <Row>
+                                    <Col md={2} className="border p-1">Right (OD)</Col>
+                                    <Col md={1} className="border p-1">{r.SPEC_OD_SPH}</Col>
+                                    <Col md={1} className="border p-1">{r.SPEC_OD_CYL}</Col>
+                                    <Col md={1} className="border p-1">{r.SPEC_OD_AXIS}</Col>
+                                    <Col md={1} className="border p-1">{r.SPEC_OD_Prism}</Col>
+                                    <Col md={1} className="border p-1">{r.SPEC_OD_Base}</Col>
+                                    <Col md={1} className="border p-1">{r.SPEC_OD_near_full}</Col>
+                                    <Col md={1}></Col>
+                                    <Col md={2} className="border p-1">Lens Type</Col>
+                                    <Col md={1} className="border p-1">{r.Lenses_Type}</Col>
+                                </Row>
+                                <Row>
+                                    <Col md={2} className="border p-1">Left (OS)</Col>
+                                    <Col md={1} className="border p-1">{r.SPEC_OS_SPH}</Col>
+                                    <Col md={1} className="border p-1">{r.SPEC_OS_CYL}</Col>
+                                    <Col md={1} className="border p-1">{r.SPEC_OS_AXIS}</Col>
+                                    <Col md={1} className="border p-1">{r.SPEC_OS_Prism}</Col>
+                                    <Col md={1} className="border p-1">{r.SPEC_OS_Base}</Col>
+                                    <Col md={1} className="border p-1">{r.SPEC_OS_near_full}</Col>
+                                    <Col md={1}></Col>
+                                    <Col md={2} className="border p-1">Lens Material</Col>
+                                    <Col md={1} className="border p-1">{r.Lens_Material}</Col>
+                                </Row>
+                                <Row>
+                                    <Col md={2} className="border p-1">Pro. Add</Col>
+                                    <Col md={2} className="border p-1">{r.SPEC_Pro_Add}</Col>
+                                    <Col md={5}></Col>
+                                    <Col md={2} className="border p-1">Lens Treatment</Col>
+                                    <Col md={1} className="border p-1">{r.Lens_Treatment}</Col>
+                                </Row>
+                                <Row>
+                                    <Col md={2} className="border p-1">Frame type</Col>
+                                    <Col md={2} className="border p-1">{r.Frame_type}</Col>
+                                    <Col md={1}></Col>
+                                    <Col md={1} className="border p-1">PD</Col>
+                                    <Col md={1} className="border p-1">{r.PD}</Col>
+                                    <Col md={1}></Col>
+                                    <Col md={1}></Col>
+                                    <Col md={3} className="border p-1">
+                                        <Form.Control
+                                            type="text"
+                                            step="any"
+                                            style={{
+                                                border: 'none',
+                                                width: '',
+                                                padding: '4px 6px',
+                                                textAlign: 'center'
+                                            }}
+                                            value={r.factory_remark}
+                                            onChange={(e) => setfactory_remark(e.target.value)}
+                                        />
+                                    </Col>
+                                </Row>
+                            </div>
                             <Row style={{ paddingTop: 20 }}>
-                                <Button variant="primary" onClick={() => handlePass(r.cmd_id, r.coaldid)}>
-                                    Order
-                                </Button>
+                                <Col className="text-start" style={{ marginLeft: 10 }}>
+                                    <Button variant="warning" onClick={() => handleShow(r.cmd_id)}>
+                                        Re-Order
+                                    </Button>
+                                </Col>
 
-                                <Button variant="primary" onClick={() => handleShow(r.cmd_id)}>
-                                    Re-Order
-                                </Button>
+                                <Col className="text-end">
+                                    <Button variant="success" onClick={() => handlePass(r.cmd_id, r.coaldid)}>
+                                        Order
+                                    </Button>
+                                </Col>
+                                <Col className="text-end">
+                                    <Button
+                                        variant="success"
+                                        onClick={() => {
+                                            // Replace with the number you want to message (use country code, no '+' or leading zeros)
+                                            const phoneNumber = "94717767117"; // Example: Sri Lanka number
+                                            const message = "hi";
+                                            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                                            window.open(whatsappUrl, "_blank");
+                                        }}
+                                    >
+                                        Order
+                                    </Button>
+                                </Col>
+
                             </Row>
+
+                            <hr />
+
+                            <form onSubmit={handleSubmitWhatsApp}>
+                                <div>
+                                    <label>Recipient (international):</label>
+                                    <input value={to} onChange={(e) => setTo(e.target.value)} />
+                                </div>
+                                <div>
+                                    <input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} />
+                                </div>
+                                <button type="submit">Send PDF via WhatsApp</button>
+                            </form>
+
                         </Container>
+
 
                     ))}
                 </Card.Body>
