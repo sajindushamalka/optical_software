@@ -335,7 +335,7 @@ const AssistanceFactory = () => {
                                 </Col>
                                 <Col className="text-end">
                                     <Button
-                                        variant="success"
+                                        variant="info"
                                         onClick={() => {
                                             // Replace with the number you want to message (use country code, no '+' or leading zeros)
                                             const phoneNumber = "94717767117"; // Example: Sri Lanka number
@@ -344,7 +344,7 @@ const AssistanceFactory = () => {
                                             window.open(whatsappUrl, "_blank");
                                         }}
                                     >
-                                        Order
+                                        Send WhatsApp
                                     </Button>
                                 </Col>
 
@@ -352,7 +352,7 @@ const AssistanceFactory = () => {
 
                             <hr />
 
-                            <form onSubmit={handleSubmitWhatsApp}>
+                            {/* <form onSubmit={handleSubmitWhatsApp}>
                                 <div>
                                     <label>Recipient (international):</label>
                                     <input value={to} onChange={(e) => setTo(e.target.value)} />
@@ -361,7 +361,7 @@ const AssistanceFactory = () => {
                                     <input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} />
                                 </div>
                                 <button type="submit">Send PDF via WhatsApp</button>
-                            </form>
+                            </form> */}
 
                         </Container>
 
