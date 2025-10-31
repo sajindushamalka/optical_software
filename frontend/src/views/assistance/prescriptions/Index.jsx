@@ -39,7 +39,7 @@ const AssistancePrescriptions = () => {
     format: "a5",
   });
 
-  // Landscape A5 size (mm)
+  // Landscape A5 size (mm)ccs
   const pdfWidth = 210;
   const pdfHeight = 148;
 
