@@ -29,6 +29,8 @@ const AssistanceJobStatus = () => {
     const [selectedNotifications, setSelectedNotifications] = useState([]);
     const [removeDate, setRemoveDate] = useState('');
     const [notificationDate, setNotificationDate] = useState('');
+    const [selectedStep, setSelectedStep] = useState(0);
+
 
     useEffect(() => {
         axios
@@ -100,6 +102,8 @@ const AssistanceJobStatus = () => {
             selectedJobStatus: selectedJobStatus.length ? selectedJobStatus.join(', ') : '',
             removeDate: removeDate || null
         };
+
+        console.log(ob)
 
         axios.put(`http://localhost:2776/api/order/jobstatus/${a}`, ob).then((res) => {
             console.log('DOne')

@@ -1328,14 +1328,27 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OD_SPH}
+                                    // onChange={(e) => {
+                                    //   set_SPEC_OD_SPH(e.target.value);
+                                    //   SPEC_OD_near_full
+                                    //     ? Number(SPEC_OD_near_full) > 0
+                                    //       ? set_SPEC_RE_OD_SPH(Number(e.target.value) + Number(SPEC_OD_near_full))
+                                    //       : null
+                                    //     : ""
+                                    // }}
                                     onChange={(e) => {
-                                      set_SPEC_OD_SPH(e.target.value);
-                                      SPEC_OD_near_full
-                                        ? Number(SPEC_OD_near_full) > 0
-                                          ? set_SPEC_RE_OD_SPH(Number(e.target.value) + Number(SPEC_OD_near_full))
-                                          : null
-                                        : ""
+                                      const value = e.target.value;
+                                      set_SPEC_OD_SPH(value);
+
+                                      if (SPEC_OD_near_full) {
+                                        const nearFull = Number(SPEC_OD_near_full);
+                                        if (nearFull > 0) {
+                                          const result = Number(value) + nearFull;
+                                          set_SPEC_RE_OD_SPH(result.toFixed(2)); // 👈 two decimal places
+                                        }
+                                      }
                                     }}
+
                                   />
                                 </Form.Group>
                               </td>
@@ -1449,7 +1462,20 @@ const OptometristOrders = () => {
                                       flex: 1, // input takes remaining space
                                     }}
                                     value={SPEC_OD_near_full}
-                                    onChange={(e) => { set_SPEC_OD_type_near_full(e.target.value); set_SPEC_RE_OD_SPH(Number(SPEC_OD_SPH) + Number(e.target.value)); }}
+                                    // onChange={(e) => { set_SPEC_OD_type_near_full(e.target.value); set_SPEC_RE_OD_SPH(Number(SPEC_OD_SPH) + Number(e.target.value)); }}
+                                    onChange={(e) => {
+                                      const value = e.target.value;
+                                      set_SPEC_OD_type_near_full(value);
+
+                                      const sph = Number(SPEC_OD_SPH);
+                                      const nearFull = Number(value);
+
+                                      if (!isNaN(sph) && !isNaN(nearFull)) {
+                                        const result = sph + nearFull;
+                                        set_SPEC_RE_OD_SPH(result.toFixed(2)); // 👈 ensures two decimal places
+                                      }
+                                    }}
+
                                   />
                                 </Form.Group>
                               </td>
@@ -1506,14 +1532,27 @@ const OptometristOrders = () => {
                                       textAlign: 'center'
                                     }}
                                     value={SPEC_OS_SPH}
+                                    // onChange={(e) => {
+                                    //   set_SPEC_OS_SPH(e.target.value);
+                                    //   SPEC_OS_near_full
+                                    //     ? Number(SPEC_OS_near_full) > 0
+                                    //       ? set_SPEC_RE_OS_SPH(Number(e.target.value) + Number(SPEC_OS_near_full))
+                                    //       : null
+                                    //     : ""
+                                    // }}
                                     onChange={(e) => {
-                                      set_SPEC_OS_SPH(e.target.value);
-                                      SPEC_OS_near_full
-                                        ? Number(SPEC_OS_near_full) > 0
-                                          ? set_SPEC_RE_OS_SPH(Number(e.target.value) + Number(SPEC_OS_near_full))
-                                          : null
-                                        : ""
+                                      const value = e.target.value;
+                                      set_SPEC_OS_SPH(value);
+
+                                      if (SPEC_OS_near_full) {
+                                        const nearFull = Number(SPEC_OS_near_full);
+                                        if (nearFull > 0) {
+                                          const result = Number(value) + nearFull;
+                                          set_SPEC_RE_OS_SPH(result.toFixed(2)); // 👈 round to two decimal places
+                                        }
+                                      }
                                     }}
+
                                   />
                                 </Form.Group>
                               </td>
@@ -1622,7 +1661,20 @@ const OptometristOrders = () => {
                                       flex: 1, // make input take remaining space
                                     }}
                                     value={SPEC_OS_near_full}
-                                    onChange={(e) => { set_SPEC_OS_type_near_full(e.target.value); set_SPEC_RE_OS_SPH(Number(SPEC_OS_SPH) + Number(e.target.value)) }}
+                                    // onChange={(e) => { set_SPEC_OS_type_near_full(e.target.value); set_SPEC_RE_OS_SPH(Number(SPEC_OS_SPH) + Number(e.target.value)) }}
+                                    onChange={(e) => {
+                                      const value = e.target.value;
+                                      set_SPEC_OS_type_near_full(value);
+
+                                      const sph = Number(SPEC_OS_SPH);
+                                      const nearFull = Number(value);
+
+                                      if (!isNaN(sph) && !isNaN(nearFull)) {
+                                        const result = sph + nearFull;
+                                        set_SPEC_RE_OS_SPH(result.toFixed(2)); // 👈 formats to two decimal places
+                                      }
+                                    }}
+
                                   />
                                 </Form.Group>
                               </td>

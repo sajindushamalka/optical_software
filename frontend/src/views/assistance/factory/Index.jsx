@@ -18,6 +18,7 @@ const AssistanceFactory = () => {
     const [selectedLensesAt, setSelectedLensesAt] = useState('');
     const [factory_remark, setfactory_remark] = useState('');
     const [reorderDetails, setreorderDetails] = useState('');
+    const [factoryRemarks, setFactoryRemarks] = useState({});
     const [selectedCmd_ID, setselectedCmd_ID] = useState('');
 
     const [file, setFile] = useState(null);
@@ -306,7 +307,7 @@ const AssistanceFactory = () => {
                                     <Col md={1}></Col>
                                     <Col md={1}></Col>
                                     <Col md={3} className="border p-1">
-                                        <Form.Control
+                                        {/* <Form.Control
                                             type="text"
                                             step="any"
                                             style={{
@@ -315,9 +316,29 @@ const AssistanceFactory = () => {
                                                 padding: '4px 6px',
                                                 textAlign: 'center'
                                             }}
-                                            value={r.factory_remark}
+                                            // value={r.factory_remark }
+                                            value={factory_remark}
                                             onChange={(e) => setfactory_remark(e.target.value)}
+                                        /> */}
+                                        <Form.Control
+                                            type="text"
+                                            step="any"
+                                            style={{
+                                                border: 'none',
+                                                padding: '4px 6px',
+                                                textAlign: 'center',
+                                            }}
+                                            value={factoryRemarks[r.cmd_id] || r.factory_remark || ""} // 👈 each row unique
+                                            onChange={(e) =>{
+                                                setFactoryRemarks((prev) => ({
+                                                    ...prev,
+                                                    [r.cmd_id]: e.target.value, // 👈 update only this row
+                                                }));
+                                                setfactory_remark(e.target.value)
+                                            }
+                                            }
                                         />
+
                                     </Col>
                                 </Row>
                             </div>
