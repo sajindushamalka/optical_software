@@ -303,6 +303,7 @@ const AssistanceInvoice = () => {
   const allTotalPages = Math.ceil(searchFilteredUsers.length / allPerPage);
 
   const selectedUserdetailsFetch = async (a) => {
+    console.log(a)
     setEntered_By(user.username);
     setSelectedUserId(a.c_id);
     setSelectedcmd_id(a.cmd_id);
@@ -574,11 +575,21 @@ const AssistanceInvoice = () => {
                           />
                           # {a.c_id}
                         </span>
-                        <h6 className="ml-3 d-inline fw-bold">Name : {a.prefix}</h6>
-                        <h6 className="m-0 d-inline fw-bold">{" "}{a.first_name}</h6>
-                        <h6 className="m-0 d-inline fw-bold">{" "}{a.name}</h6>
-                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
-                        <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
+                        <Row className="align-items-center">
+                          <Col md={6}>
+                            <h6 className="fw-bold d-inline m-0">
+                              Name:&nbsp;{a.prefix} {a.first_name} {a.name}
+                            </h6>
+                          </Col>
+
+                          <Col md={2}>
+                            <h6 className="m-0">Age:&nbsp;{a.age}</h6>
+                          </Col>
+
+                          <Col md={4}>
+                            <h6 className="fw-bold m-0">Occupation:&nbsp;{a.occupation}</h6>
+                          </Col>
+                        </Row>
                       </div>
                     </div>
                   );
@@ -1076,7 +1087,7 @@ const AssistanceInvoice = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1092,7 +1103,7 @@ const AssistanceInvoice = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1109,7 +1120,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1126,7 +1137,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1143,7 +1154,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1235,7 +1246,7 @@ const AssistanceInvoice = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1251,7 +1262,7 @@ const AssistanceInvoice = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1268,7 +1279,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1285,7 +1296,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1302,7 +1313,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1948,7 +1959,7 @@ const AssistanceInvoice = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1964,7 +1975,7 @@ const AssistanceInvoice = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1981,7 +1992,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -1998,7 +2009,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -2015,7 +2026,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -2107,7 +2118,7 @@ const AssistanceInvoice = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -2123,7 +2134,7 @@ const AssistanceInvoice = () => {
                         <td>
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -2140,7 +2151,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -2157,7 +2168,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -2174,7 +2185,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',
@@ -2191,7 +2202,7 @@ const AssistanceInvoice = () => {
                           {' '}
                           <Form.Group className="mb-0" controlId="formBasicFloat">
                             <Form.Control
-                              type="number"
+                              type="text"
                               step="any"
                               style={{
                                 border: 'none',

@@ -3238,7 +3238,7 @@ const OptometristOrders = () => {
           <Modal.Title>Edit medical Card</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form  autoComplete="off">
             <Container>
               <Row>
                 <Col md={6}>

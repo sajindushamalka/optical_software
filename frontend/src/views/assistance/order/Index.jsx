@@ -1217,11 +1217,21 @@ const AssistanceOrder = () => {
                           />
                           # {a.c_id}
                         </span>
-                        <h6 className="ml-3 d-inline fw-bold">Name : {a.prefix}</h6>
-                        <h6 className="m-0 d-inline fw-bold">{" "}{a.first_name}</h6>
-                        <h6 className="m-0 d-inline fw-bold">{" "}{a.name}</h6>
-                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
-                        <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
+                        <Row className="align-items-center">
+                          <Col md={6}>
+                            <h6 className="fw-bold d-inline m-0">
+                              Name:&nbsp;{a.prefix} {a.first_name} {a.name}
+                            </h6>
+                          </Col>
+
+                          <Col md={2}>
+                            <h6 className="m-0">Age:&nbsp;{a.age}</h6>
+                          </Col>
+
+                          <Col md={4}>
+                            <h6 className="fw-bold m-0">Occupation:&nbsp;{a.occupation}</h6>
+                          </Col>
+                        </Row>
                       </div>
                     </div>
                   );
@@ -1280,11 +1290,21 @@ const AssistanceOrder = () => {
                           />
                           # {a.c_id}
                         </span>
-                        <h6 className="m-3 d-inline fw-bold">Name : {a.prefix}</h6>
-                        <h6 className="m-0 d-inline fw-bold">{a.first_name}</h6>
-                        <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
-                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
-                        <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
+                        <Row className="align-items-center">
+                          <Col md={6}>
+                            <h6 className="fw-bold d-inline m-0">
+                              Name:&nbsp;{a.prefix} {a.first_name} {a.name}
+                            </h6>
+                          </Col>
+
+                          <Col md={2}>
+                            <h6 className="m-0">Age:&nbsp;{a.age}</h6>
+                          </Col>
+
+                          <Col md={4}>
+                            <h6 className="fw-bold m-0">Occupation:&nbsp;{a.occupation}</h6>
+                          </Col>
+                        </Row>
                       </div>
                     </div>
                   );
@@ -1343,27 +1363,30 @@ const AssistanceOrder = () => {
                           />
                           # {a.c_id}
                         </span>
-                        <Button
-                          variant="warning"
-                          size="sm"
-                          className="ms-3"
-                          onClick={() => { setShowEditModal2(true); setEditData(a) }}
-                        >
-                          ✏️
-                        </Button>
-                        <h6 className="m-3 d-inline fw-bold">Name : {a.prefix}</h6>
-                        <h6 className="m-0 d-inline fw-bold">{a.first_name}</h6>
-                        <h6 className="m-0 d-inline fw-bold">{a.name}</h6>
 
-                        {/* <h6 className="m-3 d-inline">Email : {a.email}</h6>
-                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
-                        <h6 className="m-3 d-inline">Mobile : {a.telephone || a.lan_phone || a.mobile2}</h6> */}
-                        <h6 className="m-3 d-inline">Age : {a.age}</h6>
-                        <h6 className="m-3 d-inline fw-bold">Occupation : {a.occupation}</h6>
-                        {/* <h6 className="m-3 d-inline">DOB : {new Date(a.dob).toLocaleDateString()}</h6> */}
-                        {/* <br /> */}
-                        {/* <h6 className="m-0 d-inline">Home Address : {a.address}</h6>
-                        <h6 className="m-3 d-inline">City : {a.town}</h6> */}
+                        <Row className="align-items-center">
+                          <Col md={1}>
+                            <Button
+                              size="sm"
+                              onClick={() => { setShowEditModal2(true); setEditData(a) }}
+                            >
+                              ✏️
+                            </Button></Col>
+                          <Col md={5}>
+                            <h6 className="fw-bold d-inline m-0">
+                              Name:&nbsp;{a.prefix} {a.first_name} {a.name}
+                            </h6>
+                          </Col>
+
+                          <Col md={2}>
+                            <h6 className="m-0">Age:&nbsp;{a.age}</h6>
+                          </Col>
+
+                          <Col md={4}>
+                            <h6 className="fw-bold m-0">Occupation:&nbsp;{a.occupation}</h6>
+                          </Col>
+                        </Row>
+
                       </div>
                     </div>
                   );
@@ -1450,7 +1473,7 @@ const AssistanceOrder = () => {
 
 
             </div>
-            <Form style={{ color: 'black', paddingTop: 20 }}>
+            <Form style={{ color: 'black', paddingTop: 20 }} autoComplete="off">
               <Row>
                 <Col md={3}>
                   <Form.Group className="mb-3">
@@ -1530,7 +1553,7 @@ const AssistanceOrder = () => {
                 </Col>
               </Row>
             </Form>
-            <Form style={{ color: 'black', paddingTop: 20 }}>
+            <Form style={{ color: 'black', paddingTop: 20 }} autoComplete="off">
               <Row>
                 <Col md={3}>
                   <Form.Group className="mb-3 h-100" style={{ backgroundColor: '#D0DCF5', padding: 15, color: '#708090', borderRadius: 10 }}>
@@ -4146,7 +4169,7 @@ const AssistanceOrder = () => {
           <Modal.Title>Register New Customer</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form autoComplete="off">
             <Container>
               <Row>
                 <Col xs={12} md={6}>
@@ -4329,7 +4352,7 @@ const AssistanceOrder = () => {
         <Modal.Body>
 
 
-          <Form>
+          <Form autoComplete="off">
             <Container>
               <Row>
                 {/* <Col xs={12} md={2}>
