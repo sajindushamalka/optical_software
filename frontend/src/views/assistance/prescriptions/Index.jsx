@@ -404,8 +404,8 @@ const AssistancePrescriptions = () => {
                                             <div className="text-muted">{formatDate(today)}</div>
                                         </div>
                                         <div className="border p-1 text-center">
-                                            <div className="fw-bold">Reference Number</div>
-                                            <div className="text-muted">{formatDate(today)}</div>
+                                            <div className="fw-bold">Job No</div>
+                                            <div className="text-muted">{selectUser.job_no}</div>
                                         </div>
                                     </Col>
                                 </Row>
@@ -1475,7 +1475,7 @@ const AssistancePrescriptions = () => {
                                             <td style={{ border: "1px solid #dadadaff", padding: "1px 2px" }}>Address</td>
                                             <td style={{ border: "1px solid #dadadaff", padding: "1px 2px" }} colSpan={6}>{selectUser.address}</td>
 
-                                            <td style={{ border: "1px solid #dadadaff", padding: "1px 2px" }}>Reference Number -{formatDate(today)} </td>
+                                            <td style={{ border: "1px solid #dadadaff", padding: "1px 2px" }}>Job No - {selectUser.job_no} </td>
                                         </tr>
                                         <tr>
                                             <td style={{ border: "1px solid #dadadaff", padding: "1px 2px" }}>Age</td>

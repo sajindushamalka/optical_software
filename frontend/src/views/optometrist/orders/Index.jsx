@@ -195,6 +195,7 @@ const OptometristOrders = () => {
   const [SoftLensDesignValue, set_SoftLensDesignValue] = useState('');
   const [WearerSchedule, setWearerSchedule] = useState([]);
   const [WearerScheduleValue, set_WearerScheduleValue] = useState('');
+  const [JobNo, set_JobNo] = useState('');
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -302,6 +303,7 @@ const OptometristOrders = () => {
   const handleCardClick = (order) => {
     setSelectedOrder(order);
     set_purpose_of_visit(order.purpose_of_visit);
+    set_JobNo(order.job_no);
     set_purpose_of_visit_remark(order.purpose_of_visit_remark);
     set_occular_health(order.occular_health);
     set_occular_health_remark(order.occular_health_remark);
@@ -875,7 +877,7 @@ const OptometristOrders = () => {
             </h5> */}
             <Col>
               <h5 className="mb-4 text-primary" style={{ fontWeight: "600" }}>
-                👤 Basic Information
+                👤 Basic Information - Job No ({JobNo})
               </h5>
             </Col>
             <Col className="text-end">
@@ -1317,7 +1319,7 @@ const OptometristOrders = () => {
                             <tr className="text-center">
                               <td className="fw-bold">Distance</td>
                               <td>
-                                <Form.Group className="mb-0" controlId="formBasicFloat">
+                                {/* <Form.Group className="mb-0" controlId="formBasicFloat">
                                   <Form.Control
                                     type="text"
                                     step="any"
@@ -1350,7 +1352,43 @@ const OptometristOrders = () => {
                                     }}
 
                                   />
-                                </Form.Group>
+                                </Form.Group> */}
+                                <Form.Group className="mb-0" controlId="formBasicFloat">
+                                <Form.Control
+                                  type="text"
+                                  step="any"
+                                  style={{
+                                    border: 'none',
+                                    padding: '4px 6px',
+                                    textAlign: 'center'
+                                  }}
+                                  value={SPEC_OD_SPH}
+                                  onChange={(e) => {
+                                    let value = e.target.value.trim();
+
+                                    // Normalize PL/Plano cases
+                                    const planoValues = ["0", "0.0", "0.00", "pl", "plano", "Plano", "PL", "PLANO"];
+
+                                    if (planoValues.includes(value)) {
+                                      set_SPEC_OD_SPH(null);        // Store null
+                                      set_SPEC_RE_OD_SPH(null);     // Reset result
+                                      return;                       // Stop further calculation
+                                    }
+
+                                    // Normal SPH flow
+                                    set_SPEC_OD_SPH(value);
+
+                                    if (SPEC_OD_near_full) {
+                                      const nearFull = Number(SPEC_OD_near_full);
+                                      if (nearFull > 0) {
+                                        const result = Number(value) + nearFull;
+                                        set_SPEC_RE_OD_SPH(result.toFixed(2));
+                                      }
+                                    }
+                                  }}
+                                />
+                              </Form.Group>
+
                               </td>
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
@@ -1522,7 +1560,7 @@ const OptometristOrders = () => {
                               <td className="fw-bold">Distance</td>
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
-                                  <Form.Control
+                                  {/* <Form.Control
                                     type="text"
                                     step="any"
                                     style={{
@@ -1553,8 +1591,46 @@ const OptometristOrders = () => {
                                       }
                                     }}
 
-                                  />
-                                </Form.Group>
+                                  />*/}
+                                    <Form.Control
+                                  type="text"
+                                  step="any"
+                                  style={{
+                                    border: 'none',
+                                    width: '',
+                                    padding: '4px 6px',
+                                    textAlign: 'center'
+                                  }}
+                                  value={SPEC_OS_SPH}
+                                  onChange={(e) => {
+                                    let value = e.target.value.trim();
+
+                                    // Plano detection values
+                                    const planoValues = ["0", "0.0", "0.00", "pl", "PL", "plano", "Plano", "PLANO"];
+
+                                    // If SPH is plano → treat as null
+                                    if (planoValues.includes(value)) {
+                                      set_SPEC_OS_SPH(null);
+                                      set_SPEC_RE_OS_SPH(null);
+                                      return; // stop further calculations
+                                    }
+
+                                    // Normal SPH logic
+                                    set_SPEC_OS_SPH(value);
+
+                                    if (SPEC_OS_near_full) {
+                                      const nearFull = Number(SPEC_OS_near_full);
+
+                                      if (nearFull > 0) {
+                                        const result = Number(value) + nearFull;
+                                        set_SPEC_RE_OS_SPH(result.toFixed(2)); // round to 2 decimals
+                                      }
+                                    }
+                                  }}
+                                />
+
+                                </Form.Group> 
+                              
                               </td>
                               <td>
                                 <Form.Group className="mb-0" controlId="formBasicFloat">
@@ -2447,7 +2523,7 @@ const OptometristOrders = () => {
                         </Form.Group>
 
                       </Col>
-                      <Col md={4}>
+                      {/* <Col md={4}>
                         <h6 className="mt-4 fw-bold mb-4">Lens Recommendation</h6>
                         <Form.Group className="mb-3">
                           {LensRecommendation.map((t) => (
@@ -2463,7 +2539,42 @@ const OptometristOrders = () => {
                             />
                           ))}
                         </Form.Group>
+                      </Col> */}
+                      <Col md={4}>
+                        <h6 className="mt-4 fw-bold mb-4">Lens Recommendation</h6>
+
+                        <Form.Group className="mb-3">
+                          {LensRecommendation.map((t) => {
+                            const selectedArray = SPEC_Time_More ? SPEC_Time_More.split(", ") : [];
+                            const isChecked = selectedArray.includes(t.text);
+
+                            return (
+                              <Form.Check
+                                key={t.id}
+                                type="checkbox"
+                                label={t.text}
+                                id={`checkbox-${t.id}`}
+                                checked={isChecked}
+                                onChange={() => {
+                                  let updatedList;
+
+                                  if (isChecked) {
+                                    // UNSELECT → remove item
+                                    updatedList = selectedArray.filter((item) => item !== t.text);
+                                  } else {
+                                    // SELECT → add item
+                                    updatedList = [...selectedArray, t.text];
+                                  }
+
+                                  // Convert back to comma-separated string
+                                  set_SPEC_Time_More(updatedList.join(", "));
+                                }}
+                              />
+                            );
+                          })}
+                        </Form.Group>
                       </Col>
+
                       <Col md={4}>
                         <h6 className="mt-4 fw-bold mb-4">General Recommendation</h6>
                         <Form.Group className="mb-3">

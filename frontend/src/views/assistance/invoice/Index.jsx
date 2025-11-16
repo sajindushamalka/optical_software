@@ -176,6 +176,7 @@ const AssistanceInvoice = () => {
   const [SoftLensMaterial, set_SoftLensMaterial] = useState('');
   const [SoftLensDesign, set_SoftLensDesign] = useState('');
   const [LensType, set_LensType] = useState('');
+  const [JobNo, set_JobNo] = useState('');
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
@@ -304,11 +305,134 @@ const AssistanceInvoice = () => {
 
   const selectedUserdetailsFetch = async (a) => {
     console.log(a)
+    setLens_Material('')
+    setLenses_Type('')
+    setLens_Treatment('')
+    setLens_Colour('')
+    setLens_Size('')
+    setLens_Base('')
+    setLens_Brand('')
+    setLenses_At('')
+    setLens_Price('')
+    setLens_OrderDate('')
+    setLens_wanted_on('')
+    setFrame_Category('')
+    setFrame_Material('')
+    setFrame_type('')
+    setFrame_Brand('')
+    setModel_number('')
+    setColour('')
+    setFront_size('')
+    setBridge_size('')
+    setArm_Size('')
+    setPD('')
+    setSEG('')
+    setLense_Description('')
+    setFreame_Description('')
+    setDoctor_Rx('')
+    setTested_By('')
+
+    set_HABI_OD_SPH('')
+    set_HABI_OD_CYL('')
+    set_HABI_OD_AXIS('')
+    set_HABI_OD_Prim('')
+    set_HABI_OD_Base('')
+    set_HABI_OD_VA('')
+    set_HABI_OD_type_near_full('')
+    set_HABI_OD_type_near_va('')
+    set_HABI_OS_SPH('')
+    set_HABI_OS_CYL('')
+    set_HABI_OS_AXIS('')
+    set_HABI_OS_Prim('')
+    set_HABI_OS_Base('')
+    set_HABI_OS_VA('')
+    set_HABI_OS_type_near_full('')
+    set_HABI_OS_type_near_va('')
+    set_SPEC_OD_SPH('')
+    set_SPEC_OD_CYL('')
+    set_SPEC_OD_AXIS('')
+    set_SPEC_OD_Prim('')
+    set_SPEC_OD_Base('')
+    set_SPEC_OD_VA('')
+    set_SPEC_OD_type_near_full('')
+    set_SPEC_OD_type_near_va('')
+    set_SPEC_OS_SPH('')
+    set_SPEC_OS_CYL('')
+    set_SPEC_OS_AXIS('')
+    set_SPEC_OS_Prim('')
+    set_SPEC_OS_Base('')
+    set_SPEC_OS_VA('')
+    set_SPEC_OS_type_near_full('')
+    set_SPEC_OS_type_near_va('')
+    set_SPEC_Pro_Add('')
+    set_SPEC_RE_OD_SPH('')
+    set_SPEC_RE_OD_CYL('')
+    set_SPEC_RE_OD_AXIS('')
+    set_SPEC_RE_OD_Prism('')
+    set_SPEC_RE_OD_Base('')
+    set_SPEC_RE_OD_VA('')
+    set_SPEC_RE_OS_SPH('')
+    set_SPEC_RE_OS_CYL('')
+    set_SPEC_RE_OS_AXIS('')
+    set_SPEC_RE_OS_Prism('')
+    set_SPEC_RE_OS_Base('')
+    set_SPEC_RE_OS_VA('')
+    set_SPEC_UNA_DIS_OD('')
+    set_SPEC_UNA_NEAR_OD('')
+    set_SPEC_UNA_DIS_OS('')
+    set_SPEC_UNA_NEAR_OS('')
+    set_SPEC_Pin_OD('')
+    set_SPEC_Pin_OS('')
+    set_SPEC_IOP_OD('')
+    set_SPEC_IOP_OS('')
+    set_SPEC_RED_OD_O('')
+    set_SPEC_RED_OD_T('')
+    set_SPEC_RED_OS_O('')
+    set_SPEC_RED_OS_T('')
+    set_SPEC_Type_Of_lenses_Used('')
+    set_SPEC_Time_Period('')
+    set_SPEC_Time_More('')
+    set_SPEC_remark('')
+    set_SPECOB_OD_SPH('')
+    set_SPECOB_OD_CYL('')
+    set_SPECOB_OD_AXIS('')
+    set_SPECOB_OD_Prim('')
+    set_SPECOB_OD_Base('')
+    set_SPECOB_OD_VA('')
+    set_SPECOB_OD_type_near_full('')
+    set_SPECOB_OD_type_near_va('')
+    set_SPECOB_OS_SPH('')
+    set_SPECOB_OS_CYL('')
+    set_SPECOB_OS_AXIS('')
+    set_SPECOB_OS_Prim('')
+    set_SPECOB_OS_Base('')
+    set_SPECOB_OS_VA('')
+    set_SPECOB_OS_type_near_full('')
+    set_SPECOB_OS_type_near_va('')
+    set_SPECOB_remark('')
+    set_SPECCON_OD_SPH('')
+    set_SPECCON_OD_CYL('')
+    set_SPECCON_OD_AXIS('')
+    set_SPECCON_OD_VA('')
+    set_SPECCON_OD_B_Curve('')
+    set_SPECCON_OD_Diam('')
+    set_SPECCON_OD_Design('')
+    set_SPECCON_OS_SPH('')
+    set_SPECCON_OS_CYL('')
+    set_SPECCON_OS_AXIS('')
+    set_SPECCON_OS_VA('')
+    set_SPECCON_OS_B_Curve('')
+    set_SPECCON_OS_Diam('')
+    set_SPECCON_OS_Design('')
+    set_SPECCON_Remark('')
+    set_JobNo('')
+
     setEntered_By(user.username);
     setSelectedUserId(a.c_id);
     setSelectedcmd_id(a.cmd_id);
     setIsSelectOne(true);
     set_purpose_of_visit(a.purpose_of_visit)
+    set_JobNo(a.job_no)
     set_purpose_of_visit_remark(a.purpose_of_visit_remark)
     set_occular_health(a.occular_health)
     set_occular_health_remark(a.occular_health_remark)
@@ -525,7 +649,7 @@ const AssistanceInvoice = () => {
                 <Row>
                   <Col>
                     <Card.Title as="h5" style={{ fontWeight: 'bold', paddingBlock: 5 }}>
-                      Recent Invoices
+                      Proccess Order
                     </Card.Title>
                   </Col>
                 </Row>
@@ -626,7 +750,7 @@ const AssistanceInvoice = () => {
               <Row>
                 <Col>
                   <Card.Title as="h5" style={{ fontWeight: 'bold' }}>
-                    Report Deatils
+                    Report Deatils - Job No ({JobNo})
                   </Card.Title>
                 </Col>
               </Row>

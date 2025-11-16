@@ -40,7 +40,7 @@ const AssistanceJobStatus = () => {
     }, []);
 
     const searchFilteredUsers = allUsers.filter((a) =>
-        searchCmdID ? a.cmd_id?.toString().toLowerCase().includes(searchCmdID.toLowerCase()) : true
+        searchCmdID ? a.job_no?.toString().toLowerCase().includes(searchCmdID.toLowerCase()) : true
     );
 
     // Better formatDate that returns yyyy-mm-dd (works for input type=date)
@@ -117,6 +117,7 @@ const AssistanceJobStatus = () => {
         if (myselectDetails.report_status == "Complete_Full_Payment") {
             axios.put(`http://localhost:2776/api/order/finished/${a}`).then((res) => {
                 toast.success("Status Updated!")
+                window.location.reload();
             }).catch((err) => {
                 console.log("Error in updating status")
             })
@@ -207,7 +208,7 @@ const AssistanceJobStatus = () => {
                                                         fontWeight: isSelected ? 'bold' : 'normal'
                                                     }}
                                                 >
-                                                    <td>{a.cmd_id}</td>
+                                                    <td>{a.job_no}</td>
                                                     <td>{formatDate(a.date)}</td>
                                                     <td>{a.prefix} {" "} {a.first_name} {" "} {a.name}</td>
                                                     <td>{a.email}</td>
@@ -281,7 +282,7 @@ const AssistanceJobStatus = () => {
                             <Row className="m-1">
                                 <Col md={{ span: 3, offset: 6 }}>
                                     <div className="bg-white border shadow-sm  px-3 py-2 fw-semibold text-dark">
-                                        Reference Number : {myselectDetails.cmd_id}
+                                        Job No : {myselectDetails.job_no}
                                     </div>
                                 </Col>
                                 <Col md={3}>

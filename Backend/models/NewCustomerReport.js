@@ -237,7 +237,7 @@ const NewCustomersMedDeatils = {
 
     getCustomerRecForPrescription: (callback) => {
         db.query(
-            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c, optical_software.customer_order_assistance_last_details ca where c.c_id = a.cid and ca.cmd_id = a.cmd_id and  a.report_status IN ('Complete_Full_Payment', 'Complete_Full_Advance', 'Pass_to_Cash') ORDER BY a.date DESC;",
+            "select * from optical_software.new_customer_order_assitance a, optical_software.customers c, optical_software.customer_order_assistance_last_details ca where c.c_id = a.cid and ca.cmd_id = a.cmd_id and  a.report_status IN ('Complete_Full_Payment', 'Complete_Full_Advance', 'Pass_to_Cash') ORDER BY a.cmd_id DESC;",
             callback
         );
     },
@@ -252,7 +252,7 @@ const NewCustomersMedDeatils = {
 
     getCustomerFactoryDetails: (callback) => {
         db.query(
-            "SELECT * FROM optical_software.new_customer_order_assitance a JOIN optical_software.customers c  ON c.c_id = a.cid JOIN optical_software.customer_order_assistance_last_details ca  ON ca.cmd_id = a.cmd_id JOIN optical_software.customer_order_optometrist_subjective_details cos ON cos.cmd_id = a.cmd_id WHERE a.report_status IN ('Complete_Full_Advance', 'Complete_Full_Payment') ORDER BY a.date DESC;",
+            "SELECT * FROM optical_software.new_customer_order_assitance a JOIN optical_software.customers c  ON c.c_id = a.cid JOIN optical_software.customer_order_assistance_last_details ca  ON ca.cmd_id = a.cmd_id JOIN optical_software.customer_order_optometrist_subjective_details cos ON cos.cmd_id = a.cmd_id WHERE a.report_status IN ('Complete_Full_Advance', 'Complete_Full_Payment') ORDER BY a.cmd_id DESC;",
             callback
         );
     },
@@ -295,7 +295,6 @@ const NewCustomersMedDeatils = {
             callback
         );
     },
-
 
     getAdvancepayamentOnly: (callback) => {
         db.query(
@@ -416,7 +415,22 @@ const NewCustomersMedDeatils = {
 
     getDeatilsByIDCOntactLens: (email, callback) => {
         db.query("Select * from optical_software.customer_order_optometrist_contact_lenses_details where coocl_id = ? ", [email], callback);
-    }
+    },
+
+
+    getLastInvoiceNo: (callback) => {
+        db.query(
+            "SELECT invoice_no FROM optical_software.cashier_invoice ORDER BY ci_id DESC LIMIT 1;",
+            callback
+        );
+    },
+
+    getLastReciptNo: (callback) => {
+        db.query(
+            "SELECT recepit_Id FROM optical_software.cashier_recipt ORDER BY cr_id DESC LIMIT 1;",
+            callback
+        );
+    },
 };
 
 module.exports = NewCustomersMedDeatils;

@@ -23,6 +23,7 @@ const CashierHistory = () => {
     const [invoiceRows, setInvoiceRows] = useState([]);
     const today = new Date().toLocaleDateString();
     const [invoiceNo, setInvoiceNo] = React.useState("");
+    const [recepitNo,setReciptNo] = useState('')
 
 
     // Load users / invoices on mount
@@ -37,9 +38,17 @@ const CashierHistory = () => {
             .then((res) => setinvoiceItems(res.data))
             .catch((err) => console.log(err));
 
-        const lastInvoice = "2025/09/INV00005"; // example, null if none
-        const newInvoice = generateInvoiceNumber(lastInvoice);
-        setInvoiceNo(newInvoice);
+        // const lastInvoice = "2025/09/INV00005"; // example, null if none
+        // const newInvoice = generateInvoiceNumber(lastInvoice);
+        // setInvoiceNo(newInvoice);
+         axios.get('http://localhost:2776/api/order/lastrecpit')
+              .then((res) => {
+                const lastInvoice = res.data.recepit_Id;
+                console.log(res.data)
+                const newInvoice = generateInvoiceNumber(lastInvoice);
+                setInvoiceNo(newInvoice);
+              })
+              .catch((err) => console.log(err));
     }, []);
 
     // Recalculate balance
@@ -170,7 +179,7 @@ const CashierHistory = () => {
 
         if (lastInvoiceNo) {
             // Match invoice format: YYYY/MM/INVxxxxx
-            const match = lastInvoiceNo.match(/(\d{4})\/\d{2}\/INV(\d{5})/);
+            const match = lastInvoiceNo.match(/(\d{4})\/\d{2}\/R(\d{5})/);
             if (match) {
                 const lastYear = parseInt(match[1]);
                 const lastSerial = parseInt(match[2]);
@@ -182,7 +191,7 @@ const CashierHistory = () => {
         }
 
         const serialFormatted = String(serial).padStart(5, "0");
-        return `${year}/${month}/INV${serialFormatted}`;
+        return `${year}/${month}/R${serialFormatted}`;
     }
 
     // Function to call backend
@@ -445,6 +454,7 @@ const CashierHistory = () => {
                                 <option value="">-- Select Method --</option>
                                 <option value="cash">Cash</option>
                                 <option value="visa">Visa</option>
+                                <option value="cash/visa">Cash/Visa</option>
                             </Form.Select>
                         </Form.Group>
 
@@ -500,20 +510,20 @@ const CashierHistory = () => {
                                                     <tr>
                                                         <th>Job No</th>
                                                         <th>Date</th>
-                                                        <th>Invoice No</th>
+                                                        <th>Receipt No</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>{selectedUser.cmd_id}</td>
+                                                        <td>{selectedUser.job_no}</td>
                                                         <td>{formatDate(selectedUser.date)}</td>
-                                                        <td>{selectedUser.invoice_no}</td>
+                                                        <td>{invoiceNo}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                             <p className="mb-0">
-                                                <strong>Reference No :</strong>{" "}
-                                                {selectedUser.date ? new Date(selectedUser.date).toLocaleDateString() : "N/A"}
+                                                <strong>Invoice No :</strong>{" "}
+                                                {selectedUser.invoice_no}
                                             </p>
                                         </div>
                                     </Col>

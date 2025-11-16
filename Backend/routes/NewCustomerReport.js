@@ -16,6 +16,8 @@ router.put('/factory/msg/:id', NewCustomersMedDeatilsController.updateStatusfact
 router.put('/jobstatus/:id', NewCustomersMedDeatilsController.updateJobStatusCon);
 router.get("/cahsierhi", NewCustomersMedDeatilsController.getCustomerRecForCashierCon);
 router.get("/complate", NewCustomersMedDeatilsController.getCustomerRecForComplateCon);
+router.get("/lastinvoice", NewCustomersMedDeatilsController.getLastInvoiceNoCon);
+router.get("/lastrecpit", NewCustomersMedDeatilsController.getLastReciptNoCon);
 router.get("/advance", NewCustomersMedDeatilsController.getAdvancepayamentOnlyCon);
 router.post('/', NewCustomersMedDeatilsController.createCustomersMedDetails);
 router.post('/new/cahser', NewCustomersMedDeatilsController.createCashierInvoiceCon);

@@ -179,6 +179,21 @@ const AssistanceFactory = () => {
                                         }}
                                     />
                                 </Form.Group>
+                                {/* <Form.Group className="mb-0" style={{ minWidth: '180px' }}>
+                                    <Form.Label className="mb-0 small text-muted">Select Date</Form.Label>
+                                    <Form.Control
+                                        type="date"
+                                        value={selectedDate}
+                                        onChange={(e) => {
+                                            const selected = new Date(e.target.value);
+                                            selected.setDate(selected.getDate() - 1);
+                                            const prevDate = selected.toISOString().split('T')[0];
+                                            setSelectedDate(prevDate);
+                                            setAllPage(1);
+                                        }}
+                                    />
+                                </Form.Group> */}
+
 
                                 {/* Clear Date Button */}
                                 <Button
@@ -248,7 +263,7 @@ const AssistanceFactory = () => {
                                 {/* No :  {index} */}
                                 <Row>
                                     <Col md={2} className="border p-1">Job No</Col>
-                                    <Col md={2} className="border p-1">{r.cmd_id}</Col>
+                                    <Col md={2} className="border p-1">{r.job_no}</Col>
                                     <Col md={2} className="border p-1">Wanted On</Col>
                                     <Col md={2} className="border p-1">{formatDate(r.Lens_wanted_on)}</Col>
                                     <Col md={1}></Col>
@@ -329,7 +344,7 @@ const AssistanceFactory = () => {
                                                 textAlign: 'center',
                                             }}
                                             value={factoryRemarks[r.cmd_id] || r.factory_remark || ""} // 👈 each row unique
-                                            onChange={(e) =>{
+                                            onChange={(e) => {
                                                 setFactoryRemarks((prev) => ({
                                                     ...prev,
                                                     [r.cmd_id]: e.target.value, // 👈 update only this row
@@ -342,19 +357,19 @@ const AssistanceFactory = () => {
                                     </Col>
                                 </Row>
                             </div>
-                            <Row style={{ paddingTop: 20 }}>
-                                <Col className="text-start" style={{ marginLeft: 10 }}>
+                            {/* <Row style={{ paddingTop: 20 }}>
+                                <Col md={1} style={{ marginLeft: 10 }}>
                                     <Button variant="warning" onClick={() => handleShow(r.cmd_id)}>
                                         Re-Order
                                     </Button>
                                 </Col>
 
-                                <Col className="text-end">
+                                <Col  md={1}>
                                     <Button variant="success" onClick={() => handlePass(r.cmd_id, r.coaldid)}>
                                         Order
                                     </Button>
                                 </Col>
-                                <Col className="text-end">
+                                <Col  md={1}>
                                     <Button
                                         variant="info"
                                         onClick={() => {
@@ -369,7 +384,47 @@ const AssistanceFactory = () => {
                                     </Button>
                                 </Col>
 
-                            </Row>
+                            </Row> */}
+
+                            <div className="d-flex gap-2 mt-3">
+                                <Button
+                                    className="flex-fill"
+                                    style={{ height: "45px", backgroundColor: "#003B88", color: "#fff" }}
+                                    onClick={() => handlePass(r.cmd_id, r.coaldid)}
+                                >
+                                    Order
+                                </Button>
+
+                                <Button
+                                    className="flex-fill"
+                                    style={{ height: "45px", backgroundColor: "#185ADB", color: "#fff" }}
+                                    onClick={() => handleShow(r.cmd_id)}
+                                >
+                                    Re-Order
+                                </Button>
+
+                                <Button
+                                    className="flex-fill"
+                                    style={{ height: "45px", backgroundColor: "#4D8DFF", color: "#fff" }}
+                                    onClick={() => handleShow(r.cmd_id)}
+                                >
+                                    PDF
+                                </Button>
+
+                                <Button
+                                    className="flex-fill"
+                                    style={{ height: "45px", backgroundColor: "#A7C8FF", color: "#003B88" }}
+                                    onClick={() => {
+                                        const phoneNumber = "94717767117";
+                                        const message = "hi";
+                                        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                                        window.open(whatsappUrl, "_blank");
+                                    }}
+                                >
+                                    Send WhatsApp
+                                </Button>
+                            </div>
+
 
                             <hr />
 

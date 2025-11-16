@@ -550,3 +550,18 @@ exports.updateOptimisticCOntactDeatilsCon = (req, res) => {
         });
     });
 };
+
+
+exports.getLastInvoiceNoCon = (req, res) => {
+    NewCustomersMedDeatilsModel.getLastInvoiceNo((err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.json(result[0]);
+    })
+}
+
+exports.getLastReciptNoCon = (req, res) => {
+    NewCustomersMedDeatilsModel.getLastReciptNo((err, result) => {
+        if (err) return res.status(500).json({ err: err.message });
+        res.json(result[0]);
+    })
+}
